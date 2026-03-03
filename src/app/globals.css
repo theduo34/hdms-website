@@ -1,26 +1,103 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+  /* Primary - Royal Blue (crest background & outer ring) */
+  --hdm-blue: oklch(0.38 0.18 255);
+  --hdm-blue-light: oklch(0.50 0.18 255);
+  --hdm-blue-dark: oklch(0.25 0.15 255);
+
+  /* Secondary - Deep Dark Navy (outer border ring) */
+  --hdm-navy: oklch(0.20 0.10 275);
+  --hdm-navy-light: oklch(0.30 0.10 275);
+  --hdm-navy-dark: oklch(0.12 0.08 275);
+
+  /* Accent - Bright Cyan/Sky Blue (water drops) */
+  --hdm-cyan: oklch(0.72 0.18 210);
+  --hdm-cyan-light: oklch(0.82 0.14 210);
+  --hdm-cyan-dark: oklch(0.55 0.16 210);
+
+  /* Nature - Laurel Green (wreath leaves) */
+  --hdm-green: oklch(0.48 0.16 142);
+  --hdm-green-light: oklch(0.62 0.15 142);
+  --hdm-green-dark: oklch(0.32 0.13 142);
+
+  /* Neutral */
+  --hdm-white: oklch(1 0 0);
+  --hdm-cream: oklch(0.96 0.01 90);
+  --hdm-black: oklch(0.10 0 0);
+
+  --background: oklch(0.98 0.005 255);
+  --foreground: var(--hdm-navy-dark);
+
+  --primary: var(--hdm-blue);
+  --primary-foreground: var(--hdm-white);
+
+  --secondary: var(--hdm-navy);
+  --secondary-foreground: var(--hdm-white);
+
+  --accent: var(--hdm-cyan);
+  --accent-foreground: var(--hdm-navy-dark);
+
+  --muted: oklch(0.94 0.01 255);
+  --muted-foreground: var(--hdm-navy-light);
+
+  --card: var(--hdm-white);
+  --card-foreground: var(--hdm-navy-dark);
+
+  --popover: var(--hdm-white);
+  --popover-foreground: var(--hdm-navy-dark);
+
+  --border: oklch(0.88 0.02 255);
+  --input: oklch(0.88 0.02 255);
+  --ring: var(--hdm-blue);
+
+  --radius: 0.5rem;
+
+  --destructive: oklch(0.6535 0.2348 34.037);
+  --destructive-foreground: var(--hdm-white);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  --background: var(--hdm-navy-dark);
+  --foreground: var(--hdm-white);
+
+  --primary: var(--hdm-blue-light);
+  --primary-foreground: var(--hdm-white);
+
+  --secondary: var(--hdm-navy-light);
+  --secondary-foreground: var(--hdm-white);
+
+  --accent: var(--hdm-cyan);
+  --accent-foreground: var(--hdm-navy-dark);
+
+  --muted: var(--hdm-navy);
+  --muted-foreground: oklch(0.70 0.05 255);
+
+  --card: var(--hdm-navy);
+  --card-foreground: var(--hdm-white);
+
+  --popover: var(--hdm-navy);
+  --popover-foreground: var(--hdm-white);
+
+  --border: var(--hdm-navy-light);
+  --input: var(--hdm-navy-light);
+
+  --ring: var(--hdm-blue-light);
+
+  --destructive: oklch(0.6535 0.2348 34.037);
+  --destructive-foreground: var(--hdm-white);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+  }
 }
