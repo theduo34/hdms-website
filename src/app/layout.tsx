@@ -4,6 +4,8 @@ import "./globals.css";
 import {MotionProvider} from "@/provider/motion-provider";
 import {jsonLd} from "@/lib/jsonLd";
 import {faqSchema} from "@/lib/faqSchema";
+import {NavBar} from "@/components/layout/nav-bar";
+import {Footer} from "@/components/layout/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -75,7 +77,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
     <MotionProvider>
       <main>
+        <NavBar/>
         {children}
+        <Footer/>
       </main>
     </MotionProvider>
     </body>
