@@ -20,3 +20,12 @@
 //
 //   return <NewsDetailPage article={article} />;
 // }
+// src/app/news/[slug]/page.tsx
+
+export default function NewsDetails({ params }: { params: { slug: string } }) {
+    return (
+        <div>
+            <h1>News Article</h1>
+        </div>
+    )
+}
