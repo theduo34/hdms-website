@@ -1,44 +1,48 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
+
 :root {
+  /* Primary – Royal Blue (logo ring) */
+  --hdm-blue: oklch(0.34 0.16 262);
+  --hdm-blue-light: oklch(0.46 0.14 262);
+  --hdm-blue-dark: oklch(0.24 0.12 262);
 
-  /* Primary - Royal Blue (crest background & outer ring) */
-  --hdm-blue: oklch(0.38 0.18 255);
-  --hdm-blue-light: oklch(0.50 0.18 255);
-  --hdm-blue-dark: oklch(0.25 0.15 255);
+  /* Secondary – Golden Yellow (crest highlight) */
+  --hdm-yellow: oklch(0.84 0.17 95);
+  --hdm-yellow-light: oklch(0.92 0.12 95);
+  --hdm-yellow-dark: oklch(0.72 0.17 92);
 
-  /* Secondary - Deep Dark Navy (outer border ring) */
-  --hdm-navy: oklch(0.20 0.10 275);
-  --hdm-navy-light: oklch(0.30 0.10 275);
-  --hdm-navy-dark: oklch(0.12 0.08 275);
+  /* Accent – Sky Blue (water drops) */
+  --hdm-cyan: oklch(0.74 0.15 215);
+  --hdm-cyan-light: oklch(0.84 0.12 215);
+  --hdm-cyan-dark: oklch(0.58 0.14 215);
 
-  /* Accent - Bright Cyan/Sky Blue (water drops) */
-  --hdm-cyan: oklch(0.72 0.18 210);
-  --hdm-cyan-light: oklch(0.82 0.14 210);
-  --hdm-cyan-dark: oklch(0.55 0.16 210);
+  /* Nature – Laurel Green (leaves) */
+  --hdm-green: oklch(0.60 0.22 142);
+  --hdm-green-light: oklch(0.72 0.18 142);
+  --hdm-green-dark: oklch(0.42 0.18 142);
 
-  /* Nature - Laurel Green (wreath leaves) */
-  --hdm-green: oklch(0.48 0.16 142);
-  --hdm-green-light: oklch(0.62 0.15 142);
-  --hdm-green-dark: oklch(0.32 0.13 142);
+  /* Neutral Navy */
+  --hdm-navy: oklch(0.26 0.12 262);
+  --hdm-navy-light: oklch(0.36 0.10 262);
+  --hdm-navy-dark: oklch(0.18 0.08 262);
 
-  /* Neutral */
+  /* Base neutrals */
   --hdm-white: oklch(1 0 0);
-  --hdm-cream: oklch(0.96 0.01 90);
-  --hdm-black: oklch(0.10 0 0);
+  --hdm-cream: oklch(0.97 0.01 90);
+  --hdm-black: oklch(0.12 0 0);
 
   --background: oklch(0.98 0.005 255);
   --foreground: var(--hdm-navy-dark);
 
-  --primary: var(--hdm-blue);
+  --primary: var(--hdm-blue-dark);
   --primary-foreground: var(--hdm-white);
 
-  --secondary: var(--hdm-navy);
-  --secondary-foreground: var(--hdm-white);
+  --secondary: var(--hdm-yellow);
+  --secondary-foreground: var(--hdm-navy-dark);
 
   --accent: var(--hdm-cyan);
   --accent-foreground: var(--hdm-navy-dark);
@@ -54,23 +58,26 @@
 
   --border: oklch(0.88 0.02 255);
   --input: oklch(0.88 0.02 255);
-  --ring: var(--hdm-blue);
+
+  --ring: var(--hdm-yellow);
 
   --radius: 0.5rem;
 
   --destructive: oklch(0.6535 0.2348 34.037);
   --destructive-foreground: var(--hdm-white);
+
 }
 
 .dark {
+
   --background: var(--hdm-navy-dark);
   --foreground: var(--hdm-white);
 
   --primary: var(--hdm-blue-light);
   --primary-foreground: var(--hdm-white);
 
-  --secondary: var(--hdm-navy-light);
-  --secondary-foreground: var(--hdm-white);
+  --secondary: var(--hdm-yellow-dark);
+  --secondary-foreground: var(--hdm-navy-dark);
 
   --accent: var(--hdm-cyan);
   --accent-foreground: var(--hdm-navy-dark);
@@ -87,17 +94,102 @@
   --border: var(--hdm-navy-light);
   --input: var(--hdm-navy-light);
 
-  --ring: var(--hdm-blue-light);
+  --ring: var(--hdm-yellow);
 
   --destructive: oklch(0.6535 0.2348 34.037);
   --destructive-foreground: var(--hdm-white);
+
 }
 
+@theme inline {
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+
+  --color-hdm-blue: var(--hdm-blue);
+  --color-hdm-blue-light: var(--hdm-blue-light);
+  --color-hdm-blue-dark: var(--hdm-blue-dark);
+
+  --color-hdm-yellow: var(--hdm-yellow);
+  --color-hdm-yellow-light: var(--hdm-yellow-light);
+  --color-hdm-yellow-dark: var(--hdm-yellow-dark);
+
+  --color-hdm-cyan: var(--hdm-cyan);
+  --color-hdm-cyan-light: var(--hdm-cyan-light);
+  --color-hdm-cyan-dark: var(--hdm-cyan-dark);
+
+  --color-hdm-green: var(--hdm-green);
+  --color-hdm-green-light: var(--hdm-green-light);
+  --color-hdm-green-dark: var(--hdm-green-dark);
+
+  --color-hdm-navy: var(--hdm-navy);
+  --color-hdm-navy-light: var(--hdm-navy-light);
+  --color-hdm-navy-dark: var(--hdm-navy-dark);
+
+  --color-hdm-white: var(--hdm-white);
+  --color-hdm-cream: var(--hdm-cream);
+  --color-hdm-black: var(--hdm-black);
+
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 4px);
+
+}
+
+
 @layer base {
+
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--border);
+    outline-color: color-mix(in oklch, var(--ring) 50%, transparent);
   }
+
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  .section-parent-header {
+    @apply flex flex-col gap-4 md:gap-8 mb-4 md:mb-8;
+  }
+
+  .section {
+    @apply w-full px-4 md:px-8 py-12 sm:py-18;
+  }
+
+  .section-left {
+    @apply w-full ml-0 md:ml-[16%]
+  }
+
+  .section-header {
+    @apply text-4xl md:text-5xl font-black italic text-white;
   }
 }
