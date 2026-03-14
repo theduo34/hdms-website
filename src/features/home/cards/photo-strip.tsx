@@ -117,7 +117,7 @@ export function PhotoStrip({ externalPaused }: { externalPaused: boolean }) {
                 <p className="text-[10px] uppercase tracking-[0.25em] font-semibold text-white/60">
                   {photo.caption.split("·")[1]?.trim()}
                 </p>
-                <Button className={"border border-primary-foreground bg-secondary hover:bg-primary rounded-full"}>
+                <Button className={"flex items-center justify-center border border-primary-foreground bg-secondary hover:bg-primary rounded-full"}>
                   Learn More
                 </Button>
               </div>

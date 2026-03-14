@@ -19,7 +19,7 @@ export function SchoolLogo({ size = "md", showName = false, className = "" }: Sc
             {/* Crest */}
             <div className={`relative ${sizeMap[size]} rounded-full overflow-hidden shrink-0`}>
                 <Image
-                    src="/assets/images/school-crest.png"
+                    src="/assets/images/logo/school-crest.png"
                     fill
                     className="object-cover bg-white"
                     priority

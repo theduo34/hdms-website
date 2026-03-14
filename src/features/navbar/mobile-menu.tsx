@@ -1,66 +1,83 @@
 "use client"
 
 import Link from "next/link"
-import { navItems } from "./nav-data"
+import {navItems, topNavItems} from "./nav-data"
 
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
 } from "@/components/ui/accordion"
 
-export function MobileMenu() {
-  return (
-    <div className="md:hidden w-full h-full pt-28 px-6">
+type Props = { onClose: () => void }
 
-      <Accordion type="single" collapsible>
+export function MobileMenu({onClose}: Props) {
+    return (
+        <div className="md:hidden w-full flex flex-col gap-8 h-full pt-28 px-6">
 
-        {navItems.map((item) => {
+            <Accordion type="single" collapsible>
 
-          if (!item.children) {
-            return (
-              <Link
-                key={item.title}
-                href={item.href ?? "#"}
-                className="block py-4 border-b text-lg font-semibold"
-              >
-                {item.title}
-              </Link>
-            )
-          }
+                {navItems.map((item) => {
 
-          return (
-            <AccordionItem value={item.title} key={item.title}>
+                    if (!item.children) {
+                        return (
+                            <Link
+                                key={item.title}
+                                href={item.href ?? "#"}
+                                onClick={onClose}
+                                className="block py-4 border-b text-lg font-semibold"
+                            >
+                                {item.title}
+                            </Link>
+                        )
+                    }
 
-              <AccordionTrigger className="text-lg font-semibold">
-                {item.title}
-              </AccordionTrigger>
+                    return (
+                        <AccordionItem value={item.title} key={item.title}>
 
-              <AccordionContent>
+                            <AccordionTrigger className="text-lg font-semibold">
+                                {item.title}
+                            </AccordionTrigger>
 
-                <div className="flex flex-col gap-3 pb-4 pl-4">
+                            <AccordionContent>
 
-                  {item.children.map((child) => (
-                    <Link
-                      key={child.title}
-                      href={child.href}
-                      className="text-base opacity-80"
-                    >
-                      {child.title}
-                    </Link>
-                  ))}
+                                <div className="flex flex-col gap-3 pb-4 pl-4">
 
-                </div>
+                                    {item.children.map((child) => (
+                                        <Link
+                                            key={child.title}
+                                            href={child.href}
+                                            className="text-base opacity-80"
+                                        >
+                                            {child.title}
+                                        </Link>
+                                    ))}
 
-              </AccordionContent>
+                                </div>
 
-            </AccordionItem>
-          )
-        })}
+                            </AccordionContent>
 
-      </Accordion>
+                        </AccordionItem>
+                    )
+                })}
 
-    </div>
-  )
+            </Accordion>
+
+            <div className={"w-ful flex flex-wrap items-center justify-between gap-2"}>
+                {topNavItems.map((item) => {
+                    return (
+                        <div
+                            key={item.title}
+                            className={"font-sans text-primary"}
+                            onClick={onClose}
+                        >
+                            {item.title}
+                        </div>
+                    )
+                })}
+            </div>
+
+        </div>
+    )
 }

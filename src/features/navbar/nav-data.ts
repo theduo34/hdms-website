@@ -7,7 +7,18 @@ export type NavItem = {
   }[]
 }
 
+export const topNavItems: NavItem[] = [
+  { title: "News", href: "news" },
+  { title: "Gallery", href: "gallery" },
+  { title: "Events", href: "events" },
+  { title: "Calender", href: "calender"}
+]
+
 export const navItems: NavItem[] = [
+  {
+    title: 'About',
+    href: '/about',
+  },
   {
     title: "Admission",
     children: [
@@ -17,11 +28,7 @@ export const navItems: NavItem[] = [
     ],
   },
   {
-    title: "Arts",
-    href: "/arts",
-  },
-  {
-    title: "Academics",
+    title: "Programmes",
     children: [
       { title: "Curriculum", href: "/curriculum" },
       { title: "Departments", href: "/departments" },

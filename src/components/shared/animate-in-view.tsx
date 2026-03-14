@@ -10,7 +10,7 @@ export interface AnimateInViewProps extends HTMLMotionProps<"div"> {
     yOffset?: number;
     xOffset?: number;
     className?: string;
-    once?: boolean; // Default is false to replay animation going up/down
+    once?: boolean;
 }
 
 const EASE = [0.16, 1, 0.3, 1] as const

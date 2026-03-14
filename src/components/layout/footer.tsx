@@ -75,9 +75,9 @@ export function Footer() {
                             initial={{ opacity: 0, y: 24 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 0.7, ease: EASE }}
-                            className="flex flex-col items-center md:items-start text-center md:text-left gap-6 shrink-0"
+                            className="flex flex-col items-start  gap-6 shrink-0"
                         >
-                            <div className="flex flex-col items-center md:items-start">
+                            <div className="flex flex-col items-start">
                                 <SchoolLogo showName size="lg" />
                             </div>
 
@@ -102,7 +102,7 @@ export function Footer() {
                                 initial={{ opacity: 0, y: 24 }}
                                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                                 transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
-                                className="flex flex-col gap-6 items-center md:items-start text-center md:text-left"
+                                className="flex flex-col gap-6 items-start  md:text-left"
                             >
                                 <h3 className="text-[15px] font-bold text-primary-foreground tracking-widest uppercase mb-1">
                                     Contact
@@ -122,7 +122,7 @@ export function Footer() {
                                 initial={{ opacity: 0, y: 24 }}
                                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                                 transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
-                                className="flex flex-col gap-6 items-center md:items-start text-center md:text-left"
+                                className="flex flex-col gap-6 items-start "
                             >
                                 <h3 className="text-[15px] font-bold text-primary-foreground tracking-widest uppercase mb-1">
                                     Quicklinks
@@ -141,7 +141,7 @@ export function Footer() {
                                 initial={{ opacity: 0, y: 24 }}
                                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                                 transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
-                                className="flex flex-col gap-6 items-center md:items-start text-center md:text-left"
+                                className="flex flex-col gap-6 items-start  md:text-left"
                             >
                                 <h3 className="text-[15px] font-bold text-primary-foreground tracking-widest uppercase mb-1">
                                     Quicklinks

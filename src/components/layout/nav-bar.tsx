@@ -6,26 +6,29 @@ import {useState} from "react";
 import {NavOverlay} from "@/features/navbar/nav-overlay";
 import {SchoolLogo} from "@/components/layout/school-logo";
 import {CTAButton} from "@/components/shared/cta-button";
+import {usePathname} from "next/navigation";
 
 export function NavBar() {
     const [open, setOpen] = useState(false)
+    const pathname = usePathname()
+    const isHome = pathname === "/"
 
     return (
         <>
-            <header className="absolute top-0 left-0 right-0 z-90 px-4 md:px-16 pt-7">
+            <header className={`${isHome ? "" : "bg-primary"} absolute top-0 left-0 right-0 z-50 px-4 md:px-16 py-4`}>
                 <nav className="flex items-center justify-between">
                     <SchoolLogo showName size="lg"/>
 
                     <div className="flex flex-row items-center gap-8">
 
                         <CTAButton
-                            className={"hidden md:block border-3 h-13 border-border bg-transparent rounded-full px-6 md:px-8 border-primary-foreground hover:bg-primary-foreground hover:text-primary uppercase font-bold"}>
+                            className={"hidden md:block border-3 h-13  bg-transparent rounded-full px-6 md:px-8 border-primary-foreground hover:bg-primary-foreground hover:text-primary uppercase font-bold"}>
                             VISIT PORTAL
                         </CTAButton>
 
                         <div className="w-12 md:w-20"/>
 
-                        <div className="fixed top-8 right-4 md:right-16">
+                        <div className="fixed top-4 right-4 md:right-16">
                             <Button
                                 variant="ghost"
                                 size="icon"
@@ -70,11 +73,11 @@ export function NavBar() {
                 </nav>
             </header>
 
-            <NavOverlay open={open}/>
+            <NavOverlay open={open} onClose={() => setOpen(false)} />
 
             {open && (
                 <div
-                    className="fixed inset-0 z-80"
+                    className="fixed inset-0 z-30"
                     onClick={() => setOpen(false)}
                 />
             )}
