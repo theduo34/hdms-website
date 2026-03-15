@@ -39,7 +39,7 @@ export const faqSchema = {
       "name": "How do I enrol my child at Heaven's Dew Montessori?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "You can enrol your child by visiting our admissions page at https://www.hdm.edu.gh/admissions, downloading the admission form, or contacting us directly at info@hdm.edu.gh or +233 24 497 4052. Early registration is encouraged as spaces are limited."
+        "text": "You can enrol your child by visiting our admissions page at https://www.hdm.edu.gh/admissions, downloading the admissions form, or contacting us directly at info@hdm.edu.gh or +233 24 497 4052. Early registration is encouraged as spaces are limited."
       }
     },
     {
@@ -79,7 +79,7 @@ export const faqSchema = {
       "name": "How can I contact Heaven's Dew Montessori?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "You can reach Heaven's Dew Montessori through the following channels - Email: info@hdm.edu.gh | Phone: +233 24 497 4052 | Office: +233 34 229 3761. You can also visit us at 123 Education Street, Koforidua, Eastern Region, Ghana, Monday to Friday between 7:30 AM and 3:30 PM."
+        "text": "You can reach Heaven's Dew Montessori through the following channels - Email: info@hdm.edu.gh | Phone: +233 24 497 4052 | Office: +233 34 229 3761. You can also visit-campus us at 123 Education Street, Koforidua, Eastern Region, Ghana, Monday to Friday between 7:30 AM and 3:30 PM."
       }
     }
   ]

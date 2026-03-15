@@ -41,7 +41,7 @@ function NewsCard({ item }: { item: NewsInterface }) {
           {item.excerpt}
         </p>
         <Link
-            href={`/news/${item.id}`}
+            href={`/news-&-announcements/${item.id}`}
             aria-label={`Read more about ${item.title}`}
             className="self-start text-xs font-bold uppercase tracking-widest text-primary-foreground underline underline-offset-4 hover:opacity-60 transition-opacity duration-200"
         >

@@ -33,20 +33,20 @@ export function SchoolLogo({ size = "md", showName = false, className = "" }: Sc
 
                     <div className="flex flex-col justify-center">
                         <span
-                            className="text-[9px] font-bold tracking-[0.25em] uppercase text-primary-foreground/50 leading-none mb-1"
+                            className="text-[8px] md:text-[9px] font-bold tracking-[0.25em] uppercase text-primary-foreground/50 leading-none mb-1"
                             style={headingStyle}
                         >
                             HDM
                         </span>
                         <span
-                            className="text-base font-black uppercase leading-[1.05] tracking-wide text-primary-foreground"
+                            className="text-sm md:text-base font-black uppercase leading-[1.05] tracking-wide text-primary-foreground"
                             style={headingStyle}
                         >
                             Heaven&apos;s Dew
                             <br />
                             Montessori
                         </span>
-                        <div className="flex items-center gap-1 mt-1.5">
+                        <div className="flex items-center gap-1 mt-1 md:mt-1.5">
                             {["Faith", "Diligence", "Excellence"].map((word, i) => (
                                 <span key={word} className="flex items-center gap-1">
                                     <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-secondary">

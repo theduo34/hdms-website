@@ -55,18 +55,20 @@ export function HeroSection() {
           <AnimateInView yOffset={10} duration={1.2}>
             <div className="flex flex-col gap-2 md:gap-4 items-center">
               <h1
-                className="text-[clamp(2.5rem,6vw,5.5rem)] italic font-black uppercase text-primary-foreground leading-[0.9] tracking-tight"
-                style={headingStyle}
+                  className="text-[clamp(2.5rem,6vw,5.5rem)] italic font-black uppercase text-primary-foreground leading-[0.9] tracking-tight flex flex-row flex-wrap justify-center gap-[clamp(0.5rem,1.5vw,1rem)]"
+                  style={headingStyle}
               >
-                We are where
+                <span className={"text-secondary"}>where</span>
+                <span className={""}>the</span>
+                <span className={"text-secondary"}>dew</span>
               </h1>
               <h1
                 className="text-[clamp(2.5rem,6vw,5.5rem)] italic font-black uppercase text-primary-foreground leading-[0.9] tracking-tight flex flex-row flex-wrap justify-center gap-[clamp(0.5rem,1.5vw,1rem)]"
                 style={headingStyle}
               >
-                <span className="text-secondary ">futures</span>
-                <span>are</span>
-                <span className="text-secondary ">formed</span>
+                <span>of</span>
+                <span  className="text-secondary ">heaven</span>
+                <span >falls</span>
               </h1>
             </div>
           </AnimateInView>

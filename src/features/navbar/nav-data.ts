@@ -8,23 +8,23 @@ export type NavItem = {
 }
 
 export const topNavItems: NavItem[] = [
-  { title: "News", href: "news" },
-  { title: "Gallery", href: "gallery" },
-  { title: "Events", href: "events" },
-  { title: "Calender", href: "calender"}
+  { title: "News & Announcements", href: "/news-&-announcements" },
+  { title: "Gallery", href: "/gallery" },
+  { title: "Events", href: "/events" },
+  { title: "Calender", href: "/calender"}
 ]
 
 export const navItems: NavItem[] = [
   {
     title: 'About',
-    href: '/about',
+    href: '/about-us',
   },
   {
     title: "Admission",
     children: [
-      { title: "Apply", href: "/apply" },
-      { title: "Tuition", href: "/tuition" },
-      { title: "Visit Campus", href: "/visit" },
+      { title: "Apply", href: "/admission/apply" },
+      { title: "Tuition", href: "/admission/tuition" },
+      { title: "Visit Campus", href: "/admission/visit-campus" },
     ],
   },
   {

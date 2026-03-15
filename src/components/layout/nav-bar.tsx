@@ -7,9 +7,11 @@ import {NavOverlay} from "@/features/navbar/nav-overlay";
 import {SchoolLogo} from "@/components/layout/school-logo";
 import {CTAButton} from "@/components/shared/cta-button";
 import {usePathname} from "next/navigation";
+import {useIsMobile} from "@/hooks/use-mobile";
 
 export function NavBar() {
     const [open, setOpen] = useState(false)
+    const isMobile = useIsMobile();
     const pathname = usePathname()
     const isHome = pathname === "/"
 
@@ -17,7 +19,7 @@ export function NavBar() {
         <>
             <header className={`${isHome ? "" : "bg-primary"} absolute top-0 left-0 right-0 z-50 px-4 md:px-16 py-4`}>
                 <nav className="flex items-center justify-between">
-                    <SchoolLogo showName size="lg"/>
+                    <SchoolLogo showName size={isMobile ? "md": "lg"}/>
 
                     <div className="flex flex-row items-center gap-8">
 
