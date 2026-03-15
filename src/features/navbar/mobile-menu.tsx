@@ -25,7 +25,6 @@ export function MobileMenu({onClose}: Props) {
                             <Link
                                 key={item.title}
                                 href={item.href ?? "#"}
-                                onClick={onClose}
                                 className="block py-4 border-b text-lg font-semibold"
                             >
                                 {item.title}
@@ -48,6 +47,7 @@ export function MobileMenu({onClose}: Props) {
                                         <Link
                                             key={child.title}
                                             href={child.href}
+                                            onClick={onClose}
                                             className="text-base opacity-80"
                                         >
                                             {child.title}
