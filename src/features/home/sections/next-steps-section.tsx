@@ -106,6 +106,7 @@ export function NextStepSection() {
 
                             <Link
                                 href={card.href}
+                                suppressHydrationWarning
                                 className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] relative z-10
                                            opacity-100 md:opacity-30 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0
                                            transition-all duration-300 ease-out hover:opacity-70"
