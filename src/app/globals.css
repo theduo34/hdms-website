@@ -185,6 +185,10 @@
     @apply w-full px-4 md:px-8 py-12 sm:py-18;
   }
 
+  .section-half {
+    @apply py-8 md:py-10;
+  }
+
   .section-left {
     @apply w-full ml-0 md:ml-[16%]
   }
