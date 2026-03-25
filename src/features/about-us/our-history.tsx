@@ -1,34 +1,39 @@
 "use client"
 
 import { AnimateInView } from "@/components/shared/animate-in-view"
+import { SectionLabel } from "@/components/shared/section-label"
 import { history } from "@/features/about-us/about"
 import { headingStyle } from "@/styles/font"
 
 export function OurHistory() {
     return (
-        <section id="history" aria-labelledby="history-heading" className="pt-20">
+        <section id="history" aria-labelledby="history-heading" className="section-half">
 
-            <AnimateInView yOffset={20} duration={0.9} delay={0.1} className="mb-14">
-                <div className="flex items-center gap-3 mb-6">
-                    <span className="block w-4 h-px bg-secondary shrink-0" aria-hidden />
-                    <span className="text-[12px] tracking-[0.22em] uppercase">
-                        {history.tag}
-                    </span>
-                </div>
+            {/* Label + Heading */}
+            <AnimateInView yOffset={10} duration={0.8} delay={0.05} className="mb-14">
+                <SectionLabel
+                    label="OUR HISTORY"
+                    textColor="var(--color-foreground)"
+                    lineColor="var(--color-secondary)"
+                    className="items-start mb-8"
+                />
                 <h2
                     id="history-heading"
-                    className="text-[clamp(2.75rem,6.5vw,4.75rem)] italic leading-[1.05] tracking-[-0.02em]"
+                    className="text-[clamp(2.5rem,6vw,4.75rem)] font-black italic leading-[0.95] tracking-[-0.02em]"
                     style={headingStyle}
                 >
-                    A Journey of<br />
-                    Growth &amp; Purpose.
+                    A Journey of Growth{' '}
+                    <br />
+                    <span className="text-secondary">&amp; Purpose.</span>
                 </h2>
             </AnimateInView>
 
+            {/* Timeline */}
             <div className="relative">
+                {/* Vertical guide line — desktop */}
                 <span
                     className="absolute top-0 bottom-0 w-px bg-border hidden md:block"
-                    style={{ left: "6.5rem" }}
+                    style={{ left: '5.5rem' }}
                     aria-hidden
                 />
 
@@ -39,41 +44,52 @@ export function OurHistory() {
                         duration={0.75}
                         delay={i * 0.04}
                     >
-                        <div className="relative grid grid-cols-[4.5rem_1fr] md:grid-cols-[6.5rem_1fr] items-start gap-x-6 md:gap-x-0 py-10 border-b border-border last:border-b-0 group">
+                        <div className="group relative grid grid-cols-[4rem_1fr] md:grid-cols-[5.5rem_1fr] items-start gap-x-0 py-9 border-b border-border last:border-b-0">
 
-                            {/* Year */}
-                            <div className="flex justify-end pt-1 pr-4 md:pr-0">
+                            {/* Year column */}
+                            <div className="flex flex-col items-end pr-5 pt-0.5">
                                 <span
-                                    className="text-[1rem] md:text-[1.2rem] font-bold italic leading-none tracking-[-0.02em] transition-colors duration-300"
+                                    className="block font-black italic leading-none tracking-[-0.02em] group-hover:text-secondary transition-colors duration-300"
                                     style={{
                                         ...headingStyle,
-                                        color: "color-mix(in oklch, var(--secondary) 55%, transparent)",
+                                        fontSize: 'clamp(1.1rem,2.5vw,1.5rem)',
+                                        color: 'color-mix(in oklch, var(--color-secondary) 50%, transparent)',
                                     }}
                                 >
                                     {item.year}
                                 </span>
                             </div>
 
+                            {/* Timeline dot — sits on the vertical line */}
                             <span
-                                className="hidden md:block absolute w-2 h-2 rounded-full bg-border group-hover:bg-secondary transition-colors duration-300 z-10"
-                                style={{
-                                    left: "calc(6.5rem - 4px)",
-                                    top: "2.75rem",
-                                }}
+                                className="hidden md:block absolute w-2.5 h-2.5 rounded-full bg-border group-hover:bg-secondary group-hover:scale-125 transition-all duration-300 z-10"
+                                style={{ left: 'calc(5.5rem - 5px)', top: '2.5rem' }}
                                 aria-hidden
                             />
 
-                            <div className="md:pl-10">
+                            {/* Content */}
+                            <div className="pl-8 md:pl-10">
+                                {/* Year badge on mobile */}
+                                <div className="md:hidden inline-flex items-center gap-2 mb-2">
+                                    <span className="block w-3 h-px bg-secondary" aria-hidden />
+                                </div>
+
                                 <h3
-                                    className="text-[1.05rem] md:text-[1.2rem] font-semibold italic leading-tight mb-2 group-hover:text-primary transition-colors duration-300"
-                                    style={headingStyle}
+                                    className="font-black italic leading-tight mb-2 group-hover:text-primary transition-colors duration-300"
+                                    style={{ ...headingStyle, fontSize: 'clamp(1.1rem,2.5vw,1.4rem)' }}
                                 >
                                     {item.title}
                                 </h3>
-                                <p className="text-[0.925rem] leading-[1.8] text-foreground/65">
+                                <p className="text-[0.9rem] leading-[1.8] text-foreground/60">
                                     {item.desc}
                                 </p>
                             </div>
+
+                            {/* Hover reveal: secondary bar on left */}
+                            <span
+                                className="absolute left-0 top-0 bottom-0 w-0.5 bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] origin-top"
+                                aria-hidden
+                            />
                         </div>
                     </AnimateInView>
                 ))}
