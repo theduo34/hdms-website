@@ -1,11 +1,11 @@
-import type {Metadata} from "next";
-import {Geist, Geist_Mono} from "next/font/google";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono, Crimson_Pro } from "next/font/google";
 import "./globals.css";
-import {MotionProvider} from "@/provider/motion-provider";
-import {jsonLd} from "@/lib/jsonLd";
-import {faqSchema} from "@/lib/faqSchema";
-import {NavBar} from "@/components/layout/nav-bar";
-import {Footer} from "@/components/layout/footer";
+import { MotionProvider } from "@/provider/motion-provider";
+import { jsonLd } from "@/lib/jsonLd";
+import { faqSchema } from "@/lib/faqSchema";
+import { NavBar } from "@/components/layout/nav-bar";
+import { Footer } from "@/components/layout/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,6 +18,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   display: "swap",
 });
+
+const crimsonPro = Crimson_Pro({
+  variable: "--font-crimson-pro",
+  subsets: ["latin"],
+  display: "swap",
+  style: ["normal", "italic"],
+});
+
 
 export const metadata: Metadata = {
   title: {
@@ -64,25 +72,25 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-    <head>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-    </head>
-    <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-    <MotionProvider>
-      <main>
-        <NavBar/>
-        {children}
-        <Footer/>
-      </main>
-    </MotionProvider>
-    </body>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      </head>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${crimsonPro.variable} antialiased`}>
+        <MotionProvider>
+          <main>
+            <NavBar />
+            {children}
+            <Footer />
+          </main>
+        </MotionProvider>
+      </body>
     </html>
   );
 }
