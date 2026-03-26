@@ -31,9 +31,9 @@ export function NewsFilterBar({ active, filters, onChange }: Props) {
             <div ref={sentinelRef} className="h-px" aria-hidden />
             <div
                 className={cn(
-                    'sticky top-[var(--nav-height,4rem)] z-[900] transition-all duration-300',
+                    'sticky top-[var(--nav-height,0.01rem)] z-[40] transition-all duration-300',
                     stuck
-                        ? 'bg-card/95 backdrop-blur-md border-b border-border shadow-sm py-3'
+                        ? 'bg-primary backdrop-blur-md border-b border-border shadow-sm py-3'
                         : 'bg-background border-b border-transparent py-5'
                 )}
             >
@@ -48,19 +48,19 @@ export function NewsFilterBar({ active, filters, onChange }: Props) {
                                 {active === f.id && (
                                     <motion.span
                                         layoutId="filter-pill"
-                                        className="absolute inset-0 bg-primary rounded-full"
+                                        className={`absolute inset-0 border-none rounded-full ${stuck ? "bg-secondary" : "bg-primary"}`}
                                         transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                                     />
                                 )}
                                 <span className={cn(
                                     'relative z-10 transition-colors duration-150',
-                                    active === f.id ? 'text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
+                                    active === f.id ? `${stuck ? "text-primary-foreground" : "text-primary-foreground"}` : `${stuck ? "text-secondary/90" : "text-muted-foreground hover:text-foreground"}`
                                 )}>
                                     {f.label}
                                 </span>
                                 <span className={cn(
                                     'relative z-10 text-[0.6rem] transition-colors duration-150',
-                                    active === f.id ? 'text-primary-foreground/60' : 'text-muted-foreground/50'
+                                    active === f.id ? `${stuck ? "text-primary-foreground" : "text-primary-foreground"}` : `${stuck ? "text-secondary/90" : "text-muted-foreground hover:text-foreground"}`
                                 )}>
                                     {f.count}
                                 </span>

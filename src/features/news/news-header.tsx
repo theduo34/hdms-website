@@ -8,14 +8,14 @@ const EASE = [0.16, 1, 0.3, 1] as const
 
 export function NewsHeader() {
     return (
-        <header className="relative overflow-hidden bg-muted px-16 pt-36 pb-24 max-lg:px-8">
+        <header className="relative overflow-hidden bg-muted px-16 pt-36 pb-24 px-4 max-lg:px-8">
             {/* Background watermark */}
             <span
                 className="absolute -right-8 -bottom-6 text-[20rem] font-black leading-none text-foreground/[0.025] pointer-events-none select-none"
                 style={headingStyle}
                 aria-hidden
             >
-                N
+                HMDs
             </span>
 
             {/* Label — slides in from left */}
