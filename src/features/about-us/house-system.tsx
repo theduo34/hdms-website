@@ -4,7 +4,6 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "motion/react"
 import { houses } from "@/features/about-us/about"
 import { AnimateInView } from "@/components/shared/animate-in-view"
-import { SectionLabel } from "@/components/shared/section-label"
 import { headingStyle } from "@/styles/font"
 
 export function HouseSystem() {
@@ -14,37 +13,21 @@ export function HouseSystem() {
     return (
         <section id="houses" aria-labelledby="houses-heading" className="section-half">
 
-            {/* Label + Heading */}
             <AnimateInView yOffset={10} duration={0.8} delay={0.05} className="mb-12">
-                <SectionLabel
-                    label="HOUSE SYSTEM"
-                    textColor="var(--color-foreground)"
-                    lineColor="var(--color-secondary)"
-                    className="items-start mb-8"
-                />
-                <h2
-                    id="houses-heading"
-                    className="text-[clamp(2.5rem,6vw,4.75rem)] font-black italic leading-[0.95] tracking-[-0.02em]"
-                    style={headingStyle}
-                >
+                <div className="section-tag">
+                    <span className="block w-4 h-px bg-secondary shrink-0" aria-hidden />
+                    <span className="text-[10px] tracking-[0.3em] font-bold uppercase">House System</span>
+                </div>
+                <h2 id="houses-heading" className="about-heading">
                     Four Houses.{' '}
-                    <span
-                        className="transition-colors duration-500"
-                        style={{ color: house.bgColor }}
-                    >
+                    <span className="transition-colors duration-500" style={{ color: house.bgColor }}>
                         One Family.
                     </span>
                 </h2>
             </AnimateInView>
 
             <AnimateInView yOffset={16} duration={0.85} delay={0.15}>
-
-                {/* House selector — mini cards styled like experience cards */}
-                <div
-                    className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4"
-                    role="tablist"
-                    aria-label="School houses"
-                >
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4" role="tablist" aria-label="School houses">
                     {houses.map((h, i) => (
                         <motion.button
                             key={h.id}
@@ -55,17 +38,13 @@ export function HouseSystem() {
                             whileHover={{ scale: active !== i ? 1.03 : 1 }}
                             whileTap={{ scale: 0.97 }}
                             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                            className="relative text-left rounded-2xl p-5 transition-all duration-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring overflow-hidden"
+                            className="relative text-left rounded-2xl p-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring overflow-hidden transition-opacity duration-300"
                             style={{
                                 backgroundColor: active === i ? h.bgColor : 'var(--color-muted)',
-                                opacity: active !== i ? 0.65 : 1,
+                                opacity: active !== i ? 0.6 : 1,
                             }}
                         >
-                            <span
-                                className="block text-3xl mb-4 leading-none"
-                                role="img"
-                                aria-label={`${h.name} spirit`}
-                            >
+                            <span className="block text-3xl mb-4 leading-none" role="img" aria-label={`${h.name} symbol`}>
                                 {h.spirit}
                             </span>
                             <span
@@ -80,13 +59,11 @@ export function HouseSystem() {
                             >
                                 {h.name}
                             </span>
-
-                            {/* Active indicator */}
                             {active === i && (
                                 <motion.span
                                     layoutId="houseActiveBar"
                                     className="absolute bottom-0 left-0 right-0 h-[3px]"
-                                    style={{ backgroundColor: 'rgba(255,255,255,0.5)' }}
+                                    style={{ backgroundColor: 'rgba(255,255,255,0.45)' }}
                                     aria-hidden
                                 />
                             )}
@@ -94,11 +71,7 @@ export function HouseSystem() {
                     ))}
                 </div>
 
-                {/* House content panel */}
-                <div
-                    id={`house-panel-${house.id}`}
-                    role="tabpanel"
-                >
+                <div id={`house-panel-${house.id}`} role="tabpanel">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={house.id}
@@ -109,7 +82,6 @@ export function HouseSystem() {
                             className="relative rounded-2xl overflow-hidden px-8 md:px-12 py-12"
                             style={{ backgroundColor: house.bgColor }}
                         >
-                            {/* Giant background spirit emoji */}
                             <div
                                 className="absolute right-6 top-1/2 -translate-y-1/2 text-[9rem] md:text-[12rem] leading-none opacity-[0.12] select-none pointer-events-none"
                                 aria-hidden
@@ -117,15 +89,9 @@ export function HouseSystem() {
                                 {house.spirit}
                             </div>
 
-                            {/* Top accent */}
-                            <span
-                                className="block w-10 h-[3px] rounded-full mb-8 opacity-60"
-                                style={{ backgroundColor: 'white' }}
-                                aria-hidden
-                            />
+                            <span className="block w-10 h-[3px] rounded-full mb-8 opacity-50" style={{ backgroundColor: 'white' }} aria-hidden />
 
                             <div className="relative grid grid-cols-1 md:grid-cols-[1fr_160px] gap-8 md:gap-16 items-start">
-                                {/* Main content */}
                                 <div>
                                     <h3
                                         className="font-black italic leading-[1.0] text-white mb-4 tracking-[-0.025em]"
@@ -141,13 +107,8 @@ export function HouseSystem() {
                                     </p>
                                 </div>
 
-                                {/* Core value aside */}
                                 <div className="flex flex-row md:flex-col items-center md:items-end gap-4 md:pt-2">
-                                    <span
-                                        className="text-5xl md:text-6xl leading-none select-none"
-                                        role="img"
-                                        aria-label={`${house.name} symbol`}
-                                    >
+                                    <span className="text-5xl md:text-6xl leading-none select-none" role="img" aria-label={`${house.name} symbol`}>
                                         {house.emoji}
                                     </span>
                                     <div className="flex flex-col md:items-end gap-1">
@@ -166,7 +127,6 @@ export function HouseSystem() {
                         </motion.div>
                     </AnimatePresence>
                 </div>
-
             </AnimateInView>
         </section>
     )

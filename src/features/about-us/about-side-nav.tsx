@@ -9,51 +9,56 @@ export function AboutSideNav() {
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) setActiveId(entry.target.id)
-                })
+                entries.forEach(e => { if (e.isIntersecting) setActiveId(e.target.id) })
             },
             { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
         )
-
         sideNavSections.forEach(({ id }) => {
             const el = document.getElementById(id)
             if (el) observer.observe(el)
         })
-
         return () => observer.disconnect()
     }, [])
 
     const scrollTo = (id: string) => {
         const el = document.getElementById(id)
         if (!el) return
-        const top = el.getBoundingClientRect().top + window.scrollY - 100
-        window.scrollTo({ top, behavior: 'smooth' })
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' })
     }
 
     return (
-        <aside className="hidden md:block sticky top-24 self-start">
-            <span className="block text-[0.65rem] tracking-[0.25em] uppercase mb-4 font-medium">
-                On this page
-            </span>
+        <aside className="hidden md:block sticky top-24 self-start py-10 pr-6">
+            <div className="flex items-center gap-3 mb-6">
+                <span className="block w-4 h-px bg-secondary shrink-0" />
+                <p className="text-[0.6rem] tracking-[0.3em] uppercase font-bold text-foreground/40">
+                    On this page
+                </p>
+            </div>
 
-            <nav className="flex flex-col space-y-1">
-                {sideNavSections.map(({ id, label }) => (
+            <nav className="flex flex-col" aria-label="Page sections">
+                {sideNavSections.map(({ id, label }, i) => (
                     <button
                         key={id}
                         onClick={() => scrollTo(id)}
-                        className={`
-                            flex items-center w-full text-left bg-transparent
-                            px-4 py-3 text-[0.82rem] tracking-[0.04em]
-                            border-l-2 transition-all duration-300 cursor-pointer
-                            hover:text-primary hover:bg-black/2
-                            ${activeId === id
-                            ? 'text-primary border-l-secondary font-semibold'
-                            : 'border-l-transparent font-normal'
-                        }
-                        `}
+                        className={`group relative flex items-center gap-3 w-full text-left py-2.5 pl-4 rounded-sm transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                            activeId === id
+                                ? 'text-foreground font-semibold'
+                                : 'text-foreground/40 hover:text-foreground/75'
+                        }`}
                     >
-                        {label}
+                        <span
+                            className={`absolute left-0 top-0 bottom-0 w-0.5 rounded-full bg-secondary transition-opacity duration-300 ${
+                                activeId === id ? 'opacity-100' : 'opacity-0'
+                            }`}
+                        />
+                        <span
+                            className={`text-[0.6rem] tabular-nums shrink-0 transition-colors duration-300 ${
+                                activeId === id ? 'text-secondary' : 'text-foreground/25 group-hover:text-foreground/45'
+                            }`}
+                        >
+                            {String(i + 1).padStart(2, '0')}
+                        </span>
+                        <span className="text-[0.8rem] tracking-[0.02em]">{label}</span>
                     </button>
                 ))}
             </nav>

@@ -186,7 +186,7 @@
   }
 
   .section-half {
-    @apply py-8 md:py-10;
+    @apply py-10 md:py-14;
   }
 
   .section-left {
@@ -195,5 +195,43 @@
 
   .section-header {
     @apply text-4xl md:text-5xl font-black italic text-white;
+  }
+
+  /* ── About-page shared utilities ──────────── */
+
+  .about-heading {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: clamp(2.5rem, 6vw, 4.75rem);
+    font-weight: 900;
+    font-style: italic;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+
+  .section-tag {
+    @apply flex items-center gap-3 mb-8;
+  }
+
+  .num-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    column-gap: 1.5rem;
+    align-items: center;
+    padding-block: 1.75rem;
+    border-top: 1px solid var(--color-border);
+    cursor: default;
+    overflow: hidden;
+  }
+
+  .num-row:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  @media (min-width: 768px) {
+    .num-row {
+      grid-template-columns: 40px 1fr auto;
+      column-gap: 3rem;
+    }
   }
 }
