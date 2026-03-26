@@ -63,7 +63,6 @@ export function NextStepSection() {
                 </h2>
             </AnimateInView>
 
-            {/* Cards */}
             <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                 {cards.map((card, i) => {
                     const Icon = card.icon
@@ -79,11 +78,10 @@ export function NextStepSection() {
                                 boxShadow: "0 8px 32px rgba(0,0,0,0.10)",
                             }}
                         >
-                            {/* Title + icon */}
                             <div className="flex items-start justify-between gap-4">
                                 <h3
                                     className="text-3xl font-black uppercase leading-[0.9]"
-                                    style={{ color: card.text, fontFamily: "'Georgia', serif" }}
+                                    style={{ color: card.text, ...headingStyle }}
                                 >
                                     {card.title.split("\n").map((line, j) => (
                                         <span key={j} className="block">{line}</span>
@@ -116,7 +114,6 @@ export function NextStepSection() {
                                 <span className="block w-10 h-px" style={{ background: card.text }} />
                             </Link>
 
-                            {/* Background image */}
                             <div className="absolute bottom-0 right-0 w-[48%] h-[70%]">
                                 <Image
                                     src={card.image}

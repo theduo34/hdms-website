@@ -32,7 +32,6 @@ export function HeroSection() {
       <div className="relative w-full h-[85vh] md:h-[95vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-primary" />
 
-        {/* Video Background */}
         <video
           autoPlay
           muted
@@ -46,31 +45,28 @@ export function HeroSection() {
         </video>
 
         <div className="absolute inset-0 bg-primary/40 pointer-events-none mix-blend-multiply" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-primary/20 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-primary/20 pointer-events-none" />
 
         <motion.div
           style={{ y: yText, opacity: opacityText }}
           className="relative z-10 flex flex-col items-center justify-center text-center px-6 md:px-12 w-full max-w-7xl mx-auto -mt-16"
         >
           <AnimateInView yOffset={10} duration={1.2}>
-            <div className="flex flex-col gap-2 md:gap-4 items-center">
-              <h1
-                  className="text-[clamp(2.5rem,6vw,5.5rem)] italic font-black uppercase text-primary-foreground leading-[0.9] tracking-tight flex flex-row flex-wrap justify-center gap-[clamp(0.5rem,1.5vw,1rem)]"
-                  style={headingStyle}
-              >
-                <span className={"text-secondary"}>where</span>
-                <span className={""}>the</span>
-                <span className={"text-secondary"}>dew</span>
-              </h1>
-              <h1
-                className="text-[clamp(2.5rem,6vw,5.5rem)] italic font-black uppercase text-primary-foreground leading-[0.9] tracking-tight flex flex-row flex-wrap justify-center gap-[clamp(0.5rem,1.5vw,1rem)]"
-                style={headingStyle}
-              >
+            <h1
+              className="flex flex-col gap-2 md:gap-4 items-center text-[clamp(2.0rem,4vw,5rem)] md:text-[clamp(2.5rem,6vw,5.5rem)] italic font-black uppercase text-primary-foreground leading-[0.9] tracking-tight"
+              style={headingStyle}
+            >
+              <span className="flex flex-row flex-wrap justify-center gap-[clamp(0.5rem,1.5vw,1rem)]">
+                <span className="text-secondary">where</span>
+                <span>the</span>
+                <span className="text-secondary">dew</span>
+              </span>
+              <span className="flex flex-row flex-wrap justify-center gap-[clamp(0.5rem,1.5vw,1rem)]">
                 <span>of</span>
-                <span  className="text-secondary ">heaven</span>
-                <span >falls</span>
-              </h1>
-            </div>
+                <span className="text-secondary">heaven</span>
+                <span>falls</span>
+              </span>
+            </h1>
           </AnimateInView>
           
           <AnimateInView yOffset={5} delay={0.3} duration={1}>

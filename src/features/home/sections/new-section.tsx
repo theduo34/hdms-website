@@ -7,7 +7,8 @@ import {news, NewsInterface} from "@/features/home"
 import Link from "next/link"
 import { CarouselButton } from "@/components/shared/carousel-button"
 import { SectionLabel } from "@/components/shared/section-label"
-import {formatNewsDate} from "@/lib/utils";
+import {formatNewsDate} from "@/lib/utils"
+import { headingStyle } from "@/styles/font"
 
 const ITEMS = [...news, ...news, ...news]
 const MID = news.length
@@ -26,7 +27,7 @@ function NewsCard({ item }: { item: NewsInterface }) {
         <div className="flex items-start justify-between gap-4">
           <h3
               className="text-base font-bold leading-snug text-primary-foreground flex-1"
-              style={{ fontFamily: "'Georgia','Times New Roman',serif" }}
+              style={headingStyle}
           >
             {item.title}
           </h3>
@@ -104,14 +105,13 @@ export function NewsSection({ onToggleStrip, stripPaused }: {
               <h2
                   id="news-heading"
                   className="flex flex-row md:flex-col gap-2 text-3xl md:text-5xl font-bold italic uppercase leading-[0.88] text-primary-foreground"
-                  style={{ fontFamily: "'Georgia','Times New Roman',serif" }}
+                  style={headingStyle}
               >
                 <span>Latest</span>
                 <span>News</span>
               </h2>
             </div>
 
-            {/* Mobile */}
             <div className="lg:hidden -mx-4 py-2 overflow-hidden">
               <motion.div
                   className="flex"
@@ -132,7 +132,6 @@ export function NewsSection({ onToggleStrip, stripPaused }: {
               </motion.div>
             </div>
 
-            {/* Desktop */}
             <div className="hidden lg:block py-2 overflow-hidden">
               <motion.div
                   className="flex"
