@@ -1,19 +1,12 @@
-// ─────────────────────────────────────────
-// lib/data/about.ts
-// All data for the About page
-// ─────────────────────────────────────────
-
 export const sideNavSections = [
-    { id: 'story', label: 'Our Story' },
-    { id: 'vision', label: 'Vision & Mission' },
-    { id: 'team', label: 'Our Team' },
-    { id: 'montessori', label: 'Why Montessori' },
-    { id: 'philosophy', label: 'Our Philosophy' },
-    { id: 'history', label: 'Our History' },
-    { id: 'houses', label: 'House System' },
+    { id: 'story',      label: 'Our Story'       },
+    { id: 'vision',     label: 'Vision & Mission' },
+    { id: 'montessori', label: 'Why Montessori'   },
+    { id: 'philosophy', label: 'Our Philosophy'   },
+    { id: 'history',    label: 'Our History'      },
+    { id: 'houses',     label: 'House System'     },
 ]
 
-// ── Our Story ──────────────────────────────
 export const story = {
     tag: 'Our Story',
     headline: 'Where It All Began',
@@ -26,7 +19,6 @@ export const story = {
     imageCaption: "Heaven's Dew Montessori Campus, Koforidua",
 }
 
-// ── Vision & Mission ───────────────────────
 export const visionMission = {
     tag: 'Vision & Mission',
     headline: 'Guided by\nPurpose & Principle',
@@ -49,7 +41,6 @@ export const visionMission = {
     ],
 }
 
-// ── Our Team ───────────────────────────────
 export const team = {
     tag: 'Our Team',
     headline: 'The People Behind\nHDM',
@@ -100,7 +91,6 @@ export const team = {
     ],
 }
 
-// ── Why Montessori ─────────────────────────
 export const whyMontessori = {
     tag: 'Why Montessori',
     headline: 'An Education Built\nAround the Child',
@@ -119,7 +109,6 @@ export const whyMontessori = {
     ],
 }
 
-// ── Our Philosophy ─────────────────────────
 export const philosophy = {
     tag: 'Our Philosophy',
     headline: 'We Believe in the Whole Child',
@@ -133,7 +122,6 @@ export const philosophy = {
     ],
 }
 
-// ── Our History ────────────────────────────
 export const history = {
     tag: 'Our History',
     headline: 'A Journey of Growth & Purpose',
@@ -149,7 +137,6 @@ export const history = {
     ],
 }
 
-// ── House System ───────────────────────────
 export type HouseColour = 'red' | 'yellow' | 'green' | 'blue'
 
 export interface House {

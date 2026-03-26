@@ -1,23 +1,38 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { sideNavSections } from './about'
 
 export function AboutSideNav() {
     const [activeId, setActiveId] = useState('story')
+    const tickingRef = useRef(false)
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach(e => { if (e.isIntersecting) setActiveId(e.target.id) })
-            },
-            { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
-        )
-        sideNavSections.forEach(({ id }) => {
-            const el = document.getElementById(id)
-            if (el) observer.observe(el)
-        })
-        return () => observer.disconnect()
+        const updateActive = () => {
+            const threshold = 160
+            let current = sideNavSections[0].id
+
+            for (const { id } of sideNavSections) {
+                const el = document.getElementById(id)
+                if (el && el.getBoundingClientRect().top <= threshold) {
+                    current = id
+                }
+            }
+
+            setActiveId(current)
+            tickingRef.current = false
+        }
+
+        const onScroll = () => {
+            if (!tickingRef.current) {
+                tickingRef.current = true
+                requestAnimationFrame(updateActive)
+            }
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true })
+        updateActive()
+        return () => window.removeEventListener('scroll', onScroll)
     }, [])
 
     const scrollTo = (id: string) => {
@@ -34,7 +49,6 @@ export function AboutSideNav() {
                     On this page
                 </p>
             </div>
-
             <nav className="flex flex-col" aria-label="Page sections">
                 {sideNavSections.map(({ id, label }, i) => (
                     <button
