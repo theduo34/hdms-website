@@ -1,8 +1,9 @@
 "use client"
 
 import { AlertTriangle } from "lucide-react"
-import {Button} from "@/components/ui/button";
-import {useRouter} from "next/router";
+import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
+import { headingStyle } from "@/styles/font"
 
 type Props = {
     reset: () => void
@@ -18,7 +19,7 @@ export default function Error({ reset }: Props) {
             <span
                 className="absolute select-none pointer-events-none font-black italic text-destructive"
                 style={{
-                    fontFamily: "'Georgia','Times New Roman',serif",
+                    ...headingStyle,
                     fontSize: "clamp(80px, 22vw, 260px)",
                     opacity: 0.06,
                     top: "50%", left: "50%",
@@ -52,7 +53,7 @@ export default function Error({ reset }: Props) {
 
                 <h1
                     className="text-5xl md:text-7xl font-black italic uppercase leading-[0.9] text-primary-foreground"
-                    style={{ fontFamily: "'Georgia','Times New Roman',serif" }}
+                    style={headingStyle}
                 >
                     Our{" "}
                     <span className="text-destructive">bad.</span>
