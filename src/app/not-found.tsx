@@ -2,6 +2,7 @@
 
 import { CTAButton } from "@/components/shared/cta-button"
 import { AlertTriangle } from "lucide-react"
+import { headingStyle } from "@/styles/font"
 
 export default function Error({ reset }: { error: Error; reset: () => void }) {
     return (
@@ -10,7 +11,7 @@ export default function Error({ reset }: { error: Error; reset: () => void }) {
             <span
                 className="absolute select-none pointer-events-none font-black italic text-destructive opacity-[0.04]"
                 style={{
-                    fontFamily: "'Georgia','Times New Roman',serif",
+                    ...headingStyle,
                     fontSize: "clamp(80px, 22vw, 260px)",
                     top: "50%", left: "50%",
                     transform: "translate(-50%,-50%)",
@@ -38,7 +39,7 @@ export default function Error({ reset }: { error: Error; reset: () => void }) {
 
                 <h1
                     className="text-5xl md:text-7xl font-black italic uppercase leading-[0.9] text-foreground"
-                    style={{ fontFamily: "'Georgia','Times New Roman',serif" }}
+                    style={headingStyle}
                 >
                     Our{" "}
                     <span className="text-destructive">bad.</span>
