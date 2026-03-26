@@ -7,7 +7,6 @@ import { StudentCard } from "@/features/home/cards/students-card"
 import { students } from "@/features/home"
 import { CTAButton } from "@/components/shared/cta-button"
 import { headingStyle } from "@/styles/font";
-import {Button} from "@/components/ui/button";
 
 const col1 = [students[0], students[2], students[4]]
 const col2 = [students[1], students[3]]

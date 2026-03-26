@@ -34,6 +34,9 @@ export function NavBar() {
                             <Button
                                 variant="ghost"
                                 size="icon"
+                                aria-label={open ? "Close menu" : "Open menu"}
+                                aria-expanded={open}
+                                aria-controls="nav-overlay"
                                 className="w-14 h-14 md:w-16 md:h-16 hover:w-20 hover:h-20 md:hover:w-22 md:hover:h-22 rounded-full bg-secondary hover:bg-secondary/90 transition-all duration-300 group relative overflow-hidden"
                                 onClick={() => setOpen(!open)}
                             >
@@ -79,6 +82,7 @@ export function NavBar() {
 
             {open && (
                 <div
+                    aria-hidden
                     className="fixed inset-0 z-30"
                     onClick={() => setOpen(false)}
                 />

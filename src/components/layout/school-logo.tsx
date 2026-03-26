@@ -9,8 +9,8 @@ interface SchoolLogoProps {
 
 const sizeMap = {
     sm: "w-8 h-8",
-    md: "w-14 h-14",
-    lg: "w-18 h-18",
+    md: "w-12 h-12",
+    lg: "w-16 h-16",
 };
 
 export function SchoolLogo({ size = "md", showName = false, className = "" }: SchoolLogoProps) {
@@ -39,7 +39,7 @@ export function SchoolLogo({ size = "md", showName = false, className = "" }: Sc
                             HDM
                         </span>
                         <span
-                            className="text-sm md:text-base font-black uppercase leading-[1.05] tracking-wide text-primary-foreground"
+                            className="text-xs md:text-base font-black uppercase leading-[1.05] tracking-wide text-primary-foreground"
                             style={headingStyle}
                         >
                             Heaven&apos;s Dew
@@ -49,7 +49,7 @@ export function SchoolLogo({ size = "md", showName = false, className = "" }: Sc
                         <div className="flex items-center gap-1 mt-1 md:mt-1.5">
                             {["Faith", "Diligence", "Excellence"].map((word, i) => (
                                 <span key={word} className="flex items-center gap-1">
-                                    <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-secondary">
+                                    <span className="text-[6px] font-bold uppercase tracking-[0.15em] text-secondary">
                                         {word}
                                     </span>
                                     {i < 2 && <span className="text-secondary/80 text-[8px]">•</span>}
