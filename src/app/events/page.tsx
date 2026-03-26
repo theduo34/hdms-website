@@ -4,7 +4,7 @@ export const metadata: Metadata = {
     title: "Events",
     description: "Stay up to date with upcoming events at Heaven's Dew Montessori. From open days to school celebrations, there's always something happening in our Koforidua community.",
     openGraph: {
-        title: "Events ",
+        title: "Events",
         description: "Join us for open days, graduation ceremonies, community outreach and more. See what's coming up at Heaven's Dew Montessori, Koforidua.",
         url: "https://www.hdm.edu.gh/events",
     },
