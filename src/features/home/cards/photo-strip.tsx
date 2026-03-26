@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { headingStyle } from "@/styles/font";
 
 
 const galleryPhotos = [
@@ -36,7 +37,7 @@ const loopedPhotos = [...galleryPhotos, ...galleryPhotos];
 export function PhotoStrip({ externalPaused }: { externalPaused: boolean }) {
   const stripRef = useRef<HTMLDivElement>(null);
   const posRef = useRef(0);
-  const hoverPausedRef = useRef(false); // hover pause separate
+  const hoverPausedRef = useRef(false);
   const rafRef = useRef<number>(0);
   const SPEED = 0.48;
 
@@ -66,7 +67,7 @@ export function PhotoStrip({ externalPaused }: { externalPaused: boolean }) {
 
       <div
         ref={stripRef}
-        className="flex gap-4 items-center overflow-x-hidden py-8 "
+        className="flex gap-4 items-center overflow-x-hidden py-8"
         style={{ scrollbarWidth: "none", userSelect: "none" }}
         onMouseEnter={() => {
           hoverPausedRef.current = true;
@@ -100,8 +101,8 @@ export function PhotoStrip({ externalPaused }: { externalPaused: boolean }) {
                 src={photo.src}
                 alt={photo.caption}
                 fill
-                priority
                 sizes="310px"
+                loading="lazy"
                 draggable={false}
                 className="object-cover"
               />
@@ -110,7 +111,7 @@ export function PhotoStrip({ externalPaused }: { externalPaused: boolean }) {
               >
                 <p
                   className="text-xl font-bold text-center uppercase tracking-[0.15em] text-white"
-                  style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}
+                  style={headingStyle}
                 >
                   {photo.caption.split("·")[0].trim()}
                 </p>

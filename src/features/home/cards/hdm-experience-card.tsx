@@ -1,4 +1,5 @@
-import { ExperienceInterface } from "@/features/home"; // or wherever your interface lives
+import { ExperienceInterface } from "@/features/home"
+import { headingStyle } from "@/styles/font"
 import { Landmark, Users, Home, GraduationCap, Palette, Star } from "lucide-react";
 import { motion } from "motion/react";
 import Image from "next/image";
@@ -33,7 +34,7 @@ export function HdmExperienceCard({ exp, index, isInView, isMobile }: {
             <div className="flex flex-row w-full items-start justify-between p-4 z-10">
                 <h3
                     className="flex-wrap text-2xl font-black italic uppercase leading-[0.9]"
-                    style={{ color: textColor, fontFamily: "'Georgia', 'Times New Roman', serif" }}
+                    style={{ color: textColor, ...headingStyle }}
                 >
                     {titleLines.map((line, j) => (
                         <span key={j} className="block">{line}</span>
