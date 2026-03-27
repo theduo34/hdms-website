@@ -62,7 +62,6 @@ export function GalleryHeader({ activeMain, onMainChange }: Props) {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, delay: 0.38, ease: EASE }}
                 >
-                    <div className="w-8 h-px bg-secondary/60 shrink-0 mt-[0.6rem]" aria-hidden />
                     <p className="text-[0.88rem] font-light leading-[1.85]">
                         A window into everyday life at Heaven&apos;s Dew Montessori: classrooms,
                         celebrations, campus moments, and the faces of our thriving community.

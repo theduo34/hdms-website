@@ -8,7 +8,7 @@ import { GalleryPhotos } from './gallery-photos'
 import { GalleryVideos } from './gallery-videos'
 import { GalleryEvents } from './gallery-events'
 import { GalleryLightbox, type LightboxItem } from './gallery-lightbox'
-import { useGallery } from '../../hooks/gallery/use-gallery'
+import { useGallery } from '@/hooks/gallery/use-gallery'
 import { searchGallery } from './gallery-api'
 import {
     subFilters,
