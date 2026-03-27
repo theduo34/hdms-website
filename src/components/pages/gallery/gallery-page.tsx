@@ -1,12 +1,22 @@
-import { SmoothScroll } from "@/components/layout/smooth-scroll";
+import { Suspense } from 'react'
+import { SmoothScroll } from "@/components/layout/smooth-scroll"
+import GalleryClient from "@/features/gallery/gallery-client"
+
+function GalleryFallback() {
+    return (
+        <div className="flex flex-col w-full min-h-screen">
+            <div className="bg-muted h-[520px] animate-pulse" />
+        </div>
+    )
+}
 
 export function GalleryPage() {
     return (
-        <main className="flex items-start justify-start w-full min-h-screen bg-background text-foreground font-sans">
+        <main className="flex flex-col w-full min-h-screen">
             <SmoothScroll>
-                <div className="flex w-full flex-col bg-background">
-                    {/* Gallery Sections */}
-                </div>
+                <Suspense fallback={<GalleryFallback />}>
+                    <GalleryClient />
+                </Suspense>
             </SmoothScroll>
         </main>
     )
