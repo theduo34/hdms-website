@@ -30,7 +30,7 @@ export function NavBar() {
 
                         <div className="w-12 md:w-20"/>
 
-                        <div className="fixed top-4 right-4 md:right-16">
+                        <div className="fixed top-4 right-4 md:right-16 z-[51]">
                             <Button
                                 variant="ghost"
                                 size="icon"
