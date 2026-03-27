@@ -4,7 +4,7 @@ import { headingStyle } from "@/styles/font"
 export function ProgrammesHeroSection() {
   return (
     <section
-      className="relative overflow-hidden py-20 md:py-28 lg:py-36 px-4 md:px-8"
+      className="relative overflow-hidden py-28 md:py-28 lg:py-36 px-4 md:px-8"
       style={{ background: "var(--hdm-green-dark)" }}
     >
       {/* Watermark */}
@@ -29,7 +29,7 @@ export function ProgrammesHeroSection() {
         <AnimateInView yOffset={20}>
           <div className="flex items-center gap-3 mb-6">
             <span
-              className="w-8 h-[2px] rounded-full"
+              className="w-8 h-0.5 rounded-full"
               style={{ background: "var(--hdm-yellow)" }}
             />
             <span
