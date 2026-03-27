@@ -1,21 +1,24 @@
-import {NewsDetailPage} from "@/components/pages/news/news-detail-page";
-import type {Metadata} from "next";
+import { NewsDetailPage } from "@/components/pages/news/news-detail-page";
+import type { Metadata } from "next";
+import { featuredPost, posts } from "@/features/news/news";
 
-export const metadata: Metadata = {
-  title: "News",
-  description: "News Article Details"
+const allPosts = [featuredPost, ...posts]
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const post = allPosts.find((p) => p.slug === slug)
+  return {
+    title: post?.headline ?? "News Article",
+    description: post?.excerpt ?? "Read the latest news from Heaven's Dew Montessori.",
+    openGraph: {
+      title: post?.headline,
+      description: post?.excerpt,
+      images: post?.image ? [{ url: post.image }] : [],
+    },
+  }
 }
 
-// export async function generateStaticParams() {
-//   const news = await getNews();
-//   return news.map((item: { slug: string }) => ({
-//     slug: item.slug,
-//   }));
-// }
-
-export default function NewsDetails({ params }: { params: { slug: string } }) {
-
-  // const article = await getNewsBySlug(params.slug);
-
-  return <NewsDetailPage article={params.slug} />;
+export default async function NewsArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  return <NewsDetailPage article={slug} />
 }
