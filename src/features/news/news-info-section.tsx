@@ -41,10 +41,10 @@ export function NewsInfoSection({ termDates, announcements, loading }: Props) {
     }
 
     return (
-        <section className="w-full py-24 px-16 max-lg:px-8 bg-muted" aria-label="School calendar and announcements">
+        <section className="w-full section-half px-16 max-lg:px-8 bg-muted" aria-label="School calendar and announcements">
             <div className="max-w-[var(--max-width,1400px)] mx-auto">
 
-                <AnimateInView yOffset={20} duration={0.7} className="mb-12">
+                <AnimateInView yOffset={20} duration={0.7} className="mb-10">
                     <div className="section-tag">
                         <span className="block w-4 h-px bg-secondary shrink-0" aria-hidden />
                         <span className="text-[10px] tracking-[0.3em] font-bold uppercase">School Life</span>
