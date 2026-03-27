@@ -31,18 +31,16 @@ export function NewsHeader() {
                 </span>
             </motion.div>
 
-            {/* Heading - slides up with mask reveal */}
             <div className="mt-4 overflow-hidden">
                 <motion.h1
-                    className="text-[clamp(2.6rem,5.5vw,4.8rem)] font-light text-foreground leading-[1.05] max-w-[720px]"
-                    style={headingStyle}
-                    initial={{ y: 80, opacity: 0 }}
+                    className="font-black leading-[0.93] max-w-[720px] text-foreground"
+                    style={{ ...headingStyle, fontSize: 'clamp(2.5rem, 5.5vw, 5rem)' }}
+                    initial={{ y: 90, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
                 >
-                    News &amp;
-                    <br />
-                    <em className="italic text-secondary">Announcements</em>
+                    <span className="italic block">News &amp;</span>
+                    <span className="text-secondary" style={headingStyle}>Announcements.</span>
                 </motion.h1>
             </div>
 

@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { useNewsData } from './use-news'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { NewsHeader } from './news-header'
@@ -11,17 +12,40 @@ import { NewsInfoSection } from './news-info-section'
 import { NewsSheet } from './news-sheet'
 import type { Post, PostCategory } from './news'
 
+const VALID_FILTERS = new Set<PostCategory | 'all'>(['all', 'news', 'announcement', 'event', 'press'])
+
+function resolveFilter(raw: string | null): PostCategory | 'all' {
+    return VALID_FILTERS.has(raw as PostCategory | 'all') ? (raw as PostCategory | 'all') : 'all'
+}
+
 export default function NewsClient() {
+    const searchParams = useSearchParams()
+    const router = useRouter()
+    const pathname = usePathname()
+
     const { loading, data } = useNewsData()
     const isMobile = useIsMobile()
-    const [activeFilter, setActiveFilter] = useState<PostCategory | 'all'>('all')
+
+    const [activeFilter, setActiveFilter] = useState<PostCategory | 'all'>(
+        () => resolveFilter(searchParams.get('filter'))
+    )
     const [activePost, setActivePost] = useState<Post | null>(null)
+
+    const handleFilterChange = useCallback((filter: PostCategory | 'all') => {
+        setActiveFilter(filter)
+        const params = new URLSearchParams()
+        if (filter !== 'all') params.set('filter', filter)
+        router.push(
+            params.size > 0 ? `${pathname}?${params.toString()}` : pathname,
+            { scroll: false }
+        )
+    }, [router, pathname])
 
     const filtered = !data
         ? []
         : activeFilter === 'all'
             ? data.posts
-            : data.posts.filter((p) => p.category === activeFilter)
+            : data.posts.filter(p => p.category === activeFilter)
 
     return (
         <>
@@ -30,10 +54,9 @@ export default function NewsClient() {
             <NewsFilterBar
                 active={activeFilter}
                 filters={data?.postFilters ?? []}
-                onChange={setActiveFilter}
+                onChange={handleFilterChange}
             />
 
-            {/* News content */}
             <div className="max-w-[var(--max-width,1400px)] mx-auto section-container section-half">
                 <NewsFeatured
                     post={data?.featuredPost}
@@ -49,7 +72,6 @@ export default function NewsClient() {
                 />
             </div>
 
-            {/* School info: calendar + announcements */}
             <NewsInfoSection
                 termDates={data?.termDates ?? []}
                 announcements={data?.announcements ?? []}
