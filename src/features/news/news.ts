@@ -238,3 +238,5 @@ export const termDates: TermRow[] = [
     { name: 'Summer Programme',start: '13 Jul 2026', end: '9 Aug 2026',             duration: '4 weeks' },
     { name: 'Term 3',          start: '3 Aug 2026',  end: '25 Oct 2026',            duration: '12 weeks' },
 ]
+
+export const allPosts = [featuredPost, ...posts]
