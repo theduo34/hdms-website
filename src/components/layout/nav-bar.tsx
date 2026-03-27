@@ -22,61 +22,59 @@ export function NavBar() {
                     <SchoolLogo showName size={isMobile ? "md": "lg"}/>
 
                     <div className="flex flex-row items-center gap-8">
-
                         <CTAButton
                             className={"hidden md:block border-3 h-13  bg-transparent rounded-full px-6 md:px-8 border-primary-foreground hover:bg-primary-foreground hover:text-primary uppercase font-bold"}>
                             VISIT PORTAL
                         </CTAButton>
 
-                        <div className="w-12 md:w-20"/>
-
-                        <div className="fixed top-4 right-4 md:right-16 z-[51]">
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                aria-label={open ? "Close menu" : "Open menu"}
-                                aria-expanded={open}
-                                aria-controls="nav-overlay"
-                                className={`w-14 h-14 md:w-16 md:h-16 hover:w-20 hover:h-20 md:hover:w-22 md:hover:h-22 rounded-full transition-all duration-300 group relative overflow-hidden ${open ? "bg-primary hover:bg-primary/90" : "bg-secondary hover:bg-secondary/90"}`}
-                                onClick={() => setOpen(!open)}
-                            >
-                                {open ? (
-                                    <>
-                                        <X
-                                            size={30}
-                                            strokeWidth={2}
-                                            className="absolute transition-all duration-300 opacity-100 group-hover:opacity-0 group-hover:scale-75"
-                                        />
-                                        <div
-                                            className="absolute flex flex-col items-center justify-center leading-none opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300">
-                                            <span
-                                                className="text-[9px] group-hover:text-[12px] font-bold uppercase tracking-[0.15em] transition-all duration-300">Close</span>
-                                            <span
-                                                className="text-[9px] group-hover:text-[12px] font-bold uppercase tracking-[0.15em] transition-all duration-300">Menu</span>
-                                        </div>
-                                    </>
-                                ) : (
-                                    <>
-                                        <AlignJustifyIcon
-                                            size={30}
-                                            strokeWidth={2}
-                                            className="absolute transition-all duration-300 opacity-100 group-hover:opacity-0 group-hover:scale-75"
-                                        />
-                                        <div
-                                            className="absolute flex flex-col items-center justify-center leading-none opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300">
-                                            <span
-                                                className="text-[9px] group-hover:text-[12px] font-bold uppercase tracking-[0.15em] transition-all duration-300">Open</span>
-                                            <span
-                                                className="text-[9px] group-hover:text-[12px] font-bold uppercase tracking-[0.15em] transition-all duration-300">Menu</span>
-                                        </div>
-                                    </>
-                                )}
-                            </Button>
-                        </div>
+                        <div className="w-14 md:w-16"/>
                     </div>
-
                 </nav>
             </header>
+
+            <div className="fixed top-4 right-4 md:right-16 z-[51]">
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label={open ? "Close menu" : "Open menu"}
+                    aria-expanded={open}
+                    aria-controls="nav-overlay"
+                    className={`w-14 h-14 md:w-16 md:h-16 hover:w-20 hover:h-20 md:hover:w-22 md:hover:h-22 rounded-full transition-all duration-300 group relative overflow-hidden ${open ? "bg-primary hover:bg-primary/90 text-primary-foreground" : "bg-secondary hover:bg-secondary/90 text-secondary-foreground"}`}
+                    onClick={() => setOpen(!open)}
+                >
+                    {open ? (
+                        <>
+                            <X
+                                size={30}
+                                strokeWidth={2}
+                                className="absolute transition-all duration-300 opacity-100 group-hover:opacity-0 group-hover:scale-75"
+                            />
+                            <div
+                                className="absolute flex flex-col items-center justify-center leading-none opacity-0 text-primary-foreground scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300">
+                                <span
+                                    className="text-[9px] group-hover:text-[12px] font-bold uppercase tracking-[0.15em] transition-all duration-300">Close</span>
+                                <span
+                                    className="text-[9px] group-hover:text-[12px] font-bold uppercase tracking-[0.15em] transition-all duration-300">Menu</span>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <AlignJustifyIcon
+                                size={30}
+                                strokeWidth={2}
+                                className="absolute transition-all duration-300 opacity-100 group-hover:opacity-0 group-hover:scale-75"
+                            />
+                            <div
+                                className="absolute flex flex-col items-center justify-center leading-none opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300">
+                                <span
+                                    className="text-[9px] group-hover:text-[12px] font-bold uppercase tracking-[0.15em] transition-all duration-300">Open</span>
+                                <span
+                                    className="text-[9px] group-hover:text-[12px] font-bold uppercase tracking-[0.15em] transition-all duration-300">Menu</span>
+                            </div>
+                        </>
+                    )}
+                </Button>
+            </div>
 
             <NavOverlay open={open} onClose={() => setOpen(false)} />
 
