@@ -59,7 +59,7 @@ export function Footer() {
             </div>
 
             <motion.div
-                className="bg-primary w-full relative z-10 flex flex-col justify-between pt-24 pb-12 px-6 md:px-16 2xl:px-24"
+                className="bg-primary w-full relative z-10 flex flex-col justify-between pt-24 pb-12 px-4 md:px-16 2xl:px-24"
                 initial={{ borderBottomLeftRadius: "0px", borderBottomRightRadius: "0px" }}
                 animate={{
                     borderBottomLeftRadius: hovered ? "2.5rem" : "0px",

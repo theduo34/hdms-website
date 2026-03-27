@@ -29,7 +29,7 @@ export function NewsInfoSection({ termDates, announcements, loading }: Props) {
             <section className="w-full py-24 px-16 max-lg:px-8 bg-muted">
                 <div className="max-w-[var(--max-width,1400px)] mx-auto grid grid-cols-2 max-lg:grid-cols-1 gap-6">
                     {[0, 1].map((i) => (
-                        <div key={i} className="bg-card rounded-2xl p-10 border border-border space-y-4">
+                        <div key={i} className="bg-card rounded-2xl p-10 border space-y-4">
                             {Array.from({ length: 5 }).map((_, j) => (
                                 <div key={j} className="h-10 bg-muted rounded-xl animate-pulse" />
                             ))}
@@ -41,7 +41,7 @@ export function NewsInfoSection({ termDates, announcements, loading }: Props) {
     }
 
     return (
-        <section className="w-full section-half px-16 max-lg:px-8 bg-muted" aria-label="School calendar and announcements">
+        <section className="w-full section-half px-16 max-lg:px-4 bg-muted" aria-label="School calendar and announcements">
             <div className="max-w-[var(--max-width,1400px)] mx-auto">
 
                 <AnimateInView yOffset={20} duration={0.7} className="mb-10">
@@ -68,7 +68,7 @@ export function NewsInfoSection({ termDates, announcements, loading }: Props) {
                                     <h3 className="text-[1.15rem] font-semibold text-foreground leading-tight" style={headingStyle}>Term Dates</h3>
                                 </div>
                             </div>
-                            <p className="text-[0.82rem] font-light text-muted-foreground leading-[1.6] mb-7">
+                            <p className="text-[0.82rem] font-light leading-[1.6] mb-7">
                                 Public holidays within term time are observed as school holidays.
                             </p>
                             <table className="w-full border-collapse">
@@ -84,7 +84,7 @@ export function NewsInfoSection({ termDates, announcements, loading }: Props) {
                                 <tbody>
                                     {termDates.map((row) => (
                                         <tr key={row.name} className={row.isCurrent ? 'bg-secondary/8' : 'hover:bg-muted/60 transition-colors'}>
-                                            <td className={`px-3 py-3 text-[0.84rem] border-b border-border/60 [tr:last-child_&]:border-b-0 ${row.isCurrent ? 'font-semibold text-foreground' : 'font-light text-foreground/75'}`}>
+                                            <td className={`px-3 py-3 text-[0.84rem] border-b border-border/60 [tr:last-child_&]:border-b-0 ${row.isCurrent ? 'font-semibold' : 'font-light'}`}>
                                                 {row.name}
                                                 {row.isCurrent && (
                                                     <span className="inline-block text-[0.55rem] font-bold tracking-[0.14em] uppercase bg-secondary text-secondary-foreground px-2 py-[0.18rem] ml-2 align-middle rounded-sm">
@@ -124,7 +124,7 @@ export function NewsInfoSection({ termDates, announcements, loading }: Props) {
                                     </h3>
                                 </div>
                             </div>
-                            <p className="text-[0.82rem] font-light text-muted-foreground leading-[1.6] mb-7">
+                            <p className="text-[0.82rem] font-light  leading-[1.6] mb-7">
                                 Important notices for all current HDM families.
                             </p>
                             <div className="flex flex-col divide-y divide-border">
@@ -136,14 +136,13 @@ export function NewsInfoSection({ termDates, announcements, loading }: Props) {
                                             </span>
                                             <UrgencyBadge urgency={a.urgency} label={a.urgencyLabel} />
                                         </div>
-                                        <p className="text-[0.78rem] font-light leading-[1.65] text-foreground/55">{a.desc}</p>
-                                        <span className="text-[0.62rem] tracking-[0.1em] text-muted-foreground/60">{a.posted}</span>
+                                        <p className="text-xs font-light leading-[1.65]">{a.desc}</p>
+                                        <span className="text-[0.62rem] tracking-[0.1em]">{a.posted}</span>
                                     </div>
                                 ))}
                             </div>
                         </div>
                     </AnimateInView>
-
                 </div>
             </div>
         </section>
