@@ -35,7 +35,7 @@ export function ArticleDetail({ post }: { post: Post }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
             </motion.div>
 
-            <div className="max-w-[760px] mx-auto w-full px-6 section-half">
+            <div className="max-w-[760px] mx-auto w-full px-4 section-half">
 
                 <AnimateInView yOffset={12} duration={0.6}>
                     <nav className="flex items-center gap-2 mb-10 text-[0.68rem] tracking-[0.12em] uppercase text-muted-foreground" aria-label="Breadcrumb">
@@ -60,7 +60,7 @@ export function ArticleDetail({ post }: { post: Post }) {
 
                 <AnimateInView yOffset={20} duration={0.8} delay={0.1}>
                     <h1
-                        className="text-[clamp(2rem,5vw,3.2rem)] font-semibold text-foreground leading-[1.1] mb-10"
+                        className="text-[clamp(2rem,5vw,3.2rem)] font-semibold leading-[1.1] mb-10"
                         style={headingStyle}
                     >
                         {post.headline}
@@ -83,7 +83,7 @@ export function ArticleDetail({ post }: { post: Post }) {
                                     {block.text}
                                 </blockquote>
                             ) : (
-                                <p key={i} className="text-[0.95rem] font-light leading-[1.9] text-foreground/75">
+                                <p key={i} className="text-[0.95rem] font-light leading-[1.9]">
                                     {block.text}
                                 </p>
                             )
@@ -104,7 +104,7 @@ export function ArticleDetail({ post }: { post: Post }) {
             </div>
 
             {related.length > 0 && (
-                <section className="bg-muted section-half px-16 max-lg:px-8" aria-labelledby="related-heading">
+                <section className="bg-muted section-half section-container" aria-labelledby="related-heading">
                     <div className="max-w-[var(--max-width,1400px)] mx-auto">
                         <AnimateInView yOffset={16}>
                             <div className="section-tag">

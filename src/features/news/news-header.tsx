@@ -8,17 +8,17 @@ const EASE = [0.16, 1, 0.3, 1] as const
 
 export function NewsHeader() {
     return (
-        <header className="relative overflow-hidden bg-muted px-16 pt-36 pb-24 px-4 max-lg:px-8">
+        <header className="relative overflow-hidden bg-muted page-header">
             {/* Background watermark */}
             <span
                 className="absolute -right-8 -bottom-6 text-[20rem] font-black leading-none text-foreground/[0.025] pointer-events-none select-none"
                 style={headingStyle}
                 aria-hidden
             >
-                HMDs
+                HDMs
             </span>
 
-            {/* Label — slides in from left */}
+            {/* Label - slides in from left */}
             <motion.div
                 className="section-tag"
                 initial={{ opacity: 0, x: -24 }}
@@ -31,8 +31,8 @@ export function NewsHeader() {
                 </span>
             </motion.div>
 
-            {/* Heading — slides up with mask reveal */}
-            <div className="mt-5 overflow-hidden">
+            {/* Heading - slides up with mask reveal */}
+            <div className="mt-4 overflow-hidden">
                 <motion.h1
                     className="text-[clamp(2.6rem,5.5vw,4.8rem)] font-light text-foreground leading-[1.05] max-w-[720px]"
                     style={headingStyle}
@@ -46,14 +46,14 @@ export function NewsHeader() {
                 </motion.h1>
             </div>
 
-            {/* Subtitle — fades up */}
+            {/* Subtitle - fades up */}
             <motion.p
-                className="mt-6 text-[0.95rem] font-light text-foreground/55 max-w-[500px] leading-[1.8]"
+                className="mt-4 text-[0.95rem] max-w-[500px] leading-[1.8]"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.35, ease: EASE }}
             >
-                The latest from Heaven&apos;s Dew Montessori — school news, event updates,
+                The latest from Heaven&apos;s Dew Montessori - school news, event updates,
                 important notices, and everything in between.
             </motion.p>
 

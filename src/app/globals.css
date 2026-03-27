@@ -185,6 +185,10 @@
     @apply w-full px-4 md:px-8 py-12 sm:py-18;
   }
 
+  .section-container {
+    @apply w-full px-4 md:px-16 py-12 sm:py-18;
+  }
+
   .section-half {
     @apply py-10 md:py-14;
   }
@@ -197,7 +201,10 @@
     @apply text-4xl md:text-5xl font-black italic text-white;
   }
 
-  /* ── About-page shared utilities ──────────── */
+  .page-header {
+    @apply px-4 md:px-16 pt-36 pb-8 md:pb-16
+  }
+
 
   .about-heading {
     font-family: 'Georgia', 'Times New Roman', serif;

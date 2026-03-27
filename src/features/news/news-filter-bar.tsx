@@ -31,7 +31,7 @@ export function NewsFilterBar({ active, filters, onChange }: Props) {
             <div ref={sentinelRef} className="h-px" aria-hidden />
             <div
                 className={cn(
-                    'sticky top-[var(--nav-height,0.01rem)] z-[40] transition-all duration-300',
+                    'sticky top-[var(--nav-height,0.01rem)] z-[30] transition-all duration-300',
                     stuck
                         ? 'bg-primary backdrop-blur-md border-b border-border shadow-sm py-3'
                         : 'bg-background border-b border-transparent py-5'

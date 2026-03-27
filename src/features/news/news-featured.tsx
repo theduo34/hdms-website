@@ -51,24 +51,24 @@ function FeaturedInner({ post }: { post: Post }) {
                     className="transition-transform duration-700 ease-out group-hover:scale-[1.05]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                <span className="absolute top-5 left-5 bg-secondary text-secondary-foreground text-[0.6rem] font-bold tracking-[0.2em] uppercase px-3 py-1.5">
+                <span className="absolute top-5 left-5 bg-secondary text-secondary-foreground text-[0.6rem] font-bold tracking-[0.2em] uppercase px-2 py-1.5">
                     Featured
                 </span>
                 <span className={`absolute bottom-5 left-5 text-[0.58rem] font-bold tracking-[0.18em] uppercase px-3 py-1 ${categoryBadgeClass(post.category)}`}>
                     {post.categoryLabel}
                 </span>
             </div>
-            <div className="p-12 max-md:p-8 flex flex-col justify-center bg-card">
-                <span className="text-[0.65rem] font-light text-muted-foreground mb-7 block">
+            <div className="p-8 max-md:p-4 flex flex-col justify-center bg-card">
+                <span className="text-[0.65rem] font-light text-muted-foreground mb-6 block">
                     {post.date}
                 </span>
                 <h2
-                    className="text-[clamp(1.5rem,2.4vw,2.4rem)] font-semibold text-foreground leading-[1.15] mb-5"
+                    className="text-[clamp(1.5rem,2.4vw,2.4rem)] font-semibold text-foreground leading-[1.15] mb-4"
                     style={headingStyle}
                 >
                     {post.headline}
                 </h2>
-                <p className="text-[0.88rem] font-light leading-[1.8] text-foreground/60 mb-10">
+                <p className="text-[0.88rem] font-light leading-[1.8] mb-10">
                     {post.excerpt}
                 </p>
                 <span className="inline-flex items-center gap-2 text-[0.7rem] font-bold tracking-[0.14em] uppercase text-secondary transition-all duration-300 group-hover:gap-3">
@@ -90,7 +90,7 @@ interface Props {
 export function NewsFeatured({ post, isMobile, onOpen, loading }: Props) {
     if (loading || !post) return <Skeleton />
 
-    const cls = "block w-full text-left font-[inherit] border border-border rounded-2xl overflow-hidden cursor-pointer group transition-shadow duration-300 hover:shadow-lg"
+    const cls = "block w-full text-left font-[inherit] rounded-2xl overflow-hidden cursor-pointer group transition-shadow duration-300 hover:shadow-lg"
 
     return (
         <motion.div

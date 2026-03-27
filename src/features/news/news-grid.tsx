@@ -62,15 +62,15 @@ function PostCard({
                     {post.categoryLabel}
                 </span>
             </div>
-            <div className="p-6 flex flex-col flex-1">
-                <span className="text-[0.68rem] font-light text-muted-foreground mb-3 block">{post.date}</span>
+            <div className="p-4 md:p-6 flex flex-col flex-1">
+                <span className="text-[0.68rem] font-light mb-3 block">{post.date}</span>
                 <h3
-                    className="text-[1.1rem] font-semibold text-foreground leading-[1.3] mb-3 flex-1"
+                    className="text-[1.1rem] font-semibold text-foreground leading-[1.3] flex-1"
                     style={headingStyle}
                 >
                     {post.headline}
                 </h3>
-                <p className="text-[0.8rem] font-light leading-[1.7] text-foreground/55 line-clamp-3 mb-5">
+                <p className="text-[0.8rem] font-light leading-[1.7]  line-clamp-3 mb-4">
                     {post.excerpt}
                 </p>
                 <div className="flex items-center justify-between pt-4 border-t border-border">
@@ -86,7 +86,7 @@ function PostCard({
         </>
     )
 
-    const cls = "flex flex-col h-full bg-card border border-border rounded-2xl overflow-hidden cursor-pointer font-[inherit] text-left p-0 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group"
+    const cls = "flex flex-col h-full bg-card rounded-2xl overflow-hidden cursor-pointer font-[inherit] text-left p-0 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group"
 
     return (
         <motion.div
@@ -117,7 +117,7 @@ interface Props {
 
 export function NewsGrid({ posts, isMobile, onOpen, loading }: Props) {
     return (
-        <div className="grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-5 mt-10">
+        <div className="grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-4 mt-10">
             {loading
                 ? Array.from({ length: 6 }).map((_, i) => <CardSkeleton key={i} />)
                 : (

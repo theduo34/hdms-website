@@ -34,7 +34,7 @@ export default function NewsClient() {
             />
 
             {/* News content */}
-            <div className="max-w-[var(--max-width,1400px)] mx-auto px-16 max-lg:px-8 section-half">
+            <div className="max-w-[var(--max-width,1400px)] mx-auto section-container section-half">
                 <NewsFeatured
                     post={data?.featuredPost}
                     isMobile={isMobile}

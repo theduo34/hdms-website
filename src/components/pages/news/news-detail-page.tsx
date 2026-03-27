@@ -15,7 +15,7 @@ export function NewsDetailPage({ article }: { article: string }) {
 
     if (!post) {
         return (
-            <main className="flex flex-col items-center justify-center min-h-screen bg-background px-6 text-center">
+            <main className="flex flex-col items-center justify-center min-h-screen bg-background px-4 text-center">
                 <span className="text-[0.68rem] tracking-[0.25em] uppercase text-secondary mb-4">404</span>
                 <h1 className="text-[2rem] font-semibold text-foreground mb-6" style={headingStyle}>
                     Article not found
