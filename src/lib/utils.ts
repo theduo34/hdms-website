@@ -20,3 +20,10 @@ export function formatNewsDate(isoDate: string): string {
     year: "numeric",
   });
 }
+
+export function getAcademicYear() {
+  const now = new Date()
+  const year = now.getFullYear()
+  const startYear = now.getMonth() >= 8 ? year : year - 1
+  return { label: `Academic Year ${year} / ${year + 1}`, endYear: startYear + 1 }
+}

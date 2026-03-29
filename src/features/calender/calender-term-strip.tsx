@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@/lib/utils'
+import {cn, getAcademicYear} from '@/lib/utils'
 import { AnimateInView } from '@/components/shared/animate-in-view'
 import { headingStyle } from '@/styles/font'
 import type { AcademicTerm } from './calender'
@@ -20,15 +20,9 @@ interface Props {
     loading?: boolean
 }
 
-function getAcademicYearLabel(): string {
-    const now = new Date()
-    const year = now.getFullYear()
-    const startYear = now.getMonth() >= 8 ? year : year + 1
-    return `Academic Year ${year} / ${year + 1}`
-}
-
 export function CalenderTermStrip({ terms, loading }: Props) {
-    const academicYearLabel = getAcademicYearLabel()
+    const { label } = getAcademicYear()
+
     if (loading) {
         return (
             <section className="bg-secondary">
@@ -51,7 +45,7 @@ export function CalenderTermStrip({ terms, loading }: Props) {
                 <AnimateInView yOffset={24} once>
                     <div className="flex items-center gap-3 mb-6">
                         <span className="text-[10px] tracking-[0.3em] font-bold uppercase text-secondary-foreground/60">
-                            {academicYearLabel}
+                            {label}
                         </span>
                     </div>
 

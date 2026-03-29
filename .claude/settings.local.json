@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(bun run:*)",
-      "Bash(find C:UsersWorkHDMshdms-websitesrc -name use-news*)"
+      "Bash(find C:UsersWorkHDMshdms-websitesrc -name use-news*)",
+      "WebFetch(domain:www.walnuthillarts.org)",
+      "Bash(npx eslint:*)",
+      "Bash(node -e \":*)"
     ]
   }
 }

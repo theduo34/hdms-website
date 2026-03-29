@@ -3,18 +3,12 @@
 import { motion } from 'motion/react'
 import { CalendarDays } from 'lucide-react'
 import { headingStyle } from '@/styles/font'
+import {getAcademicYear} from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
-function getAcademicYear() {
-    const now = new Date()
-    const year = now.getFullYear()
-    const startYear = now.getMonth() >= 8 ? year : year - 1
-    return { label: `Academic Year ${startYear} / ${startYear + 1}`, endYear: startYear + 1 }
-}
-
 export function CalenderHeader() {
-    const { label, endYear } = getAcademicYear()
+     const { label, endYear } = getAcademicYear()
 
     return (
         <header className="relative overflow-hidden bg-muted page-header">
