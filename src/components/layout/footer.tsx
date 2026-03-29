@@ -17,13 +17,14 @@ const socials = [
 const exploreLinks = [
     { label: "About Us",        href: "/about-us"    },
     { label: "Our Programmes",  href: "/programmes"  },
-    { label: "School Calendar", href: "/calendar"    },
+    { label: "School Calendar", href: "/calender"    },
+    { label: "News & Updates",  href: "/news-&-announcements" },
 ]
 
 const connectLinks = [
-    { label: "Admissions",    href: "/admissions" },
-    { label: "Parent Portal", href: "/parents"    },
-    { label: "Careers",       href: "/careers"    },
+    { label: "Admissions",    href: "/admissions"        },
+    { label: "Apply Now",     href: "/admissions/apply"  },
+    { label: "Contact Us",    href: "/contact"           },
 ]
 
 const EASE = [0.16, 1, 0.3, 1] as const

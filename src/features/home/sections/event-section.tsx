@@ -1,25 +1,42 @@
 "use client"
 
+import { useMemo, useRef, useState } from "react"
 import { motion } from "motion/react"
-import { useRef, useState } from "react"
 import { AnimateInView } from "@/components/shared/animate-in-view"
 import { SectionLabel } from "@/components/shared/section-label"
 import { CarouselButton } from "@/components/shared/carousel-button"
 import { CTAButton } from "@/components/shared/cta-button"
 import { headingStyle } from "@/styles/font"
-import { HDMLetters } from "@/components/shared/hdm-letters";
-import { events } from "@/features/home";
-import { EventCard } from "@/features/home/cards/event-card";
+import { HDMLetters } from "@/components/shared/hdm-letters"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { Clock, MapPin } from "lucide-react"
+import Link from "next/link"
+import { calendarEvents, getCategoryStyle } from "@/features/calender/calender"
+import { cn } from "@/lib/utils"
 
 export const CARD_W = 280
 const CARD_G = 16
 const EASE = [0.16, 1, 0.3, 1] as const
 
-export function EventsSection() {
+const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
+/** Pick the next N upcoming highlighted events, falling back to any upcoming events */
+function getUpcomingEvents(count = 6) {
+    const todayStr = new Date().toISOString().slice(0, 10)
+    const upcoming = calendarEvents
+        .filter((e) => e.date >= todayStr)
+        .sort((a, b) => a.date.localeCompare(b.date))
+    // Prefer highlights first, then fill with any upcoming
+    const highlights = upcoming.filter((e) => e.isHighlight)
+    const rest = upcoming.filter((e) => !e.isHighlight)
+    return [...highlights, ...rest].slice(0, count)
+}
+
+export function EventsSection() {
     const sectionRef = useRef<HTMLDivElement>(null)
     const isMobile = useIsMobile()
+
+    const events = useMemo(() => getUpcomingEvents(6), [])
 
     const [idx, setIdx] = useState(0)
     const [busy, setBusy] = useState(false)
@@ -27,7 +44,6 @@ export function EventsSection() {
     const scroll = (dir: "left" | "right") => {
         if (busy) return
         setBusy(true)
-
         setIdx(prev =>
             dir === "right"
                 ? (prev + 1) % events.length
@@ -35,9 +51,7 @@ export function EventsSection() {
         )
     }
 
-    const onDone = () => {
-        setBusy(false)
-    }
+    const onDone = () => setBusy(false)
 
     const x = isMobile
         ? `calc(50% - ${CARD_W / 2}px - ${idx} * (${CARD_W}px + ${CARD_G}px))`
@@ -72,12 +86,8 @@ export function EventsSection() {
                         className="section-header text-center md:text-start font-black italic uppercase leading-[0.9] text-primary"
                         style={headingStyle}
                     >
-                        <span className="block md:hidden">
-                            SEE WHAT GOES ON
-                        </span>
-                        <span className="hidden md:block">
-                            SEE WHAT<br />GOES ON
-                        </span>
+                        <span className="block md:hidden">SEE WHAT GOES ON</span>
+                        <span className="hidden md:block">SEE WHAT<br />GOES ON</span>
                     </h2>
 
                     <p className="mx text-center md:text-start text-sm leading-relaxed text-foreground/60 max-w-xs">
@@ -85,7 +95,7 @@ export function EventsSection() {
                     </p>
 
                     <CTAButton
-                        href="/events"
+                        href="/calender"
                         className="hidden md:flex items-center justify-center w-fit py-6 bg-transparent border text-primary border-primary hover:bg-primary hover:text-primary-foreground"
                     >
                         View Full Calendar
@@ -99,7 +109,6 @@ export function EventsSection() {
                     delay={0.1}
                     className="flex-1 min-w-0"
                 >
-
                     <div
                         className="overflow-visible md:overflow-hidden"
                         style={{
@@ -107,7 +116,6 @@ export function EventsSection() {
                             WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 48px, black 100%)",
                         }}
                     >
-
                         <motion.div
                             className="flex"
                             style={{ gap: `${CARD_G}px` }}
@@ -115,15 +123,72 @@ export function EventsSection() {
                             transition={{ duration: 0.55, ease: EASE }}
                             onAnimationComplete={onDone}
                         >
+                            {events.map((event) => {
+                                const d = new Date(`${event.date}T00:00:00`)
+                                const style = getCategoryStyle(event.category)
+                                return (
+                                    <article
+                                        key={event.id}
+                                        className="shrink-0 flex flex-col border gap-4 rounded-2xl bg-background"
+                                        style={{ width: `${CARD_W}px`, boxShadow: "0 2px 20px rgba(0,0,0,0.07)" }}
+                                    >
+                                        {/* Date + title header */}
+                                        <div className="flex items-center justify-start gap-2">
+                                            <div className="flex flex-col items-center justify-center shrink-0 w-14 h-14 rounded-tl-2xl rounded-br-2xl bg-secondary text-secondary-foreground">
+                                                <span className="text-[10px] font-bold uppercase tracking-wider leading-none">
+                                                    {MONTH_SHORT[d.getMonth()]}
+                                                </span>
+                                                <span className="text-2xl font-black leading-none mt-0.5">
+                                                    {d.getDate()}
+                                                </span>
+                                            </div>
+                                            <h3
+                                                className="text-sm flex flex-wrap font-bold leading-snug text-foreground"
+                                                style={headingStyle}
+                                            >
+                                                {event.title}
+                                            </h3>
+                                        </div>
 
-                            {events.map((event) => (
-                                <EventCard key={event.id} event={event} />
-                            ))}
+                                        {/* Body */}
+                                        <div className="px-4 pb-4 flex flex-col gap-3 min-w-0">
+                                            {/* Category badge */}
+                                            <span className={cn(
+                                                'inline-flex items-center gap-1.5 text-[0.56rem] font-bold tracking-[0.14em] uppercase px-2.5 py-1 rounded-full w-fit',
+                                                style.badge
+                                            )}>
+                                                <span className={cn('w-1.5 h-1.5 rounded-full shrink-0', style.dot)} aria-hidden />
+                                                {event.categoryLabel}
+                                            </span>
 
+                                            <div className="flex flex-col gap-1">
+                                                {(event.time || event.isAllDay) && (
+                                                    <div className="flex items-center gap-1.5 text-[11px] text-foreground/50">
+                                                        <Clock className="w-3 h-3 shrink-0" aria-hidden />
+                                                        <span>{event.isAllDay ? 'All Day' : `${event.time}${event.endTime ? ` – ${event.endTime}` : ''}`}</span>
+                                                    </div>
+                                                )}
+                                                {event.location && (
+                                                    <div className="flex items-center gap-1.5 text-[11px] text-foreground/50">
+                                                        <MapPin className="w-3 h-3 shrink-0" aria-hidden />
+                                                        <span className="truncate">{event.location}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            {/* Read More → opens the calendar event sheet */}
+                                            <Link
+                                                href={`/calender?event=${event.id}`}
+                                                className="self-start text-xs font-bold uppercase tracking-widest text-primary underline underline-offset-4 hover:opacity-60 transition-opacity duration-200"
+                                            >
+                                                Read More
+                                            </Link>
+                                        </div>
+                                    </article>
+                                )
+                            })}
                         </motion.div>
-
                     </div>
-
                 </AnimateInView>
             </div>
 
@@ -146,7 +211,6 @@ export function EventsSection() {
                     &gt;
                 </CarouselButton>
             </div>
-
         </div>
     )
 }
