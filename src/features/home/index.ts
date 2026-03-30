@@ -1,4 +1,4 @@
-export const galleryPhotos = [
+﻿export const galleryPhotos = [
   {
     src: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=700&q=85",
     caption: "Early Learners · Discovery Room",
@@ -43,14 +43,14 @@ export const news: NewsInterface[] = [
   {
     id: "2",
     title: "New Montessori Reading Corner Opens",
-    excerpt: "We are thrilled to unveil our brand-new reading corner — a calm, child-led space stocked with over 300 curated books.",
+    excerpt: "We are thrilled to unveil our brand-new reading corner - a calm, child-led space stocked with over 300 curated books.",
     createdAt: "2026-02-20T00:00:00Z",
     updatedAt: "2026-02-20T00:00:00Z",
   },
   {
     id: "3",
     title: "Admission Open for 2026/2027 Academic Year",
-    excerpt: "Applications are now open for Little Angels through Year 7. Early enrolment spots are limited — apply today.",
+    excerpt: "Applications are now open for Little Angels through Year 7. Early enrolment spots are limited - apply today.",
     createdAt: "2026-02-10T00:00:00Z",
     updatedAt: "2026-02-10T00:00:00Z",
   },

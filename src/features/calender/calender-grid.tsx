@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import {useMemo} from 'react'
 import {motion, AnimatePresence} from 'motion/react'
@@ -33,10 +33,10 @@ function getCategoryFill(cat: EventCategory): string {
     const map: Record<EventCategory, string> = {
         academic: 'bg-primary/20 text-primary hover:bg-primary/30',
         event: 'bg-secondary/50 text-secondary-foreground hover:bg-secondary/65',
-        holiday: 'bg-hdm-green/25 text-hdm-green-dark hover:bg-hdm-green/38',
+        holiday: 'bg-primary/15 text-primary hover:bg-primary/25',
         exam: 'bg-destructive/18 text-destructive hover:bg-destructive/28',
-        sports: 'bg-hdm-cyan/28 text-hdm-cyan-dark hover:bg-hdm-cyan/40',
-        cultural: 'bg-hdm-yellow/32 text-hdm-blue-dark hover:bg-hdm-yellow/46',
+        sports: 'bg-accent/25 text-accent-foreground hover:bg-accent/38',
+        cultural: 'bg-secondary/30 text-secondary-foreground hover:bg-secondary/45',
     }
     return map[cat]
 }
@@ -103,7 +103,7 @@ export function CalenderGrid({currentMonth, events, activeFilter, onEventClick}:
                                     <div
                                         key={i}
                                         className={cn(
-                                            // Fixed dimensions — this is what makes ALL cells the same size
+                                            // Fixed dimensions - this is what makes ALL cells the same size
                                             CELL_H,
                                             'border-r border-b border-border overflow-hidden flex flex-col p-1 md:p-1.5',
                                             !day && 'bg-muted/40',
@@ -126,7 +126,7 @@ export function CalenderGrid({currentMonth, events, activeFilter, onEventClick}:
                                                     </span>
                                                 </div>
 
-                                                {/* Events — equal-height blocks, consistent across all cells */}
+                                                {/* Events - equal-height blocks, consistent across all cells */}
                                                 <div className="flex flex-col gap-0.5 overflow-hidden flex-1">
                                                     {dayEvents.length === 0 && (
                                                         // Empty placeholder keeps the cell visually consistent

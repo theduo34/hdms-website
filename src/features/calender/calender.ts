@@ -1,6 +1,6 @@
-// src/features/calender/calender.ts
+﻿// src/features/calender/calender.ts
 // Academic calendar data for Heaven's Dew Montessori
-// Static dummy data — replace array values with API fetch from api.hdm.edu.gh/calendar when ready.
+// Static dummy data - replace array values with API fetch from api.hdm.edu.gh/calendar when ready.
 // The interfaces are designed to match a future REST response shape.
 
 export type EventCategory = 'academic' | 'event' | 'holiday' | 'exam' | 'sports' | 'cultural'
@@ -22,7 +22,7 @@ export interface CalendarEvent {
     categoryLabel: string
     description?: string
     isAllDay: boolean
-    /** Visually emphasised on the calendar — term starts, major events */
+    /** Visually emphasised on the calendar - term starts, major events */
     isHighlight?: boolean
 }
 
@@ -132,7 +132,7 @@ export const calendarEvents: CalendarEvent[] = [
         location: 'Main Campus',
         category: 'event',
         categoryLabel: 'Event',
-        description: 'HDM Open Day for prospective families. Tour our campus, observe live Montessori lessons, and meet our teaching team. All welcome — RSVP via the Admissions page.',
+        description: 'HDM Open Day for prospective families. Tour our campus, observe live Montessori lessons, and meet our teaching team. All welcome - RSVP via the Admissions page.',
         isAllDay: false,
         isHighlight: true,
     },
@@ -157,7 +157,7 @@ export const calendarEvents: CalendarEvent[] = [
         location: 'School Grounds',
         category: 'cultural',
         categoryLabel: 'Cultural',
-        description: 'Annual Speech and Prize Giving Day — celebrating the academic, sporting, and character achievements of our students. All families warmly invited.',
+        description: 'Annual Speech and Prize Giving Day - celebrating the academic, sporting, and character achievements of our students. All families warmly invited.',
         isAllDay: false,
         isHighlight: true,
     },
@@ -189,7 +189,7 @@ export const calendarEvents: CalendarEvent[] = [
         date: '2026-04-03',
         category: 'holiday',
         categoryLabel: 'Holiday',
-        description: 'Good Friday — Public Holiday.',
+        description: 'Good Friday - Public Holiday.',
         isAllDay: true,
     },
     {
@@ -198,7 +198,7 @@ export const calendarEvents: CalendarEvent[] = [
         date: '2026-04-06',
         category: 'holiday',
         categoryLabel: 'Holiday',
-        description: 'Easter Monday — Public Holiday.',
+        description: 'Easter Monday - Public Holiday.',
         isAllDay: true,
     },
     // ── Term 2 2026 ──────────────────────────────────────────
@@ -316,7 +316,7 @@ export const calendarEvents: CalendarEvent[] = [
         date: '2026-09-21',
         category: 'holiday',
         categoryLabel: 'Holiday',
-        description: "National Kwame Nkrumah Founder's Day — Public Holiday.",
+        description: "National Kwame Nkrumah Founder's Day - Public Holiday.",
         isAllDay: true,
     },
     {
@@ -380,10 +380,10 @@ export function getCategoryStyle(cat: EventCategory): CategoryStyle {
     const map: Record<EventCategory, CategoryStyle> = {
         academic: { badge: 'bg-primary/10 text-primary',                dot: 'bg-primary'     },
         event:    { badge: 'bg-secondary/30 text-secondary-foreground', dot: 'bg-secondary'   },
-        holiday:  { badge: 'bg-hdm-green/15 text-hdm-green-dark',       dot: 'bg-hdm-green'   },
+        holiday:  { badge: 'bg-primary/10 text-primary',                  dot: 'bg-primary'     },
         exam:     { badge: 'bg-destructive/10 text-destructive',         dot: 'bg-destructive' },
-        sports:   { badge: 'bg-hdm-cyan/15 text-hdm-cyan-dark',         dot: 'bg-hdm-cyan'    },
-        cultural: { badge: 'bg-hdm-yellow/20 text-hdm-blue-dark',       dot: 'bg-hdm-yellow'  },
+        sports:   { badge: 'bg-accent/15 text-accent-foreground',        dot: 'bg-accent'      },
+        cultural: { badge: 'bg-secondary/20 text-secondary-foreground',  dot: 'bg-secondary'   },
     }
     return map[cat]
 }

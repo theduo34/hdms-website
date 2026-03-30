@@ -24,8 +24,8 @@ function Checklist({ items }: { items: string[] }) {
                         className={cn(
                             'w-5 h-5 border flex items-center justify-center shrink-0 mt-[0.1rem] cursor-pointer transition-colors',
                             checked[i]
-                                ? 'border-hdm-green bg-hdm-green text-white'
-                                : 'border-border bg-transparent hover:border-hdm-green/60'
+                                ? 'border-primary bg-primary text-primary-foreground'
+                                : 'border-border bg-transparent hover:border-primary/60'
                         )}
                         onClick={() => toggle(i)}
                     >

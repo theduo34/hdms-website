@@ -48,7 +48,7 @@ export function VisionMission() {
                 <div className="group relative rounded-2xl bg-secondary overflow-hidden p-8 min-h-[300px] flex flex-col justify-between hover:scale-[1.02] transition-transform duration-500">
                     <div
                         className="absolute -bottom-4 -right-4 font-black italic leading-none select-none pointer-events-none opacity-[0.07]"
-                        style={{ ...headingStyle, fontSize: '12rem', color: 'var(--hdm-navy-dark)' }}
+                        style={{ ...headingStyle, fontSize: '12rem', color: 'var(--color-foreground)' }}
                         aria-hidden
                     >M</div>
                     <div className="relative z-10">
