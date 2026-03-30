@@ -16,7 +16,7 @@ type CTAButtonProps = {
     disabled?: boolean
 }
 
-const base = "text-xs font-black uppercase tracking-widest px-8 py-4 rounded-full transition-all inline-flex items-center justify-center gap-2"
+const base = "text-sm text-semibold uppercase tracking-widest px-10 h-12 rounded-full transition-all inline-flex items-center justify-center gap-2"
 
 const variants: Record<Variant, string> = {
     'outline-white': "border-2 border-white text-white hover:bg-white hover:text-primary",
