@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+﻿import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
     const data = await request.json()
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
             from: "HDM Admissions <noreply@hdm.edu.gh>",
             to: [admissionsEmail],
             reply_to: email,
-            subject: `New Admission Application — ${childFirstName} ${childLastName}`,
+            subject: `New Admission Application - ${childFirstName} ${childLastName}`,
             text: body,
         }),
     })
