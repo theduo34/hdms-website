@@ -22,7 +22,7 @@ const exploreLinks = [
 ]
 
 const connectLinks = [
-    { label: "Admissions",    href: "/admissions"        },
+    { label: "Admissions",    href: "/admissions/apply"        },
     { label: "Apply Now",     href: "/admissions/apply"  },
     { label: "Contact Us",    href: "/contact"           },
 ]

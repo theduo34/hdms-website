@@ -61,7 +61,7 @@ export default function Error({ reset }: Props) {
 
                 <div className="w-10 h-0.5 rounded-full bg-destructive/40" />
 
-                <p className="text-hdm-white/45 text-sm leading-relaxed max-w-xs">
+                <p className="text-primary-foreground/45 text-sm leading-relaxed max-w-xs">
                     An unexpected error occurred. Please try again or head back home.
                 </p>
 
