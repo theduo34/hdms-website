@@ -12,14 +12,8 @@ export function ProgrammeCurriculumSection({ curriculum }: Props) {
       <div className="max-w-6xl mx-auto">
         <AnimateInView yOffset={20}>
           <div className="flex items-center gap-3 mb-4">
-            <span
-              className="w-8 h-[2px] rounded-full"
-              style={{ background: "var(--hdm-yellow)" }}
-            />
-            <span
-              className="text-[10px] tracking-[0.3em] font-bold"
-              style={{ color: "var(--hdm-yellow)" }}
-            >
+            <span className="w-8 h-[2px] rounded-full bg-secondary" />
+            <span className="text-[10px] tracking-[0.3em] font-bold text-secondary">
               CURRICULUM
             </span>
           </div>
@@ -31,12 +25,7 @@ export function ProgrammeCurriculumSection({ curriculum }: Props) {
             style={headingStyle}
           >
             What Your Child{" "}
-            <span
-              style={{
-                fontStyle: "italic",
-                color: "var(--hdm-yellow-dark)",
-              }}
-            >
+            <span style={{ fontStyle: "italic" }} className="text-secondary-foreground">
               Will Explore
             </span>
           </h2>

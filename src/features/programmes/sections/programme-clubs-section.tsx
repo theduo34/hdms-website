@@ -9,14 +9,8 @@ export function ProgrammeClubsSection() {
       <div className="max-w-6xl mx-auto">
         <AnimateInView yOffset={20}>
           <div className="flex items-center gap-3 mb-4">
-            <span
-              className="w-8 h-[2px] rounded-full"
-              style={{ background: "var(--hdm-yellow)" }}
-            />
-            <span
-              className="text-[10px] tracking-[0.3em] font-bold"
-              style={{ color: "var(--hdm-yellow)" }}
-            >
+            <span className="w-8 h-[2px] rounded-full bg-secondary" />
+            <span className="text-[10px] tracking-[0.3em] font-bold text-secondary">
               CLUB ACTIVITIES
             </span>
           </div>
@@ -28,12 +22,7 @@ export function ProgrammeClubsSection() {
             style={headingStyle}
           >
             Club{" "}
-            <span
-              style={{
-                fontStyle: "italic",
-                color: "var(--hdm-yellow-dark)",
-              }}
-            >
+            <span style={{ fontStyle: "italic" }} className="text-secondary-foreground">
               Activities
             </span>
           </h2>
@@ -44,13 +33,7 @@ export function ProgrammeClubsSection() {
             <AnimateInView key={category.title} yOffset={20} delay={catIndex * 0.1}>
               <div className="rounded-xl border border-border bg-card p-6 md:p-8">
                 <div className="flex items-center gap-3 mb-6">
-                  <span
-                    className="text-xs font-bold px-3 py-1 rounded-full"
-                    style={{
-                      background: "var(--hdm-green)",
-                      color: "var(--hdm-white)",
-                    }}
-                  >
+                  <span className="text-xs font-bold px-3 py-1 rounded-full bg-primary text-primary-foreground">
                     {category.day}
                   </span>
                   <h3
@@ -64,10 +47,7 @@ export function ProgrammeClubsSection() {
                 <div className="space-y-5">
                   {category.clubs.map((club) => (
                     <div key={club.name} className="flex items-start gap-3">
-                      <Check
-                        className="w-5 h-5 mt-0.5 flex-shrink-0"
-                        style={{ color: "var(--hdm-green)" }}
-                      />
+                      <Check className="w-5 h-5 mt-0.5 flex-shrink-0 text-secondary" />
                       <div>
                         <p className="text-sm sm:text-base font-bold text-foreground">
                           {club.name}

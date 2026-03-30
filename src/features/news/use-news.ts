@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import {
@@ -19,7 +19,7 @@ export function useNewsData() {
     const [data, setData] = useState<NewsData | null>(null)
 
     useEffect(() => {
-        // Simulates API fetch — replace with real fetch(api.hdm.edu.gh/news) when ready
+        // Simulates API fetch - replace with real fetch(api.hdm.edu.gh/news) when ready
         const t = setTimeout(() => {
             setData({ featuredPost, posts, postFilters, announcements, termDates })
             setLoading(false)

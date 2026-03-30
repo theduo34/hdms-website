@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useMemo } from 'react'
 import { motion } from 'motion/react'
@@ -31,15 +31,15 @@ function getEventsForDate(events: CalendarEvent[], dateStr: string): CalendarEve
     })
 }
 
-/** Hex-ish CSS class for the heatmap dot — uses inline style to get actual color */
+/** Hex-ish CSS class for the heatmap dot - uses inline style to get actual color */
 function getDotColor(cat: EventCategory): string {
     const map: Record<EventCategory, string> = {
         academic: 'var(--color-primary)',
         event:    'var(--color-secondary)',
-        holiday:  'var(--color-hdm-green)',
+        holiday:  'var(--color-primary)',
         exam:     'var(--color-destructive)',
-        sports:   'var(--color-hdm-cyan)',
-        cultural: 'var(--color-hdm-yellow)',
+        sports:   'var(--color-accent)',
+        cultural: 'var(--color-secondary)',
     }
     return map[cat]
 }

@@ -5,7 +5,13 @@
       "Bash(find C:UsersWorkHDMshdms-websitesrc -name use-news*)",
       "WebFetch(domain:www.walnuthillarts.org)",
       "Bash(npx eslint:*)",
-      "Bash(node -e \":*)"
+      "Bash(node -e \":*)",
+      "Bash(bunx tsc:*)",
+      "Bash(npx tsc:*)",
+      "Bash(bun add-component:*)",
+      "Bash(grep -rn \"header\\\\|Header\\\\|hero\\\\|Hero\" C:/Users/Work/HDMs/hdms-website/src/features/gallery C:/Users/Work/HDMs/hdms-website/src/features/programmes/sections/programmes-hero-section.tsx C:/Users/Work/HDMs/hdms-website/src/features/calender --include=*.tsx -l)",
+      "Bash(find C:/Users/Work/HDMs/hdms-website/src/features/news C:/Users/Work/HDMs/hdms-website/src/features/about-us -name *header* -o -name *hero*)",
+      "Bash(find C:/Users/Work/HDMs/hdms-website/src -name about*page* -o -name *about*page*)"
     ]
   }
 }

@@ -23,7 +23,7 @@ export function GalleryHeader({ activeMain, onMainChange }: Props) {
     return (
         <header className="relative overflow-hidden bg-muted">
             <span
-                className="absolute right-0 -bottom-4 font-black italic leading-none text-foreground/[0.04] pointer-events-none select-none whitespace-nowrap"
+                className="absolute right-0 -bottom-4 font-black italic leading-none text-foreground/4 pointer-events-none select-none whitespace-nowrap"
                 style={{ ...headingStyle, fontSize: 'clamp(5rem, 13vw, 10rem)' }}
                 aria-hidden
             >
@@ -45,7 +45,7 @@ export function GalleryHeader({ activeMain, onMainChange }: Props) {
 
                 <div className="overflow-hidden">
                     <motion.h1
-                        className="font-black leading-[0.93] max-w-[680px] text-foreground"
+                        className="font-black leading-[0.93] max-w-170 text-foreground"
                         style={{ ...headingStyle, fontSize: 'clamp(2.5rem, 5.5vw, 5rem)' }}
                         initial={{ y: 90, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
@@ -57,7 +57,7 @@ export function GalleryHeader({ activeMain, onMainChange }: Props) {
                 </div>
 
                 <motion.div
-                    className="mt-5 flex items-start gap-6 max-w-[500px]"
+                    className="mt-5 flex items-start gap-6 max-w-125"
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, delay: 0.38, ease: EASE }}

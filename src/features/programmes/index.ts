@@ -1,4 +1,4 @@
-export interface CurriculumItem {
+﻿export interface CurriculumItem {
   title: string
   description: string
 }
@@ -86,7 +86,7 @@ export const programmes: Programme[] = [
       { title: "Early Numeracy", description: "Number sense, counting, patterns, and basic mathematics through hands-on manipulatives." },
       { title: "Cultural Awareness", description: "Geography, world cultures, and nature studies to build global curiosity from an early age." },
       { title: "Creative Arts", description: "Painting, drawing, clay work, and music to encourage self-expression and fine motor development." },
-      { title: "Practical Life Skills", description: "Pouring, sorting, dressing, and care of the environment — building independence and concentration." },
+      { title: "Practical Life Skills", description: "Pouring, sorting, dressing, and care of the environment - building independence and concentration." },
       { title: "Physical Development", description: "Gross and fine motor activities, outdoor play, and movement exercises for physical growth." },
     ],
     classes: [

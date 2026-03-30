@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useCallback } from 'react'
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
@@ -10,7 +10,7 @@ import { CalenderList } from './calender-list'
 import { CalenderEventSheet } from './calender-event-sheet'
 import { CalenderTermStrip } from './calender-term-strip'
 import { GridSkeleton, ListSkeleton } from './skeleton'
-// calendarEvents is static — safe to use for immediate URL-based month init
+// calendarEvents is static - safe to use for immediate URL-based month init
 import { calendarEvents, type EventCategory, type ViewMode } from './calender'
 
 export default function CalenderClient() {
@@ -20,7 +20,7 @@ export default function CalenderClient() {
     const pathname = usePathname()
 
     // Initialise the month from the URL's ?event= param so the correct month
-    // is already visible on first render — no effect needed.
+    // is already visible on first render - no effect needed.
     const [currentMonth, setCurrentMonth] = useState<Date>(() => {
         const now = new Date()
         const eventId = searchParams.get('event')
@@ -36,7 +36,7 @@ export default function CalenderClient() {
 
     const [viewMode, setViewMode] = useState<ViewMode>('list')
 
-    // activeFilter and selectedEvent are both derived from the URL — shareable and deep-linkable.
+    // activeFilter and selectedEvent are both derived from the URL - shareable and deep-linkable.
     const urlEventId = searchParams.get('event')
     const urlFilter = searchParams.get('filter')
     const activeFilter: EventCategory | 'all' = (urlFilter && urlFilter !== 'all') ? urlFilter as EventCategory : 'all'

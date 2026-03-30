@@ -14,14 +14,8 @@ export function ProgrammeClassesSection({ classes }: Props) {
       <div className="max-w-6xl mx-auto">
         <AnimateInView yOffset={20}>
           <div className="flex items-center gap-3 mb-4">
-            <span
-              className="w-8 h-[2px] rounded-full"
-              style={{ background: "var(--hdm-yellow)" }}
-            />
-            <span
-              className="text-[10px] tracking-[0.3em] font-bold"
-              style={{ color: "var(--hdm-yellow)" }}
-            >
+            <span className="w-8 h-[2px] rounded-full bg-secondary" />
+            <span className="text-[10px] tracking-[0.3em] font-bold text-secondary">
               CLASS STRUCTURE
             </span>
           </div>
@@ -33,12 +27,7 @@ export function ProgrammeClassesSection({ classes }: Props) {
             style={headingStyle}
           >
             Our Class{" "}
-            <span
-              style={{
-                fontStyle: "italic",
-                color: "var(--hdm-yellow-dark)",
-              }}
-            >
+            <span style={{ fontStyle: "italic" }} className="text-secondary-foreground">
               Structure
             </span>
           </h2>
@@ -61,13 +50,7 @@ export function ProgrammeClassesSection({ classes }: Props) {
 
                 <div className="flex items-center gap-3">
                   {cls.sectionCount && (
-                    <span
-                      className="text-xs font-bold px-3 py-1 rounded-full border"
-                      style={{
-                        borderColor: "var(--hdm-green)",
-                        color: "var(--hdm-green)",
-                      }}
-                    >
+                    <span className="text-xs font-bold px-3 py-1 rounded-full border border-primary text-primary">
                       {cls.sectionCount} Sections
                     </span>
                   )}

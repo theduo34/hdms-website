@@ -26,9 +26,9 @@ export const navItems: NavItem[] = [
   {
     title: "Admission",
     children: [
-      { title: "Apply", href: "/admission/apply" },
-      { title: "Tuition", href: "/admission/tuition" },
-      { title: "Visit Campus", href: "/admission/visit-campus" },
+      { title: "Apply", href: "/admissions/apply" },
+      { title: "Tuition", href: "/admissions/tuition" },
+      { title: "Visit Campus", href: "/admissions/visit-campus" },
     ],
   },
   {

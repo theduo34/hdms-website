@@ -15,14 +15,8 @@ export function ProgrammeDetailSection({ programme }: Props) {
         <div className="md:col-span-2 flex flex-col gap-6 md:pl-[16%]">
           <AnimateInView yOffset={20}>
             <div className="flex items-center gap-3">
-              <span
-                className="w-8 h-[2px] rounded-full"
-                style={{ background: "var(--hdm-yellow)" }}
-              />
-              <span
-                className="text-[10px] tracking-[0.3em] font-bold"
-                style={{ color: "var(--hdm-yellow)" }}
-              >
+              <span className="w-8 h-[2px] rounded-full bg-secondary" />
+              <span className="text-[10px] tracking-[0.3em] font-bold text-secondary">
                 {programme.sectionLabel}
               </span>
             </div>

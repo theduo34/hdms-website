@@ -1,9 +1,9 @@
-/**
+﻿/**
  * Gallery API layer.
  *
  * All functions match the shape of the real HDM API endpoints.
  * To switch to production data, replace each function body with
- * the commented fetch call — the hooks and components stay unchanged.
+ * the commented fetch call - the hooks and components stay unchanged.
  *
  * Real API base: https://api.hdm.edu.gh
  */

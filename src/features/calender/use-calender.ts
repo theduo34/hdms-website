@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import {
@@ -21,7 +21,7 @@ export function useCalenderData() {
     const [data, setData] = useState<CalendarData | null>(null)
 
     useEffect(() => {
-        // Simulates API fetch — replace with real fetch(api.hdm.edu.gh/calendar) when ready
+        // Simulates API fetch - replace with real fetch(api.hdm.edu.gh/calendar) when ready
         const t = setTimeout(() => {
             setData({ events: calendarEvents, filters: calendarFilters, terms: academicTerms })
             setLoading(false)

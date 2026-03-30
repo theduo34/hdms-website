@@ -37,8 +37,7 @@ export function ProgrammeTabs() {
                 {i === activeTab && (
                   <motion.span
                     layoutId="tab-underline"
-                    className="absolute bottom-0 left-0 right-0 h-[2px]"
-                    style={{ background: "var(--hdm-yellow)" }}
+                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-secondary"
                     transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   />
                 )}
