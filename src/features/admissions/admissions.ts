@@ -5,6 +5,11 @@ export const applySideNavSections = [
     { id: 'faqs',         label: 'FAQs'          },
 ]
 
+export const tuitionSideNavSections = [
+    { id: 'fees', label: 'Fees & Tuition' },
+    { id: 'faqs', label: 'FAQs'           },
+]
+
 export const visitSideNavSections = [
     { id: 'open-day', label: 'Open Day'  },
     { id: 'contact',  label: 'Contact Us' },
@@ -20,7 +25,7 @@ export const applicationSteps = [
     {
         stepNum: '02',
         title: 'Complete the Application',
-        desc: "Fill in all sections — including the child's personal details, the programme you're applying for, and the parent/guardian information.",
+        desc: "Fill in all sections - including the child's personal details, the programme you're applying for, and the parent/guardian information.",
         note: 'Takes approx. 15 minutes',
     },
     {
@@ -91,7 +96,7 @@ export const faqs = [
     },
     {
         question: "What is the school's policy on uniforms?",
-        answer: "All pupils are required to wear the HDM uniform. Details — including where to purchase it — are provided in the welcome pack sent to all new families upon confirmation of a place.",
+        answer: "All pupils are required to wear the HDM uniform. Details - including where to purchase it - are provided in the welcome pack sent to all new families upon confirmation of a place.",
     },
     {
         question: 'Do you offer a school bus service?',
@@ -99,34 +104,39 @@ export const faqs = [
     },
 ]
 
+// icon keys map to Lucide icons rendered in components
 export const openDay = {
     month: 'May',
     day:   '17',
     year:  '2025',
     details: [
-        { icon: '🕘', label: 'Time',              text: '9:00 AM – 12:00 PM'                                                         },
-        { icon: '📍', label: 'Location',          text: "Heaven's Dew Montessori, Koforidua, Eastern Region"                         },
-        { icon: '👥', label: 'Who Should Attend', text: 'Prospective parents and guardians — children are welcome to join.'          },
-        { icon: '📋', label: 'What to Expect',    text: 'Campus tour, classroom observations, Q&A with teachers and the headmistress.' },
+        { icon: 'clock',      label: 'Time',              text: '9:00 AM – 12:00 PM'                                                         },
+        { icon: 'mappin',     label: 'Location',          text: "Heaven's Dew Montessori, Koforidua, Eastern Region"                          },
+        { icon: 'users',      label: 'Who Should Attend', text: 'Prospective parents and guardians - children are welcome to join.'           },
+        { icon: 'clipboard',  label: 'What to Expect',    text: 'Campus tour, classroom observations, Q&A with teachers and the headmistress.' },
     ],
 }
 
+const PHONE_1 = process.env.NEXT_PUBLIC_ADMISSIONS_PHONE_1 ?? '+233 24 497 4052'
+const PHONE_2 = process.env.NEXT_PUBLIC_ADMISSIONS_PHONE_2 ?? '+233 20 123 4567'
+const ADM_EMAIL = process.env.NEXT_PUBLIC_ADMISSIONS_EMAIL ?? 'admissions@hdm.edu.gh'
+
 export const admissionsContact = [
     {
-        icon: '📞',
+        icon: 'phone',
         label: 'Phone',
         lines: [
-            { text: '+233 24 497 4052', href: 'tel:+233244974052' },
-            { text: '+233 20 123 4567', href: 'tel:+233201234567' },
+            { text: PHONE_1, href: `tel:${PHONE_1.replace(/\s/g, '')}` },
+            { text: PHONE_2, href: `tel:${PHONE_2.replace(/\s/g, '')}` },
         ],
     },
     {
-        icon: '✉️',
+        icon: 'mail',
         label: 'Email',
-        lines: [{ text: 'admissions@hdm.edu.gh', href: 'mailto:admissions@hdm.edu.gh' }],
+        lines: [{ text: ADM_EMAIL, href: `mailto:${ADM_EMAIL}` }],
     },
     {
-        icon: '📍',
+        icon: 'mappin',
         label: 'Address',
         lines: [
             { text: "Heaven's Dew Montessori" },
@@ -134,7 +144,7 @@ export const admissionsContact = [
         ],
     },
     {
-        icon: '🕐',
+        icon: 'clock',
         label: 'Office Hours',
         lines: [{ text: 'Monday – Friday: 7:30 AM – 3:30 PM' }],
     },

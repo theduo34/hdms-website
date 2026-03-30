@@ -4,7 +4,7 @@ import { applicationSteps } from './admissions'
 export default function HowToApply() {
     return (
         <section id="how-to-apply" className="">
-            <span className="flex items-center gap-3 mb-5 text-[0.65rem] tracking-[0.25em] uppercase text-secondary before:content-[''] before:block before:w-6 before:h-px before:bg-secondary before:shrink-0">
+            <span className="flex items-center gap-3 mb-5 text-[0.65rem] tracking-[0.25em] uppercase font-semibold text-secondary before:content-[''] before:block before:w-6 before:h-px before:bg-secondary before:shrink-0">
                 How to Apply
             </span>
             <h2
@@ -18,7 +18,7 @@ export default function HowToApply() {
                 possible. Here&apos;s everything you need to know to get started.
             </p>
 
-            <div className="flex flex-col relative before:content-[''] before:absolute before:left-7 before:top-8 before:bottom-8 before:w-px before:bg-border before:z-0">
+            <div className="flex flex-col relative before:content-[''] before:absolute before:left-7 before:top-8 before:bottom-8 before:w-px before:bg-secondary/25 before:z-0">
                 {applicationSteps.map((step) => (
                     <div key={step.stepNum} className="group grid grid-cols-[3.5rem_1fr] gap-6 py-8 relative">
                         <div className="w-14 h-14 bg-background border border-border flex items-center justify-center text-xl font-semibold shrink-0 relative z-10 transition-colors group-hover:bg-primary group-hover:border-primary group-hover:text-secondary">

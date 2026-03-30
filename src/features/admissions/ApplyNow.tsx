@@ -1,15 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { cn } from '@/lib/utils'
+import { Loader2, CheckCircle2, AlertCircle, FileText, Download } from 'lucide-react'
 import { headingStyle } from '@/styles/font'
+import { CTAButton } from '@/components/shared/cta-button'
 import { programmeOptions } from './admissions'
+import { FormInput, FormSelect, FormTextarea } from '../../components/shared/FormField'
 
-const inputBase = 'bg-background border px-4 py-3 text-[0.88rem] font-light outline-none w-full transition-all focus:ring-2 focus:ring-primary/10'
+const ADM_EMAIL = process.env.NEXT_PUBLIC_ADMISSIONS_EMAIL ?? 'admissions@hdms.edu.gh'
+
+const sectionTag = "flex items-center gap-3 mb-5 text-[0.65rem] tracking-[0.25em] uppercase font-semibold text-secondary before:content-[''] before:block before:w-6 before:h-px before:bg-secondary before:shrink-0"
 
 export default function ApplyNow() {
     const [submitted, setSubmitted] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [submitError, setSubmitError] = useState(false)
     const [fields, setFields] = useState({
         childFirstName: '', childLastName: '', dob: '',
         programme: '', parentName: '', phone: '', email: '', notes: '',
@@ -18,23 +23,40 @@ export default function ApplyNow() {
 
     const required = ['childFirstName', 'childLastName', 'dob', 'programme', 'parentName', 'phone', 'email']
 
-    const handleSubmit = () => {
-        const newErrors: Record<string, boolean> = {}
-        required.forEach((key) => { if (!fields[key as keyof typeof fields].trim()) newErrors[key] = true })
-        setErrors(newErrors)
-        if (Object.keys(newErrors).length === 0) setSubmitted(true)
-    }
+    const set = (key: keyof typeof fields) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+        setFields((prev) => ({ ...prev, [key]: e.target.value }))
 
-    const inputCls = (key: string) => cn(
-        inputBase,
-        errors[key] ? 'border-destructive' : 'border-border focus:border-primary'
-    )
+    const setProgramme = (value: string) =>
+        setFields((prev) => ({ ...prev, programme: value }))
+
+    const handleSubmit = async () => {
+        const newErrors: Record<string, boolean> = {}
+        required.forEach((key) => {
+            if (!fields[key as keyof typeof fields].trim()) newErrors[key] = true
+        })
+        setErrors(newErrors)
+        if (Object.keys(newErrors).length > 0) return
+
+        setIsSubmitting(true)
+        setSubmitError(false)
+        try {
+            const res = await fetch('/api/admissions/apply', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(fields),
+            })
+            if (!res.ok) throw new Error(`HTTP ${res.status}`)
+            setSubmitted(true)
+        } catch {
+            setSubmitError(true)
+        } finally {
+            setIsSubmitting(false)
+        }
+    }
 
     return (
         <section id="apply-now" className="">
-            <span className="flex items-center gap-3 mb-5 text-[0.65rem] tracking-[0.25em] uppercase text-secondary before:content-[''] before:block before:w-6 before:h-px before:bg-secondary before:shrink-0">
-                Apply Now
-            </span>
+            <span className={sectionTag}>Apply Now</span>
             <h2
                 className="font-light leading-[1.1] mb-8 text-primary"
                 style={{ ...headingStyle, fontSize: 'clamp(2rem, 3.5vw, 3rem)' }}
@@ -46,9 +68,8 @@ export default function ApplyNow() {
                 or download the PDF form to complete at your own pace.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-muted">
-                {/* ── Online Form ── */}
-                <div className="p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[2px] bg-secondary">
+                <div className="bg-muted p-6 md:p-8">
                     <span className="block text-[1.4rem] font-semibold text-primary mb-2" style={headingStyle}>
                         Apply Online
                     </span>
@@ -58,75 +79,107 @@ export default function ApplyNow() {
                     </p>
 
                     {submitted ? (
-                        <div className="bg-primary/5 border border-primary/15 px-6 py-5 text-[0.88rem] text-primary mt-4">
-                            ✓ Thank you! Your application has been received. Our admissions team will be
-                            in touch within 3 working days.
+                        <div className="flex items-start gap-4 bg-primary/5 border border-primary/15 px-6 py-5 text-[0.88rem] text-primary">
+                            <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-green-600" />
+                            <span>
+                                Thank you! Your application has been received. Our admissions team will be
+                                in touch within 3 working days.
+                            </span>
                         </div>
                     ) : (
                         <>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div className="flex flex-col gap-[0.4rem]">
-                                    <label className="text-[0.65rem] tracking-[0.15em] uppercase">Child&apos;s First Name *</label>
-                                    <input className={inputCls('childFirstName')} type="text" placeholder="e.g. Abena"
-                                        value={fields.childFirstName} onChange={(e) => setFields({ ...fields, childFirstName: e.target.value })} />
+                                <FormInput
+                                    label="Child's First Name *"
+                                    type="text"
+                                    placeholder="e.g. Abena"
+                                    error={errors.childFirstName}
+                                    value={fields.childFirstName}
+                                    onChange={set('childFirstName')}
+                                />
+                                <FormInput
+                                    label="Child's Last Name *"
+                                    type="text"
+                                    placeholder="e.g. Mensah"
+                                    error={errors.childLastName}
+                                    value={fields.childLastName}
+                                    onChange={set('childLastName')}
+                                />
+                                <FormInput
+                                    label="Date of Birth *"
+                                    type="date"
+                                    error={errors.dob}
+                                    value={fields.dob}
+                                    onChange={set('dob')}
+                                />
+                                <FormSelect
+                                    label="Programme Applying For *"
+                                    error={errors.programme}
+                                    value={fields.programme}
+                                    onValueChange={setProgramme}
+                                    placeholder="Select a programme"
+                                    options={programmeOptions}
+                                />
+                                <FormInput
+                                    label="Parent / Guardian Name *"
+                                    type="text"
+                                    placeholder="Full name"
+                                    error={errors.parentName}
+                                    value={fields.parentName}
+                                    onChange={set('parentName')}
+                                />
+                                <FormInput
+                                    label="Phone Number *"
+                                    type="tel"
+                                    placeholder="+233 XX XXX XXXX"
+                                    error={errors.phone}
+                                    value={fields.phone}
+                                    onChange={set('phone')}
+                                />
+                                <div className="col-span-full">
+                                    <FormInput
+                                        label="Email Address *"
+                                        type="email"
+                                        placeholder="your@email.com"
+                                        error={errors.email}
+                                        value={fields.email}
+                                        onChange={set('email')}
+                                    />
                                 </div>
-                                <div className="flex flex-col gap-[0.4rem]">
-                                    <label className="text-[0.65rem] tracking-[0.15em] uppercase">Child&apos;s Last Name *</label>
-                                    <input className={inputCls('childLastName')} type="text" placeholder="e.g. Mensah"
-                                        value={fields.childLastName} onChange={(e) => setFields({ ...fields, childLastName: e.target.value })} />
-                                </div>
-                                <div className="flex flex-col gap-[0.4rem]">
-                                    <label className="text-[0.65rem] tracking-[0.15em] uppercase">Date of Birth *</label>
-                                    <input className={inputCls('dob')} type="date"
-                                        value={fields.dob} onChange={(e) => setFields({ ...fields, dob: e.target.value })} />
-                                </div>
-                                <div className="flex flex-col gap-[0.4rem]">
-                                    <label className="text-[0.65rem] tracking-[0.15em] uppercase">Programme Applying For *</label>
-                                    <select
-                                        className={cn(inputCls('programme'), 'cursor-pointer')}
-                                        value={fields.programme}
-                                        onChange={(e) => setFields({ ...fields, programme: e.target.value })}
-                                    >
-                                        <option value="">Select a programme</option>
-                                        {programmeOptions.map((p) => <option key={p}>{p}</option>)}
-                                    </select>
-                                </div>
-                                <div className="flex flex-col gap-[0.4rem]">
-                                    <label className="text-[0.65rem] tracking-[0.15em] uppercase">Parent / Guardian Name *</label>
-                                    <input className={inputCls('parentName')} type="text" placeholder="Full name"
-                                        value={fields.parentName} onChange={(e) => setFields({ ...fields, parentName: e.target.value })} />
-                                </div>
-                                <div className="flex flex-col gap-[0.4rem]">
-                                    <label className="text-[0.65rem] tracking-[0.15em] uppercase">Phone Number *</label>
-                                    <input className={inputCls('phone')} type="tel" placeholder="+233 XX XXX XXXX"
-                                        value={fields.phone} onChange={(e) => setFields({ ...fields, phone: e.target.value })} />
-                                </div>
-                                <div className="col-span-full flex flex-col gap-[0.4rem]">
-                                    <label className="text-[0.65rem] tracking-[0.15em] uppercase">Email Address *</label>
-                                    <input className={inputCls('email')} type="email" placeholder="your@email.com"
-                                        value={fields.email} onChange={(e) => setFields({ ...fields, email: e.target.value })} />
-                                </div>
-                                <div className="col-span-full flex flex-col gap-[0.4rem]">
-                                    <label className="text-[0.65rem] tracking-[0.15em] uppercase">Additional Notes</label>
-                                    <textarea
-                                        className={cn(inputBase, 'border-border focus:border-primary resize-y min-h-25')}
+                                <div className="col-span-full">
+                                    <FormTextarea
+                                        label="Additional Notes"
                                         placeholder="Any additional information about your child or questions for our admissions team..."
-                                        value={fields.notes} onChange={(e) => setFields({ ...fields, notes: e.target.value })}
+                                        value={fields.notes}
+                                        onChange={set('notes')}
                                     />
                                 </div>
                             </div>
-                            <button
-                                className="bg-primary text-primary-foreground text-[0.75rem] font-medium tracking-wider uppercase px-8 py-[0.9rem] block w-full mt-5 transition hover:-translate-y-px hover:bg-primary/90 cursor-pointer border-0"
+
+                            {submitError && (
+                                <div className="flex items-start gap-3 bg-destructive/5 border border-destructive/20 px-4 py-3 mt-4 text-[0.82rem] text-destructive">
+                                    <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                                    <span>Something went wrong. Please try again or email us directly at <strong>{ADM_EMAIL}</strong>.</span>
+                                </div>
+                            )}
+
+                            <CTAButton
                                 onClick={handleSubmit}
+                                variant="primary"
+                                disabled={isSubmitting}
+                                className="w-full mt-5 rounded-none"
                             >
-                                Submit Application
-                            </button>
+                                {isSubmitting ? (
+                                    <><Loader2 className="w-4 h-4 animate-spin" /> Submitting…</>
+                                ) : (
+                                    'Submit Application'
+                                )}
+                            </CTAButton>
                         </>
                     )}
                 </div>
 
-                {/* ── PDF Download ── */}
-                <div className="p-4 flex flex-col">
+                <div className="bg-muted p-6 md:p-8 flex flex-col">
                     <span className="block text-[1.4rem] font-semibold text-primary mb-2" style={headingStyle}>
                         Download Form
                     </span>
@@ -134,24 +187,28 @@ export default function ApplyNow() {
                         Prefer to complete the form offline? Download our PDF application form,
                         fill it in, and return it to us in person or by email.
                     </p>
-                    <span className="text-5xl mb-5">📄</span>
+                    <div className="flex items-center justify-center w-16 h-16 bg-background mb-6">
+                        <FileText className="w-7 h-7 text-primary" />
+                    </div>
                     <p className="text-[0.85rem] font-light leading-[1.7] mb-4">
                         Our PDF application form covers all the information we need to process
                         your child&apos;s application. Once completed, you can either bring it to
                         the school in person or email it to{' '}
-                        <strong>admissions@hdm.edu.gh</strong>.
+                        <strong>{ADM_EMAIL}</strong>.
                     </p>
-                    <p className="text-[0.85rem] font-light leading-[1.7] mb-4">
+                    <p className="text-[0.85rem] font-light leading-[1.7] mb-6">
                         Forms are also available to collect from the school&apos;s front office
                         Monday to Friday, 7:30 AM – 3:30 PM.
                     </p>
-                    <Link
-                        href="/hdm-application-form.pdf"
-                        className="inline-flex items-center gap-3 bg-secondary text-secondary-foreground text-[0.75rem] font-medium tracking-wider uppercase px-7 py-[0.9rem] transition hover:-translate-y-px hover:bg-secondary/80 mt-auto self-start"
-                        target="_blank"
+                    <CTAButton
+                        href="/api/admissions/form"
+                        external
+                        variant="secondary"
+                        className="mt-auto self-start rounded-none"
                     >
-                        <span>⬇</span> Download Application Form
-                    </Link>
+                        <Download className="w-4 h-4" />
+                        Download Application Form
+                    </CTAButton>
                     <p className="text-[0.72rem] mt-4 font-light">
                         PDF format · Approx. 2 pages · English
                     </p>

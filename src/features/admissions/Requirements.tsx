@@ -1,9 +1,12 @@
 'use client'
 
 import { useState } from 'react'
+import { Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { headingStyle } from '@/styles/font'
 import { requirementsChild, requirementsParent } from './admissions'
+
+const ADM_EMAIL = process.env.NEXT_PUBLIC_ADMISSIONS_EMAIL ?? 'admissions@hdm.edu.gh'
 
 function Checklist({ items }: { items: string[] }) {
     const [checked, setChecked] = useState<boolean[]>(items.map(() => false))
@@ -19,14 +22,14 @@ function Checklist({ items }: { items: string[] }) {
                         aria-checked={checked[i]}
                         role="checkbox"
                         className={cn(
-                            'w-5 h-5 border flex items-center justify-center shrink-0 mt-[0.1rem] cursor-pointer transition-colors text-[0.6rem]',
+                            'w-5 h-5 border flex items-center justify-center shrink-0 mt-[0.1rem] cursor-pointer transition-colors',
                             checked[i]
                                 ? 'border-hdm-green bg-hdm-green text-white'
-                                : 'border-border bg-transparent'
+                                : 'border-border bg-transparent hover:border-hdm-green/60'
                         )}
                         onClick={() => toggle(i)}
                     >
-                        {checked[i] ? '✓' : ''}
+                        {checked[i] && <Check className="w-3 h-3" strokeWidth={3} />}
                     </button>
                     <span>{item}</span>
                 </li>
@@ -38,7 +41,7 @@ function Checklist({ items }: { items: string[] }) {
 export default function Requirements() {
     return (
         <section id="requirements" className="">
-            <span className="flex items-center gap-3 mb-5 text-[0.65rem] tracking-[0.25em] uppercase text-secondary before:content-[''] before:block before:w-6 before:h-px before:bg-secondary before:shrink-0">
+            <span className="flex items-center gap-3 mb-5 text-[0.65rem] tracking-[0.25em] uppercase font-semibold text-secondary before:content-[''] before:block before:w-6 before:h-px before:bg-secondary before:shrink-0">
                 Requirements &amp; Documents
             </span>
             <h2
@@ -52,8 +55,8 @@ export default function Requirements() {
                 Incomplete applications may delay processing.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border">
-                <div className="bg-background p-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[2px] bg-secondary">
+                <div className="bg-muted p-10">
                     <h3
                         className="flex items-center gap-3 mb-6 text-xl font-semibold text-primary before:content-[''] before:block before:w-8 before:h-0.5 before:bg-secondary before:shrink-0"
                         style={headingStyle}
@@ -62,7 +65,7 @@ export default function Requirements() {
                     </h3>
                     <Checklist items={requirementsChild} />
                 </div>
-                <div className="bg-background p-10">
+                <div className="bg-muted p-10">
                     <h3
                         className="flex items-center gap-3 mb-6 text-xl font-semibold text-primary before:content-[''] before:block before:w-8 before:h-0.5 before:bg-secondary before:shrink-0"
                         style={headingStyle}
@@ -72,7 +75,7 @@ export default function Requirements() {
                     <Checklist items={requirementsParent} />
                     <p className="mt-8 text-[0.78rem] font-light leading-[1.6] border-l-2 border-secondary pl-4">
                         All documents should be submitted in person or emailed to{' '}
-                        <strong>admissions@hdm.edu.gh</strong>. Originals will be verified and
+                        <strong>{ADM_EMAIL}</strong>. Originals will be verified and
                         returned on the day of your school visit.
                     </p>
                 </div>
