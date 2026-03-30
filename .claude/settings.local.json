@@ -5,7 +5,10 @@
       "Bash(find C:UsersWorkHDMshdms-websitesrc -name use-news*)",
       "WebFetch(domain:www.walnuthillarts.org)",
       "Bash(npx eslint:*)",
-      "Bash(node -e \":*)"
+      "Bash(node -e \":*)",
+      "Bash(bunx tsc:*)",
+      "Bash(npx tsc:*)",
+      "Bash(bun add-component:*)"
     ]
   }
 }
