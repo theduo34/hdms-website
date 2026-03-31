@@ -83,6 +83,46 @@ export interface StudentsInterface {
   role: string;
   image: string
 }
+export interface ParentVoice {
+  name: string
+  role: string
+  quote: string
+  image: string
+}
+
+export const parentVoices: ParentVoice[] = [
+  {
+    name: "ABENA\nMENSAH",
+    role: "Parent · Year 3",
+    quote: "HDM gave our daughter a love of learning we never thought possible at this age.",
+    image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=85",
+  },
+  {
+    name: "KWAME\nASANTE",
+    role: "Parent · Year 5",
+    quote: "The confidence my son has gained here is something no other school could have given him.",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=85",
+  },
+  {
+    name: "EFUA\nOWUSU",
+    role: "Parent · Little Angels",
+    quote: "From the very first visit, we knew this was where our child belonged.",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=85",
+  },
+  {
+    name: "KOFI\nBOATENG",
+    role: "Parent · Year 1 & Year 4",
+    quote: "Both our children have flourished here. HDM feels like a second home.",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=85",
+  },
+  {
+    name: "AKOSUA\nTEKYI",
+    role: "Parent · Year 6",
+    quote: "Watching her grow into such a curious, kind, and driven young person — that's HDM.",
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=85",
+  },
+]
+
 export const students: StudentsInterface[] = [
   {
     name: "ELSIE\nAMBROSE",

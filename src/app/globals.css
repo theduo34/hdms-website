@@ -241,4 +241,22 @@
       column-gap: 3rem;
     }
   }
+
+  /* Equal-height card grid item */
+  .feature-card {
+    @apply h-full flex flex-col bg-white rounded-2xl p-8 border border-border/40
+           hover:border-secondary/50 hover:shadow-sm transition-all duration-300 cursor-default;
+  }
+
+  /* Section label (small uppercase yellow tag) */
+  .section-label {
+    @apply text-[0.62rem] tracking-[0.32em] uppercase font-bold text-secondary block mb-4;
+  }
+
+  /* Ghost number watermark in cards */
+  .card-ghost-num {
+    @apply font-black italic leading-none block mb-4 select-none text-primary/[0.05];
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+  }
 }
