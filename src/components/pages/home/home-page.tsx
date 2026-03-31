@@ -1,7 +1,7 @@
 import { SmoothScroll } from "@/components/layout/smooth-scroll";
 import { HeroSection } from "@/features/home/sections/hero-section";
 import { HdmExperienceSection } from "@/features/home/sections/hdm-experience-section";
-import { StudentsSection } from "@/features/home/sections/students-section";
+import { ParentVoicesSection } from "@/features/home/sections/parent-voices-section";
 import { StudentExperienceSection } from "@/features/home/sections/student-experience-section";
 
 export function HomePage() {
@@ -11,7 +11,7 @@ export function HomePage() {
                 <div className="flex w-full flex-col bg-background">
                     <HeroSection />
                     <HdmExperienceSection />
-                    <StudentsSection />
+                    <ParentVoicesSection />
                     <StudentExperienceSection />
                 </div>
             </SmoothScroll>

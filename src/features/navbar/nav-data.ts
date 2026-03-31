@@ -41,10 +41,19 @@ export const navItems: NavItem[] = [
   },
   {
     title: "Campus Life",
-    href: "/campus-life",
+    children: [
+      { title: "School Day", href: "/campus-life/school-day" },
+      { title: "Sports & Clubs", href: "/campus-life/sports-and-clubs" },
+      { title: "Facilities", href: "/campus-life/facilities" },
+      { title: "Wellbeing", href: "/campus-life/wellbeing" },
+    ],
   },
   {
-    title: "Community & Belonging",
-    href: "/community",
+    title: "Community",
+    children: [
+      { title: "House System", href: "/community/house-system" },
+      { title: "Parents & Families", href: "/community/parents" },
+      { title: "Service & Outreach", href: "/community/service" },
+    ],
   },
 ]

@@ -5,6 +5,7 @@ export const sideNavSections = [
     { id: 'philosophy', label: 'Our Philosophy'   },
     { id: 'history',    label: 'Our History'      },
     { id: 'houses',     label: 'House System'     },
+    { id: 'anthem',     label: 'Anthem & Pledge'  },
 ]
 
 export const story = {
@@ -135,6 +136,62 @@ export const history = {
         { year: '2024', title: 'Digital Transformation', desc: "Launch of HDM's student portal and digital communication platform, streamlining parent engagement, academic reporting, and school-wide communications." },
         { year: '2026', title: 'Website Relaunch', desc: "A bold redesign of HDM's digital presence - reflecting the school's growth, values, and vision for the future with a modern, accessible, and beautifully crafted website." },
     ],
+}
+
+export const anthemAndPledge = {
+    anthem: {
+        title: 'School Anthem',
+        note: 'Placeholder - Ghana National Anthem',
+        verses: [
+            {
+                lines: [
+                    'God bless our homeland Ghana',
+                    'And make our nation great and strong,',
+                    'Bold to defend forever',
+                    'The cause of Freedom and of Right;',
+                    'Fill our hearts with true humility,',
+                    'Make us cherish fearless honesty,',
+                    'And help us to resist oppressors\' rule',
+                    'With all our will and might for evermore.',
+                ],
+            },
+            {
+                lines: [
+                    'Hail to thy name, O Ghana,',
+                    'To thee we make our solemn vow:',
+                    'Steadfast to build together',
+                    'A nation strong in Unity;',
+                    'With our gifts of mind and strength of arm,',
+                    'Whether night or day, in the midst of storm,',
+                    'In every need, whate\'er the call may be,',
+                    'To serve thee, Ghana, now and evermore.',
+                ],
+            },
+            {
+                lines: [
+                    'Raise high the flag of Ghana',
+                    'And one with Africa advance;',
+                    'Black star of hope and honour',
+                    'To all who thirst for liberty;',
+                    'Where the banner of Ghana freely flies,',
+                    'May the way to freedom truly lie;',
+                    'Arise, arise, O sons of Ghanaland,',
+                    'And under God march on for evermore!',
+                ],
+            },
+        ],
+    },
+    pledge: {
+        title: 'School Pledge',
+        note: 'Placeholder - Ghana National Pledge',
+        lines: [
+            'I promise on my honour to be faithful and loyal to Ghana my Motherland.',
+            'I will do my best to make her a great and united nation.',
+            'I will honour and respect the memory of our Heroes and follow in their noble footsteps.',
+            'I will contribute to the welfare of the whole community.',
+            'I will be truthful and honest in all things and I shall not seek the interest of myself at the expense of Ghana.',
+        ],
+    },
 }
 
 export type HouseColour = 'red' | 'yellow' | 'green' | 'blue'

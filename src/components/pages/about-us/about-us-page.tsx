@@ -7,6 +7,7 @@ import { WhyMontessori } from "@/features/about-us/why-montessori";
 import { OurPhilosophy } from "@/features/about-us/our-philosophy";
 import { OurHistory } from "@/features/about-us/our-history";
 import { HouseSystem } from "@/features/about-us/house-system";
+import { AnthemPledge } from "@/features/about-us/anthem-pledge";
 
 export function AboutUsPage() {
     return (
@@ -29,6 +30,7 @@ export function AboutUsPage() {
                         <OurPhilosophy />
                         <OurHistory />
                         <HouseSystem />
+                        <AnthemPledge />
                     </div>
                 </div>
             </SmoothScroll>
