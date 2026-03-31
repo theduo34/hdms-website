@@ -10,7 +10,6 @@ export function InitiativesSection() {
 
   return (
     <section aria-labelledby="initiatives-heading" className="section-container bg-muted">
-      {/* 2-col intro: heading left, description right */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 mb-12">
         <SectionIntro
           tag="Community Initiatives"

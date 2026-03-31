@@ -10,7 +10,6 @@ export function WorkCycleSection() {
 
   return (
     <section id="work-cycle" aria-labelledby="work-cycle-heading" className="relative overflow-hidden">
-      {/* Background image */}
       <div className="relative h-[60vh] min-h-[420px] w-full">
         <Image
           src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1600&q=80"
@@ -19,10 +18,8 @@ export function WorkCycleSection() {
           className="object-cover"
           sizes="100vw"
         />
-        {/* Dark gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-primary via-primary/70 to-primary/30" />
 
-        {/* Heading over image */}
         <div className="absolute inset-0 flex flex-col justify-center px-4 md:px-16">
           <AnimateInView yOffset={20} duration={0.8}>
             <h2
@@ -38,7 +35,6 @@ export function WorkCycleSection() {
         </div>
       </div>
 
-      {/* Frosted-glass cards */}
       <div className="bg-primary px-4 md:px-16 pb-20 pt-0">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch -mt-16 relative z-10">
           {pillars.map((pillar, i) => (

@@ -15,7 +15,8 @@
       "Bash(bun lint:*)",
       "Bash(bun tsc:*)",
       "Bash(bun build:*)",
-      "Bash(bun x:*)"
+      "Bash(bun x:*)",
+      "Bash(del:*)"
     ]
   }
 }

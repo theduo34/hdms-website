@@ -118,7 +118,7 @@ export const parentVoices: ParentVoice[] = [
   {
     name: "AKOSUA\nTEKYI",
     role: "Parent · Year 6",
-    quote: "Watching her grow into such a curious, kind, and driven young person — that's HDM.",
+    quote: "Watching her grow into such a curious, kind, and driven young person - that's HDM.",
     image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=85",
   },
 ]

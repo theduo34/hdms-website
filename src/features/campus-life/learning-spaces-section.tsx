@@ -20,7 +20,6 @@ export function LearningSpacesSection() {
       />
 
       <div className="mt-12 space-y-3">
-        {/* Featured first space */}
         {featured && (
           <AnimateInView yOffset={20} duration={0.7}>
             <article
@@ -60,7 +59,6 @@ export function LearningSpacesSection() {
           </AnimateInView>
         )}
 
-        {/* Remaining spaces 2-col grid */}
         {rest.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-stretch">
             {rest.map((space, i) => (

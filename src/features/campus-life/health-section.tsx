@@ -9,7 +9,6 @@ export function HealthSection() {
 
   return (
     <section id="health" aria-labelledby="health-heading" className="section-container bg-white">
-      {/* 2-col grid intro: heading left, description right */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 mb-12">
         <SectionIntro
           tag="Health and Safety"
@@ -26,7 +25,6 @@ export function HealthSection() {
         {health.map((fact, i) => (
           <AnimateInView key={i} yOffset={16} delay={i * 0.08} duration={0.6}>
             <article className="h-full flex flex-col bg-white rounded-2xl p-8 border border-border/40 hover:border-secondary/50 transition-all duration-300 cursor-default group relative overflow-hidden">
-              {/* Left accent bar */}
               <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top rounded-r-full" aria-hidden />
               <span className="section-label">{fact.label}</span>
               <p className="flex-1 text-sm leading-relaxed">

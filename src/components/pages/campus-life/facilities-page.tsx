@@ -15,7 +15,7 @@ export function FacilitiesPage() {
           headingLine1="Our Campus &"
           headingLine2="Facilities."
           watermark="Campus"
-          description="Our campus is designed with children in mind — spaces that are beautiful, purposeful, and safe. Every environment at HDM invites curiosity, supports independence, and makes children feel right at home."
+          description="Our campus is designed with children in mind - spaces that are beautiful, purposeful, and safe. Every environment at HDM invites curiosity, supports independence, and makes children feel right at home."
           accentLine
         />
         <CampusLifeSubNav />

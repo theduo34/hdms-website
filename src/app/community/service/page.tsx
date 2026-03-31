@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Service & Outreach",
-  description: "Discover how Heaven's Dew Montessori gives back to Koforidua and Ghana — through community initiatives, cultural celebrations, and a deep commitment to service.",
+  description: "Discover how Heaven's Dew Montessori gives back to Koforidua and Ghana - through community initiatives, cultural celebrations, and a deep commitment to service.",
   openGraph: {
     title: "Service & Outreach",
     description: "At HDM, we raise children who give back. Explore our community service initiatives, cultural celebrations, and outreach programmes in Koforidua, Ghana.",

@@ -15,7 +15,7 @@ export function HouseSystemPage() {
           headingLine1="Four Houses."
           headingLine2="One Family."
           watermark="Houses"
-          description="Every child who joins Heaven's Dew Montessori becomes part of something bigger than a classroom. They join a house — a community within the community — where friendships, competition, and belonging are built for life."
+          description="Every child who joins Heaven's Dew Montessori becomes part of something bigger than a classroom. They join a house - a community within the community - where friendships, competition, and belonging are built for life."
           accentLine
         />
         <CommunitySubNav />

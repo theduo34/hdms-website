@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Sports & Clubs",
-  description: "Explore the sports programme and after-school clubs at Heaven's Dew Montessori — from football and athletics to robotics, drama, and Taekwondo in Koforidua, Ghana.",
+  description: "Explore the sports programme and after-school clubs at Heaven's Dew Montessori - from football and athletics to robotics, drama, and Taekwondo in Koforidua, Ghana.",
   openGraph: {
     title: "Sports & Clubs",
     description: "From the football pitch to the art room, discover how HDM nurtures well-rounded, active, and confident children through sports and enrichment clubs.",

@@ -29,14 +29,12 @@ export function HouseOverviewSection() {
       </AnimateInView>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
-        {/* Description */}
         <AnimateInView yOffset={16} delay={0.1} duration={0.7}>
           <p className="leading-relaxed text-base max-w-lg">
             {intro.description}
           </p>
         </AnimateInView>
 
-        {/* House colour dots */}
         <AnimateInView yOffset={16} delay={0.2} duration={0.7}>
           <div className="grid grid-cols-2 gap-6">
             {houseDots.map((house) => (

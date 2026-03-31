@@ -19,14 +19,12 @@ export function PastoralSection() {
         {pastoral.map((pillar, i) => (
           <AnimateInView key={i} yOffset={20} delay={i * 0.1} duration={0.7}>
             <article className="h-full flex flex-col bg-white rounded-2xl p-8 border border-border/40 hover:border-secondary/50 transition-all duration-300 cursor-default">
-              {/* Ghost number watermark */}
               <span
                 className="card-ghost-num"
                 aria-hidden
               >
                 {pillar.number}
               </span>
-              {/* Separator line */}
               <div className="w-8 h-[2px] bg-secondary mb-4" aria-hidden />
               <h3
                 className="font-bold text-lg text-primary mb-3"

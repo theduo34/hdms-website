@@ -11,7 +11,7 @@ export function SupportSection() {
 
   return (
     <section id="support" aria-labelledby="support-heading" className="bg-white px-4 md:px-16 py-12">
-      <div className="">
+      <div>
         <SectionIntro
           tag="Support Facilities"
           heading="Where Every Need is Met."
@@ -22,7 +22,6 @@ export function SupportSection() {
         {support.map((space, i) => (
           <AnimateInView key={i} yOffset={16} delay={i * 0.1} duration={0.7}>
             <article className={`grid grid-cols-1 md:grid-cols-2 ${i % 2 !== 0 ? "md:[&>*:first-child]:order-last" : ""}`}>
-              {/* Image */}
               <div className="relative h-80 w-full overflow-hidden">
                 <Image
                   src={space.image}
@@ -32,9 +31,7 @@ export function SupportSection() {
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
-              {/* Text panel */}
               <div className="relative bg-white px-8 md:px-16 py-12 flex flex-col justify-center overflow-hidden">
-                {/* Ghost number watermark */}
                 <span
                   className="absolute right-4 bottom-2 font-black italic leading-none select-none pointer-events-none text-primary/[0.04]"
                   style={{ ...headingStyle, fontSize: "clamp(5rem, 12vw, 10rem)" }}

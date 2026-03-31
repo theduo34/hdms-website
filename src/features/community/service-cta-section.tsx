@@ -8,7 +8,6 @@ export function ServiceCTASection() {
   return (
     <section aria-label="Service and community call to action" className="section-container bg-muted">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
-        {/* Heading and description */}
         <AnimateInView yOffset={20} duration={0.7}>
           <h2
             className="font-black italic text-primary leading-[0.95] tracking-[-0.02em] mb-6"
@@ -21,7 +20,6 @@ export function ServiceCTASection() {
           </p>
         </AnimateInView>
 
-        {/* Buttons */}
         <AnimateInView yOffset={16} delay={0.15} duration={0.6}>
           <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-4">
             <CTAButton href="/admissions" variant="primary">

@@ -10,7 +10,6 @@ export function ServicePhilosophySection() {
   return (
     <section aria-label="Service philosophy quote" className="section-container bg-white">
       <AnimateInView yOffset={20} duration={0.8}>
-        {/* Opening quote mark */}
         <div
           className="font-black italic leading-none select-none text-secondary/12 -mb-8"
           style={{ ...headingStyle, fontSize: "clamp(8rem, 20vw, 16rem)", lineHeight: 0.8 }}

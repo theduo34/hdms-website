@@ -16,7 +16,7 @@ export function WellbeingPage() {
           headingLine1="Wellbeing at"
           headingLine2="Heaven's Dew."
           watermark="Care"
-          description="We believe a child who feels safe, seen, and cared for is a child who can truly learn. At HDM, wellbeing is not a policy — it is a promise we make to every family who entrusts their child to us."
+          description="We believe a child who feels safe, seen, and cared for is a child who can truly learn. At HDM, wellbeing is not a policy - it is a promise we make to every family who entrusts their child to us."
           accentLine
         />
         <CampusLifeSubNav />

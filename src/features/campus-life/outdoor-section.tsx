@@ -19,7 +19,6 @@ export function OutdoorSection() {
         {outdoor.map((space, i) => (
           <AnimateInView key={i} yOffset={20} delay={i * 0.12} duration={0.7}>
             <article className="h-full flex flex-col rounded-2xl overflow-hidden border border-border/40 hover:border-secondary/50 hover:shadow-sm transition-all duration-300 cursor-default group">
-              {/* Image */}
               <div className="relative h-64 w-full overflow-hidden shrink-0">
                 <Image
                   src={space.image}
@@ -29,7 +28,6 @@ export function OutdoorSection() {
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
-              {/* Text content */}
               <div className="flex-1 p-8 border-t-2 border-secondary/20 group-hover:border-secondary transition-colors duration-300">
                 <h3 className="font-bold text-xl text-primary mb-3">{space.name}</h3>
                 <p className="text-sm leading-relaxed">{space.description}</p>

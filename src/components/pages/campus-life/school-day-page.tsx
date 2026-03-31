@@ -15,7 +15,7 @@ export function SchoolDayPage() {
           headingLine1="A Day at"
           headingLine2="Heaven's Dew."
           watermark="Day"
-          description="From morning assembly to afternoon dismissal, every hour of the HDM school day is purposefully designed around the Montessori method — giving children the time, space, and freedom to truly flourish."
+          description="From morning assembly to afternoon dismissal, every hour of the HDM school day is purposefully designed around the Montessori method - giving children the time, space, and freedom to truly flourish."
           accentLine
         />
         <CampusLifeSubNav />

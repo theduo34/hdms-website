@@ -10,7 +10,6 @@ export function MealsSection() {
   return (
     <section id="meals" aria-labelledby="meals-heading" className="bg-muted">
       <div className="px-4 md:px-16 py-20 md:py-28 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
-        {/* Left sticky sidebar */}
         <div className="md:sticky md:top-28 md:self-start">
           <AnimateInView yOffset={20} duration={0.7}>
             <span className="section-label">Nutrition at HDM</span>
@@ -29,13 +28,11 @@ export function MealsSection() {
           </AnimateInView>
         </div>
 
-        {/* Right meal list */}
         <div>
           <ol>
             {meals.map((meal, i) => (
               <AnimateInView key={i} yOffset={16} delay={i * 0.08} duration={0.6}>
                 <li className="group relative py-8 border-b border-border last:border-b-0 hover:pl-3 transition-all duration-300">
-                  {/* Left accent bar */}
                   <div className="absolute left-0 top-6 bottom-6 w-[2px] bg-secondary scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top rounded-full" aria-hidden />
                   <span className="text-[0.62rem] tracking-[0.28em] uppercase font-bold text-secondary block mb-2">
                     {meal.time}

@@ -24,13 +24,11 @@ export function CulturalSection() {
             <article
               className="h-full flex flex-col border border-border/50 rounded-2xl p-8 hover:border-secondary/40 transition-all duration-300 cursor-default group relative overflow-hidden"
             >
-              {/* Ghana flag gradient on hover: top border */}
               <div
                 className="absolute top-0 left-0 right-0 h-[3px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 style={{ background: "linear-gradient(to right, #cf0921, #fcd116, #006b3f)" }}
                 aria-hidden
               />
-              {/* Date badge */}
               <span
                 className="inline-block self-start px-3 py-1 rounded-full text-[0.6rem] tracking-[0.2em] uppercase font-bold text-secondary mb-4"
                 style={{ backgroundColor: "color-mix(in oklch, var(--color-secondary) 10%, transparent)" }}

@@ -16,7 +16,7 @@ export function ServicePage() {
           headingLine1="Service &"
           headingLine2="Outreach."
           watermark="Service"
-          description="Heaven's Dew Montessori believes education must go beyond the classroom walls. We raise children who give back — to their school, their community, and their nation."
+          description="Heaven's Dew Montessori believes education must go beyond the classroom walls. We raise children who give back - to their school, their community, and their nation."
           accentLine
         />
         <CommunitySubNav />

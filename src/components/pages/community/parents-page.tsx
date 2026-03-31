@@ -16,7 +16,7 @@ export function ParentsPage() {
           headingLine1="Parents &"
           headingLine2="Families."
           watermark="Family"
-          description="At HDM, parents are not visitors — they are partners. Everything we do is stronger when school and home move together, guided by the same love for every child in our care."
+          description="At HDM, parents are not visitors - they are partners. Everything we do is stronger when school and home move together, guided by the same love for every child in our care."
           accentLine
         />
         <CommunitySubNav />

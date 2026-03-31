@@ -21,7 +21,6 @@ export function SportGallerySection() {
       />
 
       <div className="mt-12 space-y-3">
-        {/* Hero sport */}
         {hero && (
           <AnimateInView yOffset={20} duration={0.7}>
             <article className="group relative w-full overflow-hidden rounded-2xl" style={{ height: "55vh", minHeight: "320px" }}>
@@ -34,7 +33,6 @@ export function SportGallerySection() {
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent" />
-              {/* Gold accent bar */}
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-secondary translate-y-full group-hover:translate-y-0 transition-transform duration-300" aria-hidden />
               <div className="absolute bottom-0 left-0 right-0 p-8">
                 <h3
@@ -43,7 +41,6 @@ export function SportGallerySection() {
                 >
                   {hero.name}
                 </h3>
-                {/* Mobile: always visible. Desktop: hover only */}
                 <p className="text-primary-foreground/80 text-sm mt-2 max-w-lg leading-relaxed md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0 transition-all duration-300">
                   {hero.description}
                 </p>
@@ -52,7 +49,6 @@ export function SportGallerySection() {
           </AnimateInView>
         )}
 
-        {/* Mid row */}
         {mid.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {mid.map((sport, i) => (
@@ -79,7 +75,6 @@ export function SportGallerySection() {
           </div>
         )}
 
-        {/* Small row */}
         {small.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {small.map((sport, i) => (
