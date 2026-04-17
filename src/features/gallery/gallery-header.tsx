@@ -4,22 +4,24 @@ import { motion } from 'motion/react'
 import { Images } from 'lucide-react'
 import { headingStyle } from '@/styles/font'
 import { cn } from '@/lib/utils'
-import { dummyPhotos, dummyVideos, dummyEvents, type MainCategory } from './gallery'
+import { type MainCategory } from './gallery'
+import { type GalleryCounts } from './gallery-api'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
-const TABS: { id: MainCategory; label: string; count: number }[] = [
-    { id: 'photos', label: 'Photos', count: dummyPhotos.length },
-    { id: 'videos', label: 'Videos', count: dummyVideos.length },
-    { id: 'events', label: 'Events', count: dummyEvents.length },
+const TAB_DEFS: { id: MainCategory; label: string }[] = [
+    { id: 'photos', label: 'Photos' },
+    { id: 'videos', label: 'Videos' },
+    { id: 'events', label: 'Events' },
 ]
 
 interface Props {
     activeMain: MainCategory
     onMainChange: (id: MainCategory) => void
+    counts: GalleryCounts
 }
 
-export function GalleryHeader({ activeMain, onMainChange }: Props) {
+export function GalleryHeader({ activeMain, onMainChange, counts }: Props) {
     return (
         <header className="relative overflow-hidden bg-muted">
             <span
@@ -76,8 +78,9 @@ export function GalleryHeader({ activeMain, onMainChange }: Props) {
                 transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
             >
                 <div className="flex items-end gap-0 border-b border-border overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    {TABS.map((tab) => {
+                    {TAB_DEFS.map((tab) => {
                         const isActive = activeMain === tab.id
+                        const count = counts[tab.id]
                         return (
                             <button
                                 key={tab.id}
@@ -109,7 +112,7 @@ export function GalleryHeader({ activeMain, onMainChange }: Props) {
                                         isActive ? 'text-secondary font-bold' : 'text-muted-foreground/55'
                                     )}
                                 >
-                                    {tab.count}
+                                    {count}
                                 </span>
                             </button>
                         )

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { GalleryHeader } from './gallery-header'
 import { GalleryFilterBar } from './gallery-filter-bar'
@@ -9,7 +9,7 @@ import { GalleryVideos } from './gallery-videos'
 import { GalleryEvents } from './gallery-events'
 import { GalleryLightbox, type LightboxItem } from './gallery-lightbox'
 import { useGallery } from '@/hooks/gallery/use-gallery'
-import { searchGallery } from './gallery-api'
+import { searchGallery, fetchGalleryCounts, type GalleryCounts } from './gallery-api'
 import {
     subFilters,
     type MainCategory, type SubCategory,
@@ -41,6 +41,11 @@ export default function GalleryClient() {
     const [lightboxItem, setLightboxItem] = useState<LightboxItem | null>(null)
     const [isSearchMode, setIsSearchMode] = useState(false)
     const [searchTerm, setSearchTerm] = useState('')
+    const [counts, setCounts] = useState<GalleryCounts>({ photos: 0, videos: 0, events: 0 })
+
+    useEffect(() => {
+        fetchGalleryCounts().then(setCounts).catch(() => {})
+    }, [])
 
     const { items, total, loading, loadingMore, hasMore, loadMore } = useGallery(activeMain, activeSub)
 
@@ -102,7 +107,7 @@ export default function GalleryClient() {
 
     return (
         <>
-            <GalleryHeader activeMain={activeMain} onMainChange={handleMainChange} />
+            <GalleryHeader activeMain={activeMain} onMainChange={handleMainChange} counts={counts} />
 
             <GalleryFilterBar
                 active={activeSub}

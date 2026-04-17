@@ -207,6 +207,27 @@ async function fetchEvents(sub: EventSub, page: number): Promise<GalleryPageResu
 
 // ---------- public functions ----------
 
+export interface GalleryCounts {
+    photos: number
+    videos: number
+    events: number
+}
+
+/** Fetch total row counts for all three gallery categories in parallel. */
+export async function fetchGalleryCounts(): Promise<GalleryCounts> {
+    const db = createClient()
+    const [photos, videos, events] = await Promise.all([
+        db.from('gallery_photos').select('id', { count: 'exact', head: true }),
+        db.from('gallery_videos').select('id', { count: 'exact', head: true }),
+        db.from('gallery_events').select('id', { count: 'exact', head: true }),
+    ])
+    return {
+        photos: photos.count ?? 0,
+        videos: videos.count ?? 0,
+        events: events.count ?? 0,
+    }
+}
+
 /**
  * Fetch a single page of gallery items from Supabase.
  * Signature identical to the old static version — hooks stay unchanged.
