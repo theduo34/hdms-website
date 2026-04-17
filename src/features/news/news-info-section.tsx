@@ -1,21 +1,8 @@
-import { CalendarDays, BellRing } from 'lucide-react'
+import Link from 'next/link'
+import { CalendarDays, BellRing, ArrowRight } from 'lucide-react'
 import { AnimateInView } from '@/components/shared/animate-in-view'
 import { headingStyle } from '@/styles/font'
 import type { Announcement, TermRow } from './news'
-
-function UrgencyBadge({ urgency, label }: { urgency: string; label: string }) {
-    const cls: Record<string, string> = {
-        new:      'bg-accent/15 text-accent-foreground border border-accent/30',
-        urgent:   'bg-destructive/90 text-destructive-foreground',
-        info:     'bg-secondary/20 text-secondary-foreground border border-secondary/30',
-        reminder: 'bg-muted text-muted-foreground border border-border',
-    }
-    return (
-        <span className={`text-[0.55rem] font-bold tracking-[0.16em] uppercase px-2.5 py-1 shrink-0 rounded-md ${cls[urgency] ?? ''}`}>
-            {label}
-        </span>
-    )
-}
 
 interface Props {
     termDates: TermRow[]
@@ -112,7 +99,7 @@ export function NewsInfoSection({ termDates, announcements, loading }: Props) {
 
                     {/* Announcements */}
                     <AnimateInView yOffset={30} duration={0.8} delay={0.12}>
-                        <div className="bg-card rounded-2xl border border-border p-10 max-md:p-8 h-full">
+                        <div className="bg-card rounded-2xl border border-border p-10 max-md:p-8 h-full flex flex-col">
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="w-9 h-9 rounded-xl bg-accent/10 flex items-center justify-center shrink-0">
                                     <BellRing className="w-4.5 h-4.5 text-accent" aria-hidden />
@@ -124,23 +111,41 @@ export function NewsInfoSection({ termDates, announcements, loading }: Props) {
                                     </h3>
                                 </div>
                             </div>
-                            <p className="text-[0.82rem] font-light  leading-[1.6] mb-7">
+                            <p className="text-[0.82rem] font-light leading-[1.6] mb-7">
                                 Important notices for all current HDM families.
                             </p>
-                            <div className="flex flex-col divide-y divide-border">
-                                {announcements.map((a) => (
-                                    <div key={a.id} className="py-4 first:pt-0 last:pb-0 flex flex-col gap-2 group/ann hover:bg-muted/50 rounded-xl px-3 -mx-3 transition-colors duration-200">
-                                        <div className="flex items-start justify-between gap-3">
-                                            <span className="text-[0.9rem] font-semibold text-foreground leading-[1.3] flex-1" style={headingStyle}>
-                                                {a.title}
+
+                            {announcements.length === 0 ? (
+                                <p className="text-sm text-muted-foreground font-light">No announcements at this time.</p>
+                            ) : (
+                                <div className="flex flex-col divide-y divide-border flex-1">
+                                    {announcements.map((a) => (
+                                        <Link
+                                            key={a.id}
+                                            href={`/news-&-announcements/${a.slug}`}
+                                            className="py-4 first:pt-0 last:pb-0 flex flex-col gap-1.5 group/ann hover:bg-muted/50 rounded-xl px-3 -mx-3 transition-colors duration-200"
+                                        >
+                                            <span className="text-[0.9rem] font-semibold text-foreground leading-[1.3] group-hover/ann:text-primary transition-colors" style={headingStyle}>
+                                                {a.headline}
                                             </span>
-                                            <UrgencyBadge urgency={a.urgency} label={a.urgencyLabel} />
-                                        </div>
-                                        <p className="text-xs font-light leading-[1.65]">{a.desc}</p>
-                                        <span className="text-[0.62rem] tracking-[0.1em]">{a.posted}</span>
-                                    </div>
-                                ))}
-                            </div>
+                                            {a.excerpt && (
+                                                <p className="text-xs font-light leading-[1.65] text-foreground/70 line-clamp-2">{a.excerpt}</p>
+                                            )}
+                                            <div className="flex items-center justify-between mt-0.5">
+                                                <span className="text-[0.62rem] tracking-[0.1em] text-muted-foreground">{a.date}</span>
+                                                <ArrowRight className="w-3 h-3 text-muted-foreground/50 group-hover/ann:text-primary transition-colors" />
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
+
+                            <Link
+                                href="/news-&-announcements?filter=announcement"
+                                className="mt-6 text-[0.72rem] font-bold tracking-[0.12em] uppercase text-foreground/50 hover:text-foreground transition-colors self-start"
+                            >
+                                View all announcements
+                            </Link>
                         </div>
                     </AnimateInView>
                 </div>

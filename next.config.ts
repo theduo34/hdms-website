@@ -20,8 +20,16 @@ const nextConfig: NextConfig = {
         hostname: "light-cat-97ad52f04d.media.strapiapp.com",
         pathname: "/**",
       },
+      {
+        // Supabase Storage — media bucket
+        protocol: "https",
+        hostname: "xvukypycqyfhjicearrp.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
     ],
-    formats: ["image/avif", "image/webp"], // 👈 serve modern formats automatically
+    dangerouslyAllowSVG: true,         // required for local /images/placeholder.svg
+    contentDispositionType: "attachment",
+    formats: ["image/avif", "image/webp"],
   }
 };
 

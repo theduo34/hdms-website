@@ -1,0 +1,144 @@
+// GET    /api/admin/users              — list all admin profiles
+// POST   /api/admin/users              — invite new admin (super_admin or school_admin)
+// PATCH  /api/admin/users?id=<id>      — update profile (super_admin: any field; school_admin: none)
+// DELETE /api/admin/users?id=<id>      — delete admin (super_admin only)
+
+import { NextRequest } from 'next/server'
+import { apiGuard } from '@/lib/admin/api-guard'
+import { creatableRoles } from '@/lib/admin/permissions'
+import { z } from 'zod'
+import type { AdminRole } from '@/lib/admin/types'
+
+const VALID_TAGS = ['ict-directorate', 'school-heads', 'hdm-administration', 'admissions-office'] as const
+
+const inviteSchema = z.object({
+  email: z.string().email(),
+  display_name: z.string().min(1),
+  role: z.enum(['super_admin', 'support_admin', 'school_admin']),
+  department_tag: z.enum(VALID_TAGS).default('ict-directorate'),
+})
+
+const updateSchema = z.object({
+  display_name: z.string().min(1).optional(),
+  role: z.enum(['super_admin', 'support_admin', 'school_admin']).optional(),
+  verified: z.boolean().optional(),
+  department_tag: z.enum(VALID_TAGS).optional(),
+})
+
+export async function GET(req: NextRequest) {
+  const { db, err, json } = await apiGuard(req, 'users', 'read')
+  if (err) return err
+
+  const { data, error } = await db!
+    .from('admin_profiles')
+    .select('*')
+    .order('created_at', { ascending: true })
+
+  if (error) return json!({ error: error.message }, 500)
+  return json!(data)
+}
+
+export async function POST(req: NextRequest) {
+  const { db, err, json, admin } = await apiGuard(req, 'users', 'create')
+  if (err) return err
+
+  const body = await req.json().catch(() => null)
+  const parsed = inviteSchema.safeParse(body)
+  if (!parsed.success) return json!({ error: parsed.error.flatten() }, 400)
+
+  // Enforce who can create which roles
+  const allowed = creatableRoles(admin!.profile.role as AdminRole)
+  if (!allowed.includes(parsed.data.role)) {
+    return json!(
+      { error: `Your role cannot create "${parsed.data.role}" accounts.` },
+      403,
+    )
+  }
+
+  // Use the auth admin API (service role) to invite the user via email
+  const { data: invited, error: inviteError } = await db!.auth.admin.inviteUserByEmail(
+    parsed.data.email,
+    {
+      data: { display_name: parsed.data.display_name },
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'}/login`,
+    },
+  )
+
+  if (inviteError || !invited.user) {
+    return json!({ error: inviteError?.message ?? 'Failed to send invitation.' }, 500)
+  }
+
+  // Create the admin_profiles row
+  const { data: profile, error: profileError } = await db!
+    .from('admin_profiles')
+    .insert({
+      id: invited.user.id,
+      role: parsed.data.role,
+      display_name: parsed.data.display_name,
+      email: parsed.data.email,
+      department_tag: parsed.data.department_tag,
+      verified: false,
+      created_by: admin!.profile.id,
+    })
+    .select()
+    .single()
+
+  if (profileError) {
+    return json!({ error: `Profile creation failed: ${profileError.message}` }, 500)
+  }
+
+  return json!({ profile, message: `Invitation sent to ${parsed.data.email}` }, 201)
+}
+
+export async function PATCH(req: NextRequest) {
+  const { db, err, json, admin } = await apiGuard(req, 'users', 'update')
+  if (err) return err
+
+  // Only super_admin can update profiles
+  if (admin!.profile.role !== 'super_admin') {
+    return json!({ error: 'Only super admins can update admin profiles.' }, 403)
+  }
+
+  const id = new URL(req.url).searchParams.get('id')
+  if (!id) return json!({ error: 'Missing id' }, 400)
+
+  // Prevent super_admin from removing their own verified status or role
+  if (id === admin!.profile.id) {
+    return json!({ error: 'You cannot modify your own profile through this endpoint.' }, 400)
+  }
+
+  const body = await req.json().catch(() => null)
+  const parsed = updateSchema.safeParse(body)
+  if (!parsed.success) return json!({ error: parsed.error.flatten() }, 400)
+
+  const { data, error } = await db!
+    .from('admin_profiles')
+    .update(parsed.data)
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error) return json!({ error: error.message }, 500)
+  return json!(data)
+}
+
+export async function DELETE(req: NextRequest) {
+  const { db, err, json, admin } = await apiGuard(req, 'users', 'delete')
+  if (err) return err
+
+  if (admin!.profile.role !== 'super_admin') {
+    return json!({ error: 'Only super admins can delete admin accounts.' }, 403)
+  }
+
+  const id = new URL(req.url).searchParams.get('id')
+  if (!id) return json!({ error: 'Missing id' }, 400)
+
+  if (id === admin!.profile.id) {
+    return json!({ error: 'You cannot delete your own account.' }, 400)
+  }
+
+  // Delete auth user — cascades to admin_profiles
+  const { error } = await db!.auth.admin.deleteUser(id)
+  if (error) return json!({ error: error.message }, 500)
+  return json!({ success: true })
+}

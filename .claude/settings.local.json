@@ -16,7 +16,22 @@
       "Bash(bun tsc:*)",
       "Bash(bun build:*)",
       "Bash(bun x:*)",
-      "Bash(del:*)"
+      "Bash(del:*)",
+      "Bash(xargs grep:*)",
+      "Read(//mnt/c/Users/Work/HDMs/**)",
+      "Bash(bun add:*)",
+      "Bash(grep -E \"^\\\\./src/app/[^/]+/?$\")",
+      "Bash(yes n *)",
+      "Bash(node -e \"const c=require\\('./node_modules/next/dist/lib/constants.js'\\); console.log\\(JSON.stringify\\({mw: c.MIDDLEWARE_FILENAME, proxy: c.PROXY_FILENAME}\\)\\)\")",
+      "Bash(grep -v \"^$\")",
+      "Bash(dir \"C:\\\\Users\\\\Work\\\\HDMs\\\\hdms-website\\\\src\\\\app\\\\admin\\\\\" 2>/dev/null)",
+      "Bash(dir C:\\\\Users\\\\Work\\\\HDMs\\\\hdms-website\\\\src\\\\app\\\\admin *)",
+      "Bash(ls C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\app\\\\\\\\ *)",
+      "Bash(ls C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\app\\\\\\\\\\(admin\\)\\\\\\\\ *)",
+      "Bash(find \"C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\app\\\\\\\\\\(admin\\)\" -name \"*.tsx\")",
+      "Bash(ls C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\features\\\\\\\\ *)",
+      "Bash(ls C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\features\\\\\\\\gallery\\\\\\\\ *)",
+      "Bash(ls C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\features\\\\\\\\news\\\\\\\\ *)"
     ]
   }
 }

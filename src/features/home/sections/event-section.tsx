@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion } from "motion/react"
 import { AnimateInView } from "@/components/shared/animate-in-view"
 import { SectionLabel } from "@/components/shared/section-label"
@@ -11,7 +11,8 @@ import { HDMLetters } from "@/components/shared/hdm-letters"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Clock, MapPin } from "lucide-react"
 import Link from "next/link"
-import { calendarEvents, getCategoryStyle } from "@/features/calender/calender"
+import { createClient } from "@/lib/supabase/client"
+import { getCategoryStyle, type CalendarEvent, type EventCategory } from "@/features/calender/calender"
 import { cn } from "@/lib/utils"
 
 export const CARD_W = 280
@@ -20,23 +21,47 @@ const EASE = [0.16, 1, 0.3, 1] as const
 
 const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
-/** Pick the next N upcoming highlighted events, falling back to any upcoming events */
-function getUpcomingEvents(count = 6) {
-    const todayStr = new Date().toISOString().slice(0, 10)
-    const upcoming = calendarEvents
-        .filter((e) => e.date >= todayStr)
-        .sort((a, b) => a.date.localeCompare(b.date))
-    // Prefer highlights first, then fill with any upcoming
-    const highlights = upcoming.filter((e) => e.isHighlight)
-    const rest = upcoming.filter((e) => !e.isHighlight)
-    return [...highlights, ...rest].slice(0, count)
-}
-
 export function EventsSection() {
     const sectionRef = useRef<HTMLDivElement>(null)
     const isMobile = useIsMobile()
 
-    const events = useMemo(() => getUpcomingEvents(6), [])
+    const [events, setEvents] = useState<CalendarEvent[]>([])
+
+    useEffect(() => {
+        const db = createClient()
+        const todayStr = new Date().toISOString().slice(0, 10)
+        db.from('calendar_events')
+            .select('id, title, date, time, end_time, location, category, category_label, is_all_day, is_highlight')
+            .gte('date', todayStr)
+            .order('date', { ascending: true })
+            .limit(20)
+            .then(({ data }) => {
+                if (!data) return
+                const upcoming = data as {
+                    id: string; title: string; date: string
+                    time: string | null; end_time: string | null
+                    location: string | null; category: string
+                    category_label: string; is_all_day: boolean; is_highlight: boolean
+                }[]
+                // Highlights first, then fill with any upcoming events
+                const highlights = upcoming.filter(e => e.is_highlight)
+                const rest       = upcoming.filter(e => !e.is_highlight)
+                setEvents(
+                    [...highlights, ...rest].slice(0, 6).map(row => ({
+                        id:            row.id,
+                        title:         row.title,
+                        date:          row.date,
+                        time:          row.time      ?? undefined,
+                        endTime:       row.end_time  ?? undefined,
+                        location:      row.location  ?? undefined,
+                        category:      row.category  as EventCategory,
+                        categoryLabel: row.category_label,
+                        isAllDay:      row.is_all_day,
+                        isHighlight:   row.is_highlight ?? undefined,
+                    }))
+                )
+            })
+    }, [])
 
     const [idx, setIdx] = useState(0)
     const [busy, setBusy] = useState(false)

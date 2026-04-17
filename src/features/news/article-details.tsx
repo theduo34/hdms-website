@@ -1,19 +1,65 @@
 'use client';
 
+import { useEffect, useState } from "react";
 import {headingStyle} from "@/styles/font";
 import Link from "next/link";
-import {allPosts, categoryBadgeClass, Post} from "@/features/news/news";
+import { categoryBadgeClass, type Post } from "@/features/news/news";
+import { createClient } from "@/lib/supabase/client";
+import { getMediaUrl } from "@/lib/media";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { AnimateInView } from "@/components/shared/animate-in-view";
 import {RelatedCard} from "@/features/news/related-article";
 import {ArrowLeft} from "lucide-react";
+import { getDepartmentLabel } from "@/features/admin/news/news-data";
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
 export function ArticleDetail({ post }: { post: Post }) {
-    const sameCat = allPosts.filter((p) => p.id !== post.id && p.category === post.category).slice(0, 3)
-    const related = sameCat.length >= 2 ? sameCat : allPosts.filter((p) => p.id !== post.id).slice(0, 3)
+    const [related, setRelated] = useState<Post[]>([])
+
+    useEffect(() => {
+        const db = createClient()
+        // Try same category first, fall back to any posts
+        db.from('news_posts')
+            .select('id, slug, category, category_label, headline, excerpt, author, author_tag, published_at, cover:media_assets(storage_path, alt)')
+            .neq('id', post.id)
+            .eq('category', post.category)
+            .order('published_at', { ascending: false })
+            .limit(3)
+            .then(async ({ data: sameCat }) => {
+                const rows = sameCat ?? []
+                if (rows.length >= 2) return rows
+                const { data: anyPosts } = await db
+                    .from('news_posts')
+                    .select('id, slug, category, category_label, headline, excerpt, author, author_tag, published_at, cover:media_assets(storage_path, alt)')
+                    .neq('id', post.id)
+                    .order('published_at', { ascending: false })
+                    .limit(3)
+                return anyPosts ?? []
+            })
+            .then(rows => {
+                setRelated(
+                    rows.map((row: Record<string, unknown>) => {
+                        const cover = Array.isArray(row.cover) ? (row.cover as Record<string, unknown>[])[0] : row.cover as Record<string, unknown> | null
+                        return {
+                            id:            row.id as string,
+                            slug:          row.slug as string,
+                            category:      row.category as Post['category'],
+                            categoryLabel: row.category_label as string,
+                            date:          new Date(row.published_at as string).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
+                            image:         getMediaUrl(cover?.storage_path as string | null),
+                            imageAlt:      cover?.alt as string ?? row.headline as string,
+                            headline:      row.headline as string,
+                            excerpt:       row.excerpt as string,
+                            author:        row.author as string,
+                            author_tag:    (row.author_tag as string) ?? 'ict-directorate',
+                            content:       row.content as Post['content'] ?? [],
+                        }
+                    })
+                )
+            })
+    }, [post.id, post.category])
 
     return (
         <main className="flex flex-col w-full min-h-screen bg-background">
@@ -54,7 +100,9 @@ export function ArticleDetail({ post }: { post: Post }) {
                         </span>
                         <span className="text-[0.75rem] font-light text-muted-foreground">{post.date}</span>
                         <span className="w-[3px] h-[3px] rounded-full bg-border" aria-hidden />
-                        <span className="text-[0.75rem] font-light text-muted-foreground">{post.author}</span>
+                        <span className="text-[0.75rem] font-light text-muted-foreground">
+                            {getDepartmentLabel(post.author_tag)}
+                        </span>
                     </div>
                 </AnimateInView>
 
