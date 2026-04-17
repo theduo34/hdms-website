@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { feesData } from '../../features/admissions/admissions'
+import { feesData } from '@/features/admissions/admissions'
 
 export type FeeRow = {
     programme: string

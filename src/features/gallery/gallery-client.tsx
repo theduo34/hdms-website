@@ -18,7 +18,7 @@ import {
 import { AnimateInView } from '@/components/shared/animate-in-view'
 import { headingStyle } from '@/styles/font'
 import Link from 'next/link'
-import { ArrowRight, Instagram } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 const VALID_MAINS = new Set<MainCategory>(['photos', 'videos', 'events'])
 
@@ -98,7 +98,7 @@ export default function GalleryClient() {
     }))
 
     const isSearchActive = isSearchMode && searchTerm.trim().length > 0
-    const displayItems = isSearchActive ? searchGallery(activeMain, searchTerm) : items
+    const displayItems = isSearchActive ? searchGallery(items, searchTerm) : items
 
     return (
         <>
@@ -220,7 +220,6 @@ export default function GalleryClient() {
                                     className="inline-flex items-center gap-2.5 bg-secondary-foreground text-secondary text-[0.68rem] font-bold tracking-[0.14em] uppercase px-6 py-3.5 hover:bg-secondary-foreground/90 transition-colors duration-200"
                                     aria-label="Follow HDM on Instagram"
                                 >
-                                    <Instagram className="w-3.5 h-3.5" aria-hidden />
                                     Follow on Instagram
                                 </a>
                                 <Link

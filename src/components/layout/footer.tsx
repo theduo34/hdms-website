@@ -109,7 +109,7 @@ export function Footer() {
                                     <p>Koforidua, E/R</p>
                                     <p>Ghana</p>
                                     <a href="tel:+233244974052" className="mt-4 hover:opacity-75 transition-opacity">
-                                        +233 24 497 4052
+                                        +233 24 497 4052  ||  +233 55 460 3653
                                     </a>
                                 </div>
                             </motion.div>
