@@ -10,7 +10,7 @@ import {
 } from './news'
 
 export interface NewsData {
-    featuredPost: Post
+    featuredPost: Post | null
     posts: Post[]
     postFilters: { id: PostCategory | 'all'; label: string; count: number }[]
     announcements: Announcement[]
@@ -76,10 +76,12 @@ async function fetchNewsData(): Promise<NewsData> {
 
     const allPosts = (postRows ?? []) as unknown as RawPost[]
 
-    const featuredRow = allPosts.find(p => p.featured)
-    const gridRows    = allPosts.filter(p => !p.featured)
+    const featuredRow = allPosts.find(p => p.featured) ?? allPosts[0]
+    const gridRows    = featuredRow
+        ? allPosts.filter(p => p.id !== featuredRow.id)
+        : allPosts
 
-    const featuredPost = mapPost(featuredRow ?? allPosts[0])
+    const featuredPost = featuredRow ? mapPost(featuredRow) : null
     const posts        = gridRows.map(mapPost)
 
     const postFilters: NewsData['postFilters'] = [

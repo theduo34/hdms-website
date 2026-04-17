@@ -88,7 +88,8 @@ interface Props {
 }
 
 export function NewsFeatured({ post, isMobile, onOpen, loading }: Props) {
-    if (loading || !post) return <Skeleton />
+    if (loading) return <Skeleton />
+    if (!post) return null
 
     const cls = "block w-full text-left font-[inherit] rounded-2xl overflow-hidden cursor-pointer group transition-shadow duration-300 hover:shadow-lg"
 
