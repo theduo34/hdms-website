@@ -1,12 +1,14 @@
 import type { NextConfig } from "next";
 
+const supabaseHostname = process.env.NEXT_PUBLIC_SUPABASE_URL
+  ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
+  : "xvukypycqyfhjicearrp.supabase.co";
+
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
   images: {
     remotePatterns: [
       {
-        //domain is for dev only
         protocol: "https",
         hostname: "images.unsplash.com",
       },
@@ -21,16 +23,20 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
       {
-        // Supabase Storage — media bucket
         protocol: "https",
-        hostname: "xvukypycqyfhjicearrp.supabase.co",
+        hostname: supabaseHostname,
         pathname: "/storage/v1/object/public/**",
       },
+      {
+        protocol: "https",
+        hostname: "drive.google.com",
+        pathname: "/uc",
+      },
     ],
-    dangerouslyAllowSVG: true,         // required for local /images/placeholder.svg
+    dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     formats: ["image/avif", "image/webp"],
-  }
+  },
 };
 
 export default nextConfig;
