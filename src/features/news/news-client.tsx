@@ -57,13 +57,15 @@ export default function NewsClient() {
                 onChange={handleFilterChange}
             />
 
-            <div className="max-w-[var(--max-width,1400px)] mx-auto section-container section-half">
-                <NewsFeatured
-                    post={data?.featuredPost}
-                    isMobile={isMobile}
-                    onOpen={setActivePost}
-                    loading={loading}
-                />
+            <div className="max-w-(--max-width,1400px) mx-auto section-container section-half">
+                {data?.featuredPost && (
+                    <NewsFeatured
+                        post={data.featuredPost}
+                        isMobile={isMobile}
+                        onOpen={setActivePost}
+                        loading={loading}
+                    />
+                )}
                 <NewsGrid
                     posts={filtered}
                     isMobile={isMobile}
