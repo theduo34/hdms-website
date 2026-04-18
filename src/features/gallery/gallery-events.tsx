@@ -12,13 +12,13 @@ const EASE = [0.16, 1, 0.3, 1] as const
 
 function EventSkeleton({ i }: { i: number }) {
     return (
-        <div className="overflow-hidden" style={{ animationDelay: `${i * 80}ms` }}>
-            <div className="aspect-[3/2] bg-muted animate-pulse" />
+        <div className="w-full min-w-0" style={{ animationDelay: `${i * 80}ms` }}>
+            <div className="w-full aspect-[3/2] bg-muted animate-pulse" />
             <div className="pt-4 space-y-2.5">
-                <div className="h-3 w-24 bg-muted rounded-full animate-pulse" />
-                <div className="h-5 bg-muted rounded animate-pulse" />
-                <div className="h-3.5 w-4/5 bg-muted rounded animate-pulse" />
-                <div className="h-3 w-1/3 bg-muted rounded-full animate-pulse" />
+                <div className="h-3 w-24 bg-muted animate-pulse rounded-full" />
+                <div className="h-5 w-full bg-muted animate-pulse rounded" />
+                <div className="h-3.5 w-4/5 bg-muted animate-pulse rounded" />
+                <div className="h-3.5 w-full bg-muted animate-pulse rounded" />
             </div>
         </div>
     )
@@ -105,9 +105,9 @@ interface Props {
 
 export function GalleryEvents({ events, loading, loadingMore, hasMore, total, onLoadMore }: Props) {
     return (
-        <div>
+        <div className="w-full">
             {loading ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12">
+                <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12">
                     {Array.from({ length: 6 }).map((_, i) => (
                         <EventSkeleton key={i} i={i} />
                     ))}

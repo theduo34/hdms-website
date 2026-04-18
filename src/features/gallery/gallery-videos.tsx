@@ -11,14 +11,11 @@ const EASE = [0.16, 1, 0.3, 1] as const
 
 function VideoSkeleton({ i }: { i: number }) {
     return (
-        <div
-            className="bg-muted animate-pulse"
-            style={{ animationDelay: `${i * 60}ms` }}
-        >
-            <div className="aspect-video" />
-            <div className="p-4 space-y-2">
-                <div className="h-4 bg-muted-foreground/20 rounded animate-pulse" />
-                <div className="h-3 w-2/3 bg-muted-foreground/20 rounded animate-pulse" />
+        <div className="w-full min-w-0" style={{ animationDelay: `${i * 60}ms` }}>
+            <div className="w-full aspect-video bg-muted animate-pulse" />
+            <div className="pt-3 space-y-2">
+                <div className="h-4 w-full bg-muted animate-pulse rounded" />
+                <div className="h-3 w-2/3 bg-muted animate-pulse rounded" />
             </div>
         </div>
     )
@@ -95,9 +92,9 @@ interface Props {
 
 export function GalleryVideos({ videos, loading, loadingMore, hasMore, total, onOpen, onLoadMore }: Props) {
     return (
-        <div>
+        <div className="w-full">
             {loading ? (
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+                <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     {Array.from({ length: 8 }).map((_, i) => (
                         <VideoSkeleton key={i} i={i} />
                     ))}
