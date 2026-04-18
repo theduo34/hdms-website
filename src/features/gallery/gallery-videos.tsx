@@ -92,7 +92,7 @@ interface Props {
 
 export function GalleryVideos({ videos, loading, loadingMore, hasMore, total, onOpen, onLoadMore }: Props) {
     return (
-        <div className="w-full">
+        <div className="w-full ">
             {loading ? (
                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     {Array.from({ length: 8 }).map((_, i) => (

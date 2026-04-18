@@ -119,7 +119,7 @@ export default function GalleryClient() {
                 onSearch={handleSearch}
             />
 
-            <div className="max-w-[var(--max-width,1400px)] mx-auto px-16 max-lg:px-4 pt-12 pb-20">
+            <div className="w-full mx-auto px-16 max-lg:px-4 pt-12 pb-20">
                 <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-3">
                         <span className="block w-4 h-px bg-secondary shrink-0" aria-hidden />
