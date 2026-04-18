@@ -8,19 +8,14 @@ function pick<T>(v: T | T[] | null | undefined): T | undefined {
     return Array.isArray(v) ? v[0] : v
 }
 
-async function resolveCategoryId(
-    db: ReturnType<typeof createServiceClient>,
-    domain: string,
-    slug: string,
-): Promise<string | null> {
-    if (slug === 'all') return null
-    const { data } = await db
-        .from('media_categories')
-        .select('id')
-        .eq('domain', domain)
-        .eq('slug', slug)
-        .single()
-    return (data as { id: string } | null)?.id ?? null
+// When sub !== 'all':
+//   - Use !inner so PostgREST does an INNER JOIN → rows with no/wrong category are excluded.
+//   - Filter by media_categories.slug to match the chosen sub-category.
+//   - No separate lookup needed; one round-trip does the filtering.
+// When sub === 'all':
+//   - Use a regular (LEFT) join so uncategorised rows are still returned.
+function categorySelect(sub: string, leftJoin: string, innerJoin: string) {
+    return sub === 'all' ? leftJoin : innerJoin
 }
 
 export async function GET(req: NextRequest) {
@@ -32,25 +27,29 @@ export async function GET(req: NextRequest) {
     try {
         const db = createServiceClient()
 
+        // ── photos ───────────────────────────────────────────────────────────
         if (main === 'photos') {
             const limit = PAGE_SIZE.photos
             const from  = (page - 1) * limit
             const to    = from + limit - 1
-            const categoryId = await resolveCategoryId(db, 'gallery_photos', sub)
+
+            const catJoin = categorySelect(
+                sub,
+                'category:media_categories(slug)',
+                'category:media_categories!inner(slug)',
+            )
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             let query: any = db
                 .from('gallery_photos')
                 .select(
-                    'id, created_at,' +
-                    'asset:media_assets(storage_path, alt, title, width, height),' +
-                    'category:media_categories(slug)',
+                    `id, created_at, asset:media_assets(storage_path, alt, title, width, height), ${catJoin}`,
                     { count: 'exact' },
                 )
                 .order('sort_order', { ascending: true })
                 .range(from, to)
 
-            if (categoryId) query = query.eq('category_id', categoryId)
+            if (sub !== 'all') query = query.eq('media_categories.slug', sub)
 
             const { data, count, error } = await query
             if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -76,25 +75,29 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ items, total, hasMore: total > page * limit })
         }
 
+        // ── videos ───────────────────────────────────────────────────────────
         if (main === 'videos') {
             const limit = PAGE_SIZE.videos
             const from  = (page - 1) * limit
             const to    = from + limit - 1
-            const categoryId = await resolveCategoryId(db, 'gallery_videos', sub)
+
+            const catJoin = categorySelect(
+                sub,
+                'category:media_categories(slug)',
+                'category:media_categories!inner(slug)',
+            )
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             let query: any = db
                 .from('gallery_videos')
                 .select(
-                    'id, title, alt, video_url, duration, width, height, created_at,' +
-                    'thumbnail:media_assets(storage_path),' +
-                    'category:media_categories(slug)',
+                    `id, title, alt, video_url, duration, width, height, created_at, thumbnail:media_assets(storage_path), ${catJoin}`,
                     { count: 'exact' },
                 )
                 .order('created_at', { ascending: false })
                 .range(from, to)
 
-            if (categoryId) query = query.eq('category_id', categoryId)
+            if (sub !== 'all') query = query.eq('media_categories.slug', sub)
 
             const { data, count, error } = await query
             if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -122,25 +125,28 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ items, total, hasMore: total > page * limit })
         }
 
-        // events
+        // ── events ───────────────────────────────────────────────────────────
         const limit = PAGE_SIZE.events
         const from  = (page - 1) * limit
         const to    = from + limit - 1
-        const categoryId = await resolveCategoryId(db, 'gallery_events', sub)
+
+        const catJoin = categorySelect(
+            sub,
+            'category:media_categories(slug)',
+            'category:media_categories!inner(slug)',
+        )
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let query: any = db
             .from('gallery_events')
             .select(
-                'id, title, description, event_date, photo_count, video_count,' +
-                'cover:media_assets(storage_path, alt, width, height),' +
-                'category:media_categories(slug)',
+                `id, title, description, event_date, photo_count, video_count, cover:media_assets(storage_path, alt, width, height), ${catJoin}`,
                 { count: 'exact' },
             )
             .order('event_date', { ascending: false })
             .range(from, to)
 
-        if (categoryId) query = query.eq('category_id', categoryId)
+        if (sub !== 'all') query = query.eq('media_categories.slug', sub)
 
         const { data, count, error } = await query
         if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -167,6 +173,7 @@ export async function GET(req: NextRequest) {
 
         const total = count ?? 0
         return NextResponse.json({ items, total, hasMore: total > page * limit })
+
     } catch (e) {
         console.error('[/api/gallery]', e)
         return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
