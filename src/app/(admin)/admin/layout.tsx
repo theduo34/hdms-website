@@ -33,7 +33,6 @@ export default async function AdminLayout({
           {children}
         </SidebarInset>
       </div>
-      <Toaster richColors position="top-right" />
     </SidebarProvider>
   )
 }
