@@ -18,9 +18,15 @@ export async function POST(req: NextRequest) {
   const metadataStr = formData.get('metadata') as string | null
   const eventId = formData.get('event_id') as string | null
 
-  // Resolve category_id from slug + domain
+  // Resolve category_id — upsert so the row always exists even if migration hasn't run
   let categoryId: string | null = null
   if (categorySlug && categoryDomain) {
+    await db!
+      .from('media_categories')
+      .upsert({ slug: categorySlug, domain: categoryDomain, label: categorySlug }, {
+        onConflict: 'slug,domain',
+        ignoreDuplicates: true,
+      })
     const { data: cat } = await db!
       .from('media_categories')
       .select('id')
