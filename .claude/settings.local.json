@@ -31,7 +31,10 @@
       "Bash(find \"C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\app\\\\\\\\\\(admin\\)\" -name \"*.tsx\")",
       "Bash(ls C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\features\\\\\\\\ *)",
       "Bash(ls C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\features\\\\\\\\gallery\\\\\\\\ *)",
-      "Bash(ls C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\features\\\\\\\\news\\\\\\\\ *)"
+      "Bash(ls C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\features\\\\\\\\news\\\\\\\\ *)",
+      "Bash(dir \"C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\lib\" /s /b)",
+      "Bash(npx next *)",
+      "Bash(git checkout *)"
     ]
   }
 }
