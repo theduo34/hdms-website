@@ -1,4 +1,3 @@
-// ─── Side-nav sections ────────────────────────────────────────────
 export const schoolDaySideNavSections = [
     {id: 'schedule', label: 'Daily Schedule'},
     {id: 'work-cycle', label: 'Work Cycle'},
@@ -22,7 +21,6 @@ export const wellbeingSideNavSections = [
     {id: 'nutrition', label: 'Nutrition'},
 ]
 
-// ─── School Day ───────────────────────────────────────────────────
 export const schoolDaySchedule = [
     {
         time: '7:30 AM',
@@ -104,7 +102,6 @@ export const mealsInfo = [
     },
 ]
 
-// ─── Sports & Clubs ───────────────────────────────────────────────
 export const sportsActivities = [
     {
         name: 'Football',
@@ -138,7 +135,6 @@ export const sportsActivities = [
     },
 ]
 
-// ─── Facilities ───────────────────────────────────────────────────
 export const learningSpaces = [
     {
         name: 'Montessori Classrooms',
@@ -183,7 +179,6 @@ export const supportSpaces = [
     },
 ]
 
-// ─── Wellbeing ────────────────────────────────────────────────────
 export const pastoralPillars = [
     {
         number: '01',

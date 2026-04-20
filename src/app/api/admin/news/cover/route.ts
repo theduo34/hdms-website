@@ -1,6 +1,3 @@
-// POST /api/admin/news/cover — upload a cover image for a news post
-// Returns { asset_id, storage_path } on success
-
 import { NextRequest } from 'next/server'
 import { apiGuard } from '@/lib/admin/api-guard'
 

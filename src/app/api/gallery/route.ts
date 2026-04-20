@@ -8,12 +8,8 @@ function pick<T>(v: T | T[] | null | undefined): T | undefined {
     return Array.isArray(v) ? v[0] : v
 }
 
-// When sub !== 'all':
-//   - Use !inner so PostgREST does an INNER JOIN → rows with no/wrong category are excluded.
-//   - Filter by media_categories.slug to match the chosen sub-category.
-//   - No separate lookup needed; one round-trip does the filtering.
-// When sub === 'all':
-//   - Use a regular (LEFT) join so uncategorised rows are still returned.
+// Returns the correct join string depending on whether we're filtering by sub-category.
+// !inner = INNER JOIN (excludes rows with no matching category), left = LEFT JOIN (includes all).
 function categorySelect(sub: string, leftJoin: string, innerJoin: string) {
     return sub === 'all' ? leftJoin : innerJoin
 }
@@ -27,7 +23,6 @@ export async function GET(req: NextRequest) {
     try {
         const db = createServiceClient()
 
-        // ── photos ───────────────────────────────────────────────────────────
         if (main === 'photos') {
             const limit = PAGE_SIZE.photos
             const from  = (page - 1) * limit
@@ -75,7 +70,6 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ items, total, hasMore: total > page * limit })
         }
 
-        // ── videos ───────────────────────────────────────────────────────────
         if (main === 'videos') {
             const limit = PAGE_SIZE.videos
             const from  = (page - 1) * limit
@@ -125,7 +119,6 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ items, total, hasMore: total > page * limit })
         }
 
-        // ── events ───────────────────────────────────────────────────────────
         const limit = PAGE_SIZE.events
         const from  = (page - 1) * limit
         const to    = from + limit - 1

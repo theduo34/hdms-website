@@ -24,9 +24,7 @@ interface QueuedFile {
 }
 
 interface UploadPhotosClientProps {
-  /** When set, uploaded photos are linked to this event album */
   eventId?: string
-  /** Event title shown in the header when uploading to a specific album */
   eventTitle?: string
 }
 

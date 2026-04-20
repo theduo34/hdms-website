@@ -1,6 +1,3 @@
-// GET  /api/admin/gallery  — list photos + events
-// DELETE /api/admin/gallery?id=<photo_id>&type=photo|event — delete
-
 import { NextRequest } from 'next/server'
 import { apiGuard } from '@/lib/admin/api-guard'
 
@@ -9,7 +6,7 @@ export async function GET(req: NextRequest) {
   if (err) return err
 
   const { searchParams } = new URL(req.url)
-  const type = searchParams.get('type') ?? 'photos' // photos | events | videos
+  const type = searchParams.get('type') ?? 'photos'
   const page = parseInt(searchParams.get('page') ?? '1', 10)
   const limit = 20
   const offset = (page - 1) * limit
@@ -36,7 +33,6 @@ export async function GET(req: NextRequest) {
     return json!({ data, count, page, limit })
   }
 
-  // Photos filtered by event_id
   const eventId = searchParams.get('event_id')
 
   if (eventId) {
@@ -51,12 +47,10 @@ export async function GET(req: NextRequest) {
       .range(offset, offset + limit - 1)
 
     if (error) return json!({ error: error.message }, 500)
-    // Unwrap the nested photo object for a consistent shape
     const photos = (data ?? []).map((r) => r.photo).filter(Boolean)
     return json!({ data: photos, count, page, limit })
   }
 
-  // Default: all photos
   const { data, error, count } = await db!
     .from('gallery_photos')
     .select('*, asset:media_assets!asset_id(id, storage_path, alt, title, width, height, metadata)', { count: 'exact' })
@@ -84,7 +78,6 @@ export async function DELETE(req: NextRequest) {
     const { error } = await db!.from('gallery_videos').delete().eq('id', id)
     if (error) return json!({ error: error.message }, 500)
   } else {
-    // Delete gallery_photo row — cascade removes gallery_event_photos
     const { data: photo } = await db!
       .from('gallery_photos')
       .select('asset_id')
@@ -94,7 +87,6 @@ export async function DELETE(req: NextRequest) {
     const { error } = await db!.from('gallery_photos').delete().eq('id', id)
     if (error) return json!({ error: error.message }, 500)
 
-    // Also delete the underlying media_asset and file
     if (photo?.asset_id) {
       const { data: asset } = await db!
         .from('media_assets')

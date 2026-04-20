@@ -21,7 +21,6 @@ export interface CalendarData {
 async function fetchCalendarData(): Promise<CalendarData> {
     const db = createClient()
 
-    // ── Calendar events ────────────────────────────────────────────────────
     const { data: evRows, error: evErr } = await db
         .from('calendar_events')
         .select('id, title, date, end_date, time, end_time, location, category, category_label, description, is_all_day, is_highlight')
@@ -44,7 +43,6 @@ async function fetchCalendarData(): Promise<CalendarData> {
         isHighlight:   row.is_highlight ?? undefined,
     }))
 
-    // ── Academic terms ─────────────────────────────────────────────────────
     const { data: termRows, error: termErr } = await db
         .from('academic_terms')
         .select('id, name, start_date, end_date, is_current, is_break')
@@ -61,7 +59,6 @@ async function fetchCalendarData(): Promise<CalendarData> {
         isBreak:   row.is_break,
     }))
 
-    // calendarFilters is static UI config — no DB round-trip needed
     return { events, filters: calendarFilters, terms }
 }
 
@@ -80,5 +77,4 @@ export function useCalenderData() {
     return { loading, data }
 }
 
-// Re-export so consumers don't need a separate import from calender.ts
 export { getCategoryStyle }

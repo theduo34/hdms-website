@@ -1,9 +1,3 @@
-// GET    /api/admin/news           — list posts (paginated)
-// GET    /api/admin/news?id=<id>   — fetch single post
-// POST   /api/admin/news           — create post (author auto-set from profile)
-// PATCH  /api/admin/news?id=<id>   — update post
-// DELETE /api/admin/news?id=<id>   — delete post
-
 import { NextRequest } from 'next/server'
 import { apiGuard } from '@/lib/admin/api-guard'
 import { z } from 'zod'

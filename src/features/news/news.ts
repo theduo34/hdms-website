@@ -39,7 +39,6 @@ export interface TermRow {
     isBreak?: boolean
 }
 
-// ── Featured post ──────────────────────────
 export const featuredPost: Post = {
     id: 'featured',
     slug: 'speech-prize-giving-day-2025',
@@ -61,7 +60,6 @@ export const featuredPost: Post = {
     ],
 }
 
-// ── Posts grid ─────────────────────────────
 export const posts: Post[] = [
     {
         id: 'robotics',
@@ -209,7 +207,6 @@ export const posts: Post[] = [
     },
 ]
 
-// ── Category badge helper ──────────────────
 export function categoryBadgeClass(cat: PostCategory): string {
     const map: Record<PostCategory, string> = {
         news:         'bg-accent text-accent-foreground',
@@ -220,7 +217,6 @@ export function categoryBadgeClass(cat: PostCategory): string {
     return map[cat]
 }
 
-// ── Filter config ──────────────────────────
 export const postFilters: { id: PostCategory | 'all'; label: string; count: number }[] = [
     { id: 'all',          label: 'All',           count: posts.length },
     { id: 'news',         label: 'News',          count: posts.filter(p => p.category === 'news').length },
@@ -229,7 +225,6 @@ export const postFilters: { id: PostCategory | 'all'; label: string; count: numb
     { id: 'press',        label: 'Press',         count: posts.filter(p => p.category === 'press').length },
 ]
 
-// ── Term dates ─────────────────────────────
 export const termDates: TermRow[] = [
     { name: 'Term 1',          start: '6 Jan 2026',  end: '28 Mar 2026',            duration: '12 weeks', isCurrent: true },
     { name: 'Easter Break',    start: '',            end: '29 Mar – 19 Apr 2026',   duration: '3 weeks',  isBreak: true },

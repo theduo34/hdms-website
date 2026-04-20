@@ -1,4 +1,3 @@
-// ─── House System ─────────────────────────────────────────────────
 export const houseSystemIntro = {
     headline: 'Four Houses.',
     headlineAccent: 'One Family.',
@@ -33,7 +32,6 @@ export const houseActivities = [
     },
 ]
 
-// ─── Parents & Families ───────────────────────────────────────────
 export const partnershipPillars = [
     {
         number: '01',
@@ -107,7 +105,6 @@ export const involvementWays = [
     },
 ]
 
-// ─── Service & Outreach ───────────────────────────────────────────
 export const servicePhilosophyQuote =
     "We do not teach children what to think. We teach them to care - about each other, their community, and the world."
 

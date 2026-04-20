@@ -1,37 +1,25 @@
-﻿// src/features/calender/calender.ts
-// Academic calendar data for Heaven's Dew Montessori
-// Static dummy data - replace array values with API fetch from api.hdm.edu.gh/calendar when ready.
-// The interfaces are designed to match a future REST response shape.
-
-export type EventCategory = 'academic' | 'event' | 'holiday' | 'exam' | 'sports' | 'cultural'
+﻿export type EventCategory = 'academic' | 'event' | 'holiday' | 'exam' | 'sports' | 'cultural'
 export type ViewMode = 'list' | 'grid'
 
 export interface CalendarEvent {
     id: string
     title: string
-    /** ISO date string "YYYY-MM-DD" */
     date: string
-    /** ISO end date for multi-day events "YYYY-MM-DD" */
     endDate?: string
-    /** Display time, e.g. "9:00 AM" */
     time?: string
-    /** Display end time, e.g. "12:00 PM" */
     endTime?: string
     location?: string
     category: EventCategory
     categoryLabel: string
     description?: string
     isAllDay: boolean
-    /** Visually emphasised on the calendar - term starts, major events */
     isHighlight?: boolean
 }
 
 export interface AcademicTerm {
     id: string
     name: string
-    /** ISO date "YYYY-MM-DD" */
     startDate: string
-    /** ISO date "YYYY-MM-DD" */
     endDate: string
     isCurrent: boolean
     isBreak: boolean
@@ -42,7 +30,6 @@ export interface CalendarFilter {
     label: string
 }
 
-// ── Academic Terms ──────────────────────────────────────────────────────────
 export const academicTerms: AcademicTerm[] = [
     {
         id: 'term-1-2026',
@@ -86,9 +73,8 @@ export const academicTerms: AcademicTerm[] = [
     },
 ]
 
-// ── Calendar Events ─────────────────────────────────────────────────────────
 export const calendarEvents: CalendarEvent[] = [
-    // ── Term 1 2026 ──────────────────────────────────────────
+
     {
         id: 'ev-001',
         title: 'Term 1 Begins',
@@ -172,7 +158,7 @@ export const calendarEvents: CalendarEvent[] = [
         isAllDay: true,
         isHighlight: true,
     },
-    // ── Easter Break ────────────────────────────────────────
+
     {
         id: 'ev-008',
         title: 'Easter Break Begins',
@@ -201,7 +187,7 @@ export const calendarEvents: CalendarEvent[] = [
         description: 'Easter Monday - Public Holiday.',
         isAllDay: true,
     },
-    // ── Term 2 2026 ──────────────────────────────────────────
+
     {
         id: 'ev-011',
         title: 'Term 2 Begins',
@@ -273,7 +259,7 @@ export const calendarEvents: CalendarEvent[] = [
         isAllDay: true,
         isHighlight: true,
     },
-    // ── Term 3 2026 ──────────────────────────────────────────
+
     {
         id: 'ev-017',
         title: 'Term 3 Begins',
@@ -357,7 +343,6 @@ export const calendarEvents: CalendarEvent[] = [
     },
 ]
 
-// ── Filter config ────────────────────────────────────────────────────────────
 export const calendarFilters: CalendarFilter[] = [
     { id: 'all',      label: 'All Events' },
     { id: 'academic', label: 'Academic'   },
@@ -368,11 +353,8 @@ export const calendarFilters: CalendarFilter[] = [
     { id: 'cultural', label: 'Cultural'   },
 ]
 
-// ── Category styling helpers ─────────────────────────────────────────────────
 export interface CategoryStyle {
-    /** Tailwind classes for the badge pill */
     badge: string
-    /** Tailwind bg class for the dot indicator */
     dot: string
 }
 

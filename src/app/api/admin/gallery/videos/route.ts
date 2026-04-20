@@ -1,14 +1,3 @@
-// POST /api/admin/gallery/videos
-// FormData fields:
-//   video_file  (File, optional)  — upload a video file directly to storage
-//   video_url   (string, optional) — YouTube/Vimeo embed URL (used when no file)
-//   title       (string, required)
-//   alt         (string, optional)
-//   duration    (string, optional, e.g. "4:32")
-//   category_slug (string, optional)
-//   year        (string, optional)
-//   thumbnail   (File, optional)   — custom thumbnail image
-
 import { NextRequest } from 'next/server'
 import { apiGuard } from '@/lib/admin/api-guard'
 import { getMediaUrl } from '@/lib/media'
@@ -35,7 +24,6 @@ export async function POST(req: NextRequest) {
   if (!title) return json!({ error: 'title is required' }, 400)
   if (!videoFile && !rawVideoUrl) return json!({ error: 'Provide either a video file or a video URL' }, 400)
 
-  // Resolve category_id
   let categoryId: string | null = null
   if (categorySlug) {
     const { data: cat } = await db!
@@ -47,12 +35,9 @@ export async function POST(req: NextRequest) {
     categoryId = cat?.id ?? null
   }
 
-  // Build base folder for uploads
   const baseFolder = categorySlug ? `videos/${categorySlug}` : 'videos/uploads'
-  const uploadFolder =
-    yearStr && categorySlug !== 'tour' ? `${baseFolder}/${yearStr}` : baseFolder
+  const uploadFolder = yearStr && categorySlug !== 'tour' ? `${baseFolder}/${yearStr}` : baseFolder
 
-  // --- Handle video file upload ---
   let resolvedVideoUrl: string = rawVideoUrl ?? ''
 
   if (videoFile && videoFile.size > 0) {
@@ -84,7 +69,6 @@ export async function POST(req: NextRequest) {
 
   if (!resolvedVideoUrl) return json!({ error: 'No video source resolved' }, 400)
 
-  // --- Handle thumbnail upload ---
   let thumbnailAssetId: string | null = null
 
   if (thumbnail && thumbnail.size > 0) {
@@ -131,7 +115,6 @@ export async function POST(req: NextRequest) {
     thumbnailAssetId = asset.id
   }
 
-  // --- Insert gallery_videos record ---
   const { data: video, error: videoError } = await db!
     .from('gallery_videos')
     .insert({

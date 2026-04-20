@@ -1,8 +1,3 @@
-// GET    /api/admin/calendar/terms           — list terms
-// POST   /api/admin/calendar/terms           — create term
-// PATCH  /api/admin/calendar/terms?id=<id>   — update term
-// DELETE /api/admin/calendar/terms?id=<id>   — delete term
-
 import { NextRequest } from 'next/server'
 import { apiGuard } from '@/lib/admin/api-guard'
 import { z } from 'zod'
@@ -60,7 +55,6 @@ export async function PATCH(req: NextRequest) {
   const parsed = schema.partial().safeParse(body)
   if (!parsed.success) return json!({ error: parsed.error.flatten() }, 400)
 
-  // If setting is_current = true, unset all others first
   if (parsed.data.is_current) {
     await db!.from('academic_terms').update({ is_current: false }).neq('id', id)
   }

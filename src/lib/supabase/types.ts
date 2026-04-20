@@ -1,41 +1,21 @@
-// src/lib/supabase/types.ts
-//
-// Manually-maintained Database type that mirrors 001_schema.sql.
-// When you add/change a column in a migration, update the matching Row/Insert/Update here.
-//
-// To auto-generate in the future (once Supabase CLI is set up):
-//   npx supabase gen types typescript --project-id <id> > src/lib/supabase/types.ts
-
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
-// ─── Per-table metadata shapes ───────────────────────────────────────────────
-
-// Metadata stored in the media_assets.metadata JSONB column.
-// All fields are optional — fill in what you have at upload time.
 export interface MediaAssetMetadata {
-  // ── Core details ─────────────────────────────────────────────────────────
-  description?: string   // longer text shown in lightbox / gallery caption
-  date_taken?: string    // ISO date the photo was actually taken: "2025-11-28"
-  location?: string      // physical location: "Main Hall", "Sports Field"
-  // ── People / departments ──────────────────────────────────────────────────
-  people?: string[]      // names of people pictured: ["Mrs. Charlotte Owusu"]
-  department?: string    // associated department: "Preschool", "Upper Primary"
-  // ── Tagging ───────────────────────────────────────────────────────────────
-  tags?: string[]        // freeform tags: ["sports-day", "inter-house", "2025"]
-  event_name?: string    // named event: "Speech and Prize Giving Day 2025"
-  year?: number          // year the media was captured — used for storage path and filtering
-  // ── Display extras ────────────────────────────────────────────────────────
-  quote?: string         // optional pull-quote to show with the image
-  photographer?: string  // credit line shown in lightbox
+  description?: string
+  date_taken?: string
+  location?: string
+  people?: string[]
+  department?: string
+  tags?: string[]
+  event_name?: string
+  year?: number
+  quote?: string
+  photographer?: string
 }
-
-// ─── Database type ────────────────────────────────────────────────────────────
 
 export interface Database {
   public: {
     Tables: {
-      // ── MEDIA ──────────────────────────────────────────────────────────────
-
       media_assets: {
         Row: {
           id: string
@@ -174,8 +154,6 @@ export interface Database {
         Update: Partial<Database['public']['Tables']['gallery_event_photos']['Insert']>
       }
 
-      // ── CONTENT ────────────────────────────────────────────────────────────
-
       news_posts: {
         Row: {
           id: string
@@ -228,8 +206,6 @@ export interface Database {
         Update: Partial<Database['public']['Tables']['announcements']['Insert']>
       }
 
-      // ── CALENDAR ───────────────────────────────────────────────────────────
-
       academic_terms: {
         Row: {
           id: string
@@ -281,8 +257,6 @@ export interface Database {
         }
         Update: Partial<Database['public']['Tables']['calendar_events']['Insert']>
       }
-
-      // ── SCHOOL DATA ────────────────────────────────────────────────────────
 
       staff_members: {
         Row: {
@@ -340,8 +314,6 @@ export interface Database {
         Update: Partial<Database['public']['Tables']['school_settings']['Insert']>
       }
 
-      // ── ADMIN ──────────────────────────────────────────────────────────────
-
       admin_profiles: {
         Row: {
           id: string
@@ -372,8 +344,6 @@ export interface Database {
     Enums: Record<string, never>
   }
 }
-
-// ─── Convenience row-type aliases ─────────────────────────────────────────────
 
 export type MediaAssetRow      = Database['public']['Tables']['media_assets']['Row']
 export type MediaCategoryRow   = Database['public']['Tables']['media_categories']['Row']

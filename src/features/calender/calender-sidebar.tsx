@@ -31,7 +31,6 @@ function getEventsForDate(events: CalendarEvent[], dateStr: string): CalendarEve
     })
 }
 
-/** Hex-ish CSS class for the heatmap dot - uses inline style to get actual color */
 function getDotColor(cat: EventCategory): string {
     const map: Record<EventCategory, string> = {
         academic: 'var(--color-primary)',

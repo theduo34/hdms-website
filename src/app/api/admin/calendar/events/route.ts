@@ -1,8 +1,3 @@
-// GET    /api/admin/calendar/events           — list events
-// POST   /api/admin/calendar/events           — create event
-// PATCH  /api/admin/calendar/events?id=<id>   — update event
-// DELETE /api/admin/calendar/events?id=<id>   — delete event
-
 import { NextRequest } from 'next/server'
 import { apiGuard } from '@/lib/admin/api-guard'
 import { z } from 'zod'

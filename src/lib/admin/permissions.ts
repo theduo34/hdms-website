@@ -30,16 +30,10 @@ const PERMISSIONS: Record<AdminRole, Record<AdminResource, AdminAction[]>> = {
   },
 }
 
-/**
- * Returns true if the given role has permission to perform action on resource.
- */
 export function can(role: AdminRole, resource: AdminResource, action: AdminAction): boolean {
   return PERMISSIONS[role][resource].includes(action)
 }
 
-/**
- * Throws if the role does NOT have permission. Use in API route handlers.
- */
 export function requirePermission(
   role: AdminRole,
   resource: AdminResource,
@@ -57,12 +51,6 @@ export class PermissionError extends Error {
   }
 }
 
-/**
- * Which roles a given admin can create.
- * super_admin → any role
- * school_admin → support_admin only
- * support_admin → none
- */
 export function creatableRoles(role: AdminRole): AdminRole[] {
   if (role === 'super_admin') return ['super_admin', 'school_admin', 'support_admin']
   if (role === 'school_admin') return ['support_admin']

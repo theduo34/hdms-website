@@ -1,5 +1,3 @@
-// Staff CRUD API
-
 import { NextRequest } from 'next/server'
 import { apiGuard } from '@/lib/admin/api-guard'
 import { z } from 'zod'

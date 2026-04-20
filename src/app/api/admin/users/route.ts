@@ -1,8 +1,3 @@
-// GET    /api/admin/users              — list all admin profiles
-// POST   /api/admin/users              — invite new admin (super_admin or school_admin)
-// PATCH  /api/admin/users?id=<id>      — update profile (super_admin: any field; school_admin: none)
-// DELETE /api/admin/users?id=<id>      — delete admin (super_admin only)
-
 import { NextRequest } from 'next/server'
 import { apiGuard } from '@/lib/admin/api-guard'
 import { creatableRoles } from '@/lib/admin/permissions'
@@ -46,7 +41,6 @@ export async function POST(req: NextRequest) {
   const parsed = inviteSchema.safeParse(body)
   if (!parsed.success) return json!({ error: parsed.error.flatten() }, 400)
 
-  // Enforce who can create which roles
   const allowed = creatableRoles(admin!.profile.role as AdminRole)
   if (!allowed.includes(parsed.data.role)) {
     return json!(
@@ -55,7 +49,6 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  // Use the auth admin API (service role) to invite the user via email
   const { data: invited, error: inviteError } = await db!.auth.admin.inviteUserByEmail(
     parsed.data.email,
     {
@@ -68,7 +61,6 @@ export async function POST(req: NextRequest) {
     return json!({ error: inviteError?.message ?? 'Failed to send invitation.' }, 500)
   }
 
-  // Create the admin_profiles row
   const { data: profile, error: profileError } = await db!
     .from('admin_profiles')
     .insert({
@@ -94,7 +86,6 @@ export async function PATCH(req: NextRequest) {
   const { db, err, json, admin } = await apiGuard(req, 'users', 'update')
   if (err) return err
 
-  // Only super_admin can update profiles
   if (admin!.profile.role !== 'super_admin') {
     return json!({ error: 'Only super admins can update admin profiles.' }, 403)
   }
@@ -102,7 +93,6 @@ export async function PATCH(req: NextRequest) {
   const id = new URL(req.url).searchParams.get('id')
   if (!id) return json!({ error: 'Missing id' }, 400)
 
-  // Prevent super_admin from removing their own verified status or role
   if (id === admin!.profile.id) {
     return json!({ error: 'You cannot modify your own profile through this endpoint.' }, 400)
   }
@@ -137,7 +127,6 @@ export async function DELETE(req: NextRequest) {
     return json!({ error: 'You cannot delete your own account.' }, 400)
   }
 
-  // Delete auth user — cascades to admin_profiles
   const { error } = await db!.auth.admin.deleteUser(id)
   if (error) return json!({ error: error.message }, 500)
   return json!({ success: true })

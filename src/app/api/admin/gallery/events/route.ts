@@ -1,7 +1,3 @@
-// POST /api/admin/gallery/events — create gallery event
-// PATCH /api/admin/gallery/events?id=<id> — update event
-// DELETE /api/admin/gallery/events?id=<id> — delete event
-
 import { NextRequest } from 'next/server'
 import { apiGuard } from '@/lib/admin/api-guard'
 import { z } from 'zod'
@@ -23,7 +19,6 @@ export async function POST(req: NextRequest) {
   const parsed = eventSchema.safeParse(body)
   if (!parsed.success) return json!({ error: parsed.error.flatten() }, 400)
 
-  // Resolve category_id from slug if provided
   let categoryId = parsed.data.category_id ?? null
   if (!categoryId && parsed.data.category_slug) {
     const { data: cat } = await db!

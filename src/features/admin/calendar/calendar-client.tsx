@@ -29,8 +29,6 @@ import {
 import { cn } from '@/lib/utils'
 import { EVENT_CATEGORIES, getCategoryStyle, type EventCategory } from './calendar-data'
 
-// ── Types ──────────────────────────────────────────────────────────────────────
-
 interface CalEvent {
   id: string
   title: string
@@ -54,7 +52,6 @@ interface AcademicTerm {
   is_break: boolean
 }
 
-// ── Schema ─────────────────────────────────────────────────────────────────────
 
 const eventSchema = z.object({
   title:        z.string().min(1, 'Title is required'),
@@ -70,7 +67,6 @@ const eventSchema = z.object({
 
 type EventValues = z.infer<typeof eventSchema>
 
-// ── Helpers ────────────────────────────────────────────────────────────────────
 
 function fmtDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-GH', { day: 'numeric', month: 'short', year: 'numeric' })
@@ -95,7 +91,6 @@ function computeWeeks(start: string, end: string) {
   return `${weeks} week${weeks !== 1 ? 's' : ''}`
 }
 
-// ── Event Form ─────────────────────────────────────────────────────────────────
 
 function EventForm({
   defaultValues,
@@ -283,7 +278,6 @@ function EventForm({
   )
 }
 
-// ── Main Component ─────────────────────────────────────────────────────────────
 
 export function CalendarClient() {
   const { admin } = useAdminUser()
