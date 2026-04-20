@@ -28,6 +28,67 @@ interface UploadPhotosClientProps {
   eventTitle?: string
 }
 
+// Resize + convert to JPEG using canvas (runs in browser, no server needed)
+function compressImage(file: File, maxSide = 2048, quality = 0.85): Promise<{ blob: Blob; width: number; height: number }> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file)
+    const img = new window.Image()
+    img.onload = () => {
+      let w = img.naturalWidth
+      let h = img.naturalHeight
+      if (w > maxSide || h > maxSide) {
+        if (w >= h) { h = Math.round((h * maxSide) / w); w = maxSide }
+        else { w = Math.round((w * maxSide) / h); h = maxSide }
+      }
+      const canvas = document.createElement('canvas')
+      canvas.width = w
+      canvas.height = h
+      const ctx = canvas.getContext('2d')
+      if (!ctx) { reject(new Error('Canvas unavailable')); return }
+      ctx.drawImage(img, 0, 0, w, h)
+      canvas.toBlob(
+        (blob) => {
+          URL.revokeObjectURL(url)
+          if (!blob) { reject(new Error('Compression failed')); return }
+          resolve({ blob, width: w, height: h })
+        },
+        'image/jpeg',
+        quality,
+      )
+    }
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Could not read image')) }
+    img.src = url
+  })
+}
+
+function getImageDimensions(file: File): Promise<{ width: number; height: number }> {
+  return new Promise((resolve) => {
+    const url = URL.createObjectURL(file)
+    const img = new window.Image()
+    img.onload = () => { resolve({ width: img.naturalWidth, height: img.naturalHeight }); URL.revokeObjectURL(url) }
+    img.onerror = () => { resolve({ width: 0, height: 0 }); URL.revokeObjectURL(url) }
+    img.src = url
+  })
+}
+
+// XHR upload so we get real progress events
+function uploadToSignedUrl(signedUrl: string, blob: Blob, mimeType: string, onProgress: (p: number) => void): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.upload.addEventListener('progress', (e) => {
+      if (e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100))
+    })
+    xhr.addEventListener('load', () => {
+      if (xhr.status >= 200 && xhr.status < 300) resolve()
+      else reject(new Error(`Storage upload failed (${xhr.status})`))
+    })
+    xhr.addEventListener('error', () => reject(new Error('Network error during upload')))
+    xhr.open('PUT', signedUrl)
+    xhr.setRequestHeader('Content-Type', mimeType)
+    xhr.send(blob)
+  })
+}
+
 export function UploadPhotosClient({ eventId, eventTitle }: UploadPhotosClientProps) {
   const router = useRouter()
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -82,32 +143,87 @@ export function UploadPhotosClient({ eventId, eventTitle }: UploadPhotosClientPr
     let successCount = 0
 
     for (const item of pending) {
-      setQueue((q) => q.map((f) => f.id === item.id ? { ...f, status: 'uploading', progress: 30 } : f))
-
-      const formData = new FormData()
-      formData.append('file', item.file)
-      formData.append('folder', folder)
-      formData.append('alt', item.alt)
-      formData.append('title', item.alt)
-      if (selectedCategory.slug) {
-        formData.append('category_slug', selectedCategory.slug)
-        formData.append('category_domain', 'gallery_photos')
-      }
-      if (eventId) {
-        formData.append('event_id', eventId)
-      }
+      const setProgress = (progress: number) =>
+        setQueue((q) => q.map((f) => (f.id === item.id ? { ...f, progress } : f)))
+      const setError = (error: string) =>
+        setQueue((q) => q.map((f) => (f.id === item.id ? { ...f, status: 'error', error } : f)))
 
       try {
-        const res = await fetch('/api/admin/gallery/upload', { method: 'POST', body: formData })
-        if (res.ok) {
-          setQueue((q) => q.map((f) => f.id === item.id ? { ...f, status: 'done', progress: 100 } : f))
-          successCount++
+        setQueue((q) => q.map((f) => (f.id === item.id ? { ...f, status: 'uploading', progress: 5 } : f)))
+
+        // Step 1 — compress/resize in browser
+        const isGif = item.file.type === 'image/gif'
+        let uploadBlob: Blob
+        let width: number
+        let height: number
+        const mimeType = isGif ? 'image/gif' : 'image/jpeg'
+
+        if (isGif) {
+          const dims = await getImageDimensions(item.file)
+          uploadBlob = item.file
+          width = dims.width
+          height = dims.height
         } else {
-          const j = await res.json()
-          setQueue((q) => q.map((f) => f.id === item.id ? { ...f, status: 'error', error: j.error ?? 'Upload failed' } : f))
+          const compressed = await compressImage(item.file)
+          uploadBlob = compressed.blob
+          width = compressed.width
+          height = compressed.height
         }
-      } catch {
-        setQueue((q) => q.map((f) => f.id === item.id ? { ...f, status: 'error', error: 'Network error' } : f))
+
+        setProgress(15)
+
+        // Step 2 — get a short-lived signed upload URL from our API (auth checked here)
+        const signRes = await fetch('/api/admin/gallery/upload/sign', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            folder,
+            filename: item.file.name,
+            contentType: mimeType,
+            fileSizeMb: uploadBlob.size / 1024 / 1024,
+          }),
+        })
+        if (!signRes.ok) {
+          const j = await signRes.json()
+          throw new Error(j.error ?? 'Could not get upload URL')
+        }
+        const { signedUrl, path } = await signRes.json()
+
+        setProgress(20)
+
+        // Step 3 — upload directly to Supabase (bypasses Vercel size limits)
+        await uploadToSignedUrl(signedUrl, uploadBlob, mimeType, (p) => {
+          setProgress(20 + Math.round(p * 0.7))
+        })
+
+        setProgress(90)
+
+        // Step 4 — record the asset + gallery entry in DB
+        const recordRes = await fetch('/api/admin/gallery/upload/record', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            path,
+            alt: item.alt,
+            title: item.alt,
+            width,
+            height,
+            fileSize: uploadBlob.size,
+            mimeType,
+            categorySlug: selectedCategory.slug ?? null,
+            categoryDomain: selectedCategory.slug ? 'gallery_photos' : null,
+            eventId: eventId ?? null,
+          }),
+        })
+        if (!recordRes.ok) {
+          const j = await recordRes.json()
+          throw new Error(j.error ?? 'Failed to save photo')
+        }
+
+        setQueue((q) => q.map((f) => (f.id === item.id ? { ...f, status: 'done', progress: 100 } : f)))
+        successCount++
+      } catch (err) {
+        setError((err as Error).message)
       }
     }
 
@@ -125,7 +241,6 @@ export function UploadPhotosClient({ eventId, eventTitle }: UploadPhotosClientPr
 
   return (
     <div className="space-y-6">
-      {/* Event context banner */}
       {eventId && eventTitle && (
         <div className="flex items-center gap-3 rounded-xl border border-primary/20 bg-primary/[0.03] px-4 py-3">
           <div className="w-1.5 h-5 rounded-full bg-primary flex-shrink-0" />
@@ -136,7 +251,6 @@ export function UploadPhotosClient({ eventId, eventTitle }: UploadPhotosClientPr
         </div>
       )}
 
-      {/* Category selection */}
       <div className="space-y-2">
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Category</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
@@ -165,7 +279,6 @@ export function UploadPhotosClient({ eventId, eventTitle }: UploadPhotosClientPr
         </div>
       </div>
 
-      {/* Year picker */}
       {selectedCategory.hasYear && (
         <div className="flex items-center gap-3">
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Year</p>
@@ -180,7 +293,6 @@ export function UploadPhotosClient({ eventId, eventTitle }: UploadPhotosClientPr
         </div>
       )}
 
-      {/* Drop zone */}
       <div
         className={cn(
           'border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-all',
@@ -214,7 +326,6 @@ export function UploadPhotosClient({ eventId, eventTitle }: UploadPhotosClientPr
         <p className="text-xs text-muted-foreground mt-1">JPEG, PNG, WebP — up to 30 MB each</p>
       </div>
 
-      {/* Upload queue */}
       {queue.length > 0 && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
@@ -247,8 +358,7 @@ export function UploadPhotosClient({ eventId, eventTitle }: UploadPhotosClientPr
                   'flex gap-4 rounded-xl border p-3 transition-colors',
                   item.status === 'done' && 'border-primary/20 bg-primary/[0.02]',
                   item.status === 'error' && 'border-destructive/20 bg-destructive/[0.02]',
-                  item.status === 'pending' && 'border-border bg-card',
-                  item.status === 'uploading' && 'border-border bg-card',
+                  (item.status === 'pending' || item.status === 'uploading') && 'border-border bg-card',
                 )}
               >
                 <div className="relative w-14 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-muted">

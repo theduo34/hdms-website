@@ -2,6 +2,9 @@ import { NextRequest } from 'next/server'
 import { apiGuard } from '@/lib/admin/api-guard'
 import { getMediaUrl } from '@/lib/media'
 
+export const maxDuration = 60
+export const dynamic = 'force-dynamic'
+
 const ALLOWED_VIDEO = ['video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo']
 const ALLOWED_IMAGE = ['image/jpeg', 'image/png', 'image/webp']
 const MAX_VIDEO_MB = 50
