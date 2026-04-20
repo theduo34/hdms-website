@@ -1,38 +1,20 @@
+'use client'
+
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { headingStyle } from "@/styles/font";
 
-
 const galleryPhotos = [
-  {
-    src: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=700&q=85",
-    caption: "Early Learners · Discovery Room",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1544776193-352d25ca82cd?w=700&q=85",
-    caption: "Hands-On Materials · Primary Class",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1560785496-3c9d27877182?w=700&q=85",
-    caption: "Nature Study · Garden Studio",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=700&q=85",
-    caption: "Quiet Reading · Library Corner",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=700&q=85",
-    caption: "Creative Work · Art Atelier",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1555009393-f20bdb245c4d?w=700&q=85",
-    caption: "Science Wonder · Lab Day",
-  },
+  { src: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=700&q=85", caption: "Early Learners · Discovery Room" },
+  { src: "https://images.unsplash.com/photo-1544776193-352d25ca82cd?w=700&q=85", caption: "Hands-On Materials · Primary Class" },
+  { src: "https://images.unsplash.com/photo-1560785496-3c9d27877182?w=700&q=85", caption: "Nature Study · Garden Studio" },
+  { src: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=700&q=85", caption: "Quiet Reading · Library Corner" },
+  { src: "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=700&q=85", caption: "Creative Work · Art Atelier" },
+  { src: "https://images.unsplash.com/photo-1555009393-f20bdb245c4d?w=700&q=85", caption: "Science Wonder · Lab Day" },
 ];
 
 const loopedPhotos = [...galleryPhotos, ...galleryPhotos];
-
 
 export function PhotoStrip({ externalPaused }: { externalPaused: boolean }) {
   const stripRef = useRef<HTMLDivElement>(null);
@@ -54,9 +36,7 @@ export function PhotoStrip({ externalPaused }: { externalPaused: boolean }) {
       rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
   }, [externalPaused]);
 
   const touchStartX = useRef(0);
@@ -64,17 +44,12 @@ export function PhotoStrip({ externalPaused }: { externalPaused: boolean }) {
 
   return (
     <div className="z-30 relative">
-
       <div
         ref={stripRef}
         className="flex gap-4 items-center overflow-x-hidden py-8"
         style={{ scrollbarWidth: "none", userSelect: "none" }}
-        onMouseEnter={() => {
-          hoverPausedRef.current = true;
-        }}
-        onMouseLeave={() => {
-          hoverPausedRef.current = false;
-        }}
+        onMouseEnter={() => { hoverPausedRef.current = true; }}
+        onMouseLeave={() => { hoverPausedRef.current = false; }}
         onTouchStart={(e) => {
           hoverPausedRef.current = true;
           touchStartX.current = e.touches[0].clientX;
@@ -86,12 +61,11 @@ export function PhotoStrip({ externalPaused }: { externalPaused: boolean }) {
           posRef.current = touchScrollLeft.current + dx;
           stripRef.current.scrollLeft = posRef.current;
         }}
-        onTouchEnd={() => {
-          hoverPausedRef.current = false;
-        }}
+        onTouchEnd={() => { hoverPausedRef.current = false; }}
       >
         {loopedPhotos.map((photo, i) => {
           const isEven = i % 2 === 0;
+          const [title, location] = photo.caption.split("·").map(s => s.trim());
           return (
             <div
               key={i}
@@ -107,20 +81,40 @@ export function PhotoStrip({ externalPaused }: { externalPaused: boolean }) {
                 className="object-cover"
               />
 
-              <div className="absolute inset-3 rounded-md flex flex-col items-center justify-center gap-5 translate-y-[110%] group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" style={{ background: "var(--color-secondary)" }}
+              {/* Desktop: hover-reveal overlay */}
+              <div
+                className="absolute inset-3 rounded-md hidden md:flex flex-col items-center justify-center gap-5 translate-y-[110%] group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                style={{ background: "var(--color-secondary)" }}
               >
-                <p
-                  className="text-xl font-bold text-center uppercase tracking-[0.15em] text-white"
-                  style={headingStyle}
-                >
-                  {photo.caption.split("·")[0].trim()}
+                <p className="text-xl font-bold text-center uppercase tracking-[0.15em] text-white" style={headingStyle}>
+                  {title}
                 </p>
                 <p className="text-[10px] uppercase tracking-[0.25em] font-semibold text-white/60">
-                  {photo.caption.split("·")[1]?.trim()}
+                  {location}
                 </p>
-                <Button className={"flex items-center justify-center border border-primary-foreground bg-secondary hover:bg-primary rounded-full"}>
+                <Link
+                  href="/campus-life/facilities"
+                  className="flex items-center justify-center px-6 h-10 rounded-full border border-white text-white text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-primary transition-colors duration-200"
+                >
                   Learn More
-                </Button>
+                </Link>
+              </div>
+
+              {/* Mobile: always-visible bottom bar */}
+              <div
+                className="absolute bottom-0 left-0 right-0 md:hidden flex items-center justify-between px-3 py-2.5 z-10"
+                style={{ background: "var(--color-secondary)" }}
+              >
+                <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-primary truncate flex-1 mr-2">
+                  {location}
+                </p>
+                <Link
+                  href="/campus-life/facilities"
+                  aria-label={`Learn more about ${title}`}
+                  className="text-[9px] font-bold uppercase tracking-wider text-primary border border-primary rounded-full px-2.5 py-1 shrink-0 whitespace-nowrap hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
+                >
+                  Learn More
+                </Link>
               </div>
             </div>
           );
