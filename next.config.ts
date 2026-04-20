@@ -29,13 +29,19 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: supabaseHostname,
+        pathname: "/storage/v1/render/image/public/**",
+      },
+      {
+        protocol: "https",
         hostname: "drive.google.com",
         pathname: "/uc",
       },
     ],
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
-    formats: ["image/avif", "image/webp"],
+    formats: ["image/webp"],
+    minimumCacheTTL: 2592000,
   },
 };
 

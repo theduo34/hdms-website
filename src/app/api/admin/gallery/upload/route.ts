@@ -2,6 +2,7 @@
 // Body: FormData with: file, folder, category_id, alt, title, metadata (JSON string)
 
 import { NextRequest } from 'next/server'
+import sharp from 'sharp'
 import { apiGuard } from '@/lib/admin/api-guard'
 
 export async function POST(req: NextRequest) {
@@ -44,9 +45,9 @@ export async function POST(req: NextRequest) {
     return json!({ error: `Unsupported file type: ${file.type}` }, 400)
   }
 
-  // Validate file size (max 20 MB via API route — storage bucket enforces 50 MB)
-  if (file.size > 20 * 1024 * 1024) {
-    return json!({ error: 'File too large. Maximum size is 20 MB.' }, 400)
+  // Validate file size (max 30 MB via API route — storage bucket enforces 50 MB)
+  if (file.size > 30 * 1024 * 1024) {
+    return json!({ error: 'File too large. Maximum size is 30 MB.' }, 400)
   }
 
   // The `folder` param already includes the year when relevant (client builds it).
@@ -58,13 +59,47 @@ export async function POST(req: NextRequest) {
   const timestamp = Date.now()
   const storagePath = `${folder}/${timestamp}-${safeName}`
 
-  const arrayBuffer = await file.arrayBuffer()
+  const inputBuffer = Buffer.from(await file.arrayBuffer())
+
+  // Compress and resize all non-GIF images before upload.
+  // Camera JPEGs can be 20MB+; this keeps them web-friendly without losing quality.
+  let uploadBuffer: Buffer = inputBuffer
+  let uploadMime = file.type
+  let uploadPath = storagePath
+  let imageWidth = 0
+  let imageHeight = 0
+
+  if (file.type !== 'image/gif') {
+    const MAX_SIDE = 2048
+    const image = sharp(inputBuffer)
+    const meta = await image.metadata()
+    const needsResize = (meta.width ?? 0) > MAX_SIDE || (meta.height ?? 0) > MAX_SIDE
+
+    const pipeline = needsResize
+      ? image.resize(MAX_SIDE, MAX_SIDE, { fit: 'inside', withoutEnlargement: true })
+      : image
+
+    const { data, info } = await pipeline
+      .jpeg({ quality: 85, progressive: true })
+      .toBuffer({ resolveWithObject: true })
+
+    uploadBuffer = data
+    uploadMime = 'image/jpeg'
+    imageWidth = info.width
+    imageHeight = info.height
+    // Normalise file extension to .jpg after converting PNG/WebP → JPEG
+    uploadPath = storagePath.replace(/\.[^.]+$/, '.jpg')
+  } else {
+    const meta = await sharp(inputBuffer, { animated: false }).metadata()
+    imageWidth = meta.width ?? 800
+    imageHeight = meta.height ?? 600
+  }
 
   // Upload to Supabase Storage using service role
   const { error: uploadError } = await db!.storage
     .from('media')
-    .upload(storagePath, arrayBuffer, {
-      contentType: file.type,
+    .upload(uploadPath, uploadBuffer, {
+      contentType: uploadMime,
       upsert: false,
     })
 
@@ -83,11 +118,13 @@ export async function POST(req: NextRequest) {
   const { data: asset, error: assetError } = await db!
     .from('media_assets')
     .insert({
-      storage_path: storagePath,
+      storage_path: uploadPath,
       alt,
       title: title ?? null,
-      mime_type: file.type,
-      file_size: file.size,
+      mime_type: uploadMime,
+      file_size: uploadBuffer.length,
+      width: imageWidth || null,
+      height: imageHeight || null,
       metadata,
     })
     .select()
@@ -95,7 +132,7 @@ export async function POST(req: NextRequest) {
 
   if (assetError || !asset) {
     // Clean up uploaded file
-    await db!.storage.from('media').remove([storagePath])
+    await db!.storage.from('media').remove([uploadPath])
     return json!({ error: `Failed to save asset: ${assetError?.message}` }, 500)
   }
 

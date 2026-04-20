@@ -213,7 +213,7 @@ export function UploadPhotosClient({ eventId, eventTitle }: UploadPhotosClientPr
         <p className="text-sm font-medium text-foreground">
           {isDragging ? 'Release to add images' : 'Drop images here or click to browse'}
         </p>
-        <p className="text-xs text-muted-foreground mt-1">JPEG, PNG, WebP — up to 20 MB each</p>
+        <p className="text-xs text-muted-foreground mt-1">JPEG, PNG, WebP — up to 30 MB each</p>
       </div>
 
       {/* Upload queue */}

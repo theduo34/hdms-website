@@ -37,7 +37,7 @@ function PhotoItem({
             transition={{ duration: 0.5, delay: (index % 12) * 0.035, ease: EASE }}
         >
             <button
-                className="group relative w-full overflow-hidden cursor-pointer focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2 block"
+                className="group relative w-full overflow-hidden cursor-pointer focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2 block max-h-[460px]"
                 onClick={() => onOpen(photo)}
                 aria-label={`View: ${photo.title}`}
             >

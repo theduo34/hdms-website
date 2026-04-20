@@ -37,7 +37,7 @@ export const PHOTO_CATEGORIES: PhotoCategory[] = [
     label: 'Campus',
     icon: Building2,
     folder: 'gallery/campus',
-    hasYear: false,
+    hasYear: true,
     description: 'School grounds and facilities',
   },
   {

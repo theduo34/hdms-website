@@ -277,7 +277,7 @@ export function UploadVideoClient() {
                 <Video className="w-5 h-5 text-primary/40" />
               </div>
               <p className="text-sm font-medium text-foreground">Drop video here or click to browse</p>
-              <p className="text-xs text-muted-foreground mt-1">MP4, WebM, MOV up to 200 MB</p>
+              <p className="text-xs text-muted-foreground mt-1">MP4, WebM, MOV up to 50 MB</p>
             </div>
           )}
           <input

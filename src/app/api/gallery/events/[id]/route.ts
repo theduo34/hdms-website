@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/service'
-import { getMediaUrl } from '@/lib/media'
+import { getTransformedMediaUrl } from '@/lib/media'
 
 function pick<T>(v: T | T[] | null | undefined): T | undefined {
     if (!v) return undefined
@@ -41,7 +41,7 @@ export async function GET(
             id:          evRow.id,
             type:        'events',
             subCategory: cat?.slug ?? 'special',
-            coverImage:  getMediaUrl(cover?.storage_path),
+            coverImage:  getTransformedMediaUrl(cover?.storage_path, { width: 800, quality: 80 }),
             alt:         cover?.alt ?? evRow.title,
             title:       evRow.title,
             eventDate:   evRow.event_date,
@@ -57,7 +57,6 @@ export async function GET(
             .from('gallery_event_photos')
             .select('photo_id')
             .eq('event_id', eventId)
-            .order('sort_order', { ascending: true })
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const photoIds = ((linksResult.data ?? []) as any[]).map((l: any) => l.photo_id)
@@ -73,25 +72,18 @@ export async function GET(
                 'category:media_categories(slug)',
             )
             .in('id', photoIds)
+            .order('created_at', { ascending: false })
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const photoMap = new Map<string, any>(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ((photoResult.data ?? []) as any[]).map((p: any) => [p.id as string, p]),
-        )
-
-        const photos = photoIds
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            .map((id: string) => {
-                const row = photoMap.get(id)
-                if (!row) return null
+        const photos = ((photoResult.data ?? []) as any[])
+            .map((row: any) => {
                 const asset = pick(row.asset)
                 const pCat  = pick(row.category)
                 return {
                     id:          row.id,
                     type:        'photos',
                     subCategory: pCat?.slug ?? 'events',
-                    src:         getMediaUrl(asset?.storage_path),
+                    src:         getTransformedMediaUrl(asset?.storage_path, { width: 1600, quality: 80 }),
                     alt:         asset?.alt ?? '',
                     title:       asset?.title ?? asset?.alt ?? '',
                     createdAt:   (row.created_at as string).slice(0, 10),
@@ -99,7 +91,6 @@ export async function GET(
                     height:      asset?.height ?? 800,
                 }
             })
-            .filter(Boolean)
 
         return NextResponse.json({ event, photos, total: event.photoCount })
     } catch (e) {

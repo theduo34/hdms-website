@@ -15,7 +15,7 @@ import { getMediaUrl } from '@/lib/media'
 
 const ALLOWED_VIDEO = ['video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo']
 const ALLOWED_IMAGE = ['image/jpeg', 'image/png', 'image/webp']
-const MAX_VIDEO_MB = 200
+const MAX_VIDEO_MB = 50
 const MAX_THUMB_MB = 10
 
 export async function POST(req: NextRequest) {
