@@ -181,3 +181,136 @@ For bold italic display headings, use `headingStyle` (Georgia fallback stack) �
 - The school calendar page lives at `/calender` (typo in folder name — do not rename without updating all imports and the sitemap)
 - The news page route is `/news-&-announcements` (ampersand in URL — this is intentional)
 - Admissions sub-routes: `/admissions/apply`, `/admissions/tuition`, `/admissions/visit-campus`
+- Experience cards on the home page link to about-us section anchors: `mission` → `#vision`, `community` → `#houses`, `boarding` → `#story`, `academics` → `#montessori`, `arts` → `#philosophy`
+
+---
+
+## Database & Storage (Supabase)
+
+**Storage bucket:** `media` (single bucket for everything).
+
+**Storage path conventions:**
+```
+gallery/events/{year}/filename
+gallery/student-activities/{year}/filename
+gallery/campus/{year}/filename
+gallery/staff/{year}/filename
+gallery/events/covers/filename   ← event cover photos only
+news/filename
+programmes/filename
+staff/filename
+```
+
+**Three Supabase clients:**
+
+| Client | File | When to use |
+|--------|------|-------------|
+| Browser (anon) | `src/lib/supabase/client.ts` | Client components needing auth state |
+| Server (SSR cookie) | `src/lib/supabase/server.ts` | Server components, RSC auth checks |
+| Service role | `src/lib/supabase/service.ts` | Admin API routes only — bypasses RLS |
+
+**URL helpers (`src/lib/media.ts`):**
+```ts
+getMediaUrl(storagePath)            // always use for public image display
+getTransformedMediaUrl(path, opts)  // Supabase Pro image transforms — DO NOT use on free plan
+buildStoragePath(folder, year, filename)
+```
+
+If `NEXT_PUBLIC_SUPABASE_URL` is not set in Vercel env vars, all `getMediaUrl()` calls return relative paths — images break in production. `SUPABASE_SERVICE_ROLE_KEY` must also be set (server-only, never `NEXT_PUBLIC_`).
+
+**Key tables (`src/lib/supabase/types.ts`):**
+
+| Table | Purpose |
+|-------|---------|
+| `media_assets` | Every uploaded file — `storage_path`, `alt`, `title`, `width`, `height`, `mime_type`, `file_size`, `metadata` |
+| `media_categories` | Category slugs + domain (`gallery_photos`, `gallery_videos`, `gallery_events`) |
+| `gallery_photos` | Links asset → gallery + category |
+| `gallery_videos` | Video entries (YouTube/Vimeo URLs or direct) |
+| `gallery_events` | Event albums with cover photo, `photo_count`, `video_count` |
+| `gallery_event_photos` | Join table: event → photos (photos here must NOT appear in the public Photos tab) |
+| `news_posts` | Articles — `content: Array<{type: 'paragraph'|'pullquote', text}>` |
+| `announcements` | Urgent/info notices with expiry |
+| `academic_terms` | School term dates (`is_current` flag) |
+| `calendar_events` | School calendar entries |
+| `staff_members` | Staff profiles linked to a media asset |
+| `admin_profiles` | Admin users with role (`super_admin`, `school_admin`, `support_admin`) |
+| `admissions_faqs` | FAQ entries managed via admin |
+| `school_settings` | Key-value store for site-wide settings |
+
+**Gallery public API rule:** Photos that belong to a `gallery_event_photos` row must NOT appear in the public Photos tab (`/api/gallery?main=photos`). The route excludes them by fetching all linked `photo_id`s and calling `.not('id', 'in', '(...)')`.
+
+---
+
+## Admin Dashboard
+
+**Route group:** `src/app/(admin)/admin/` — all routes protected by the admin layout which calls `getCurrentAdmin()` and redirects on failure.
+
+**Three roles:**
+
+| Role | Capabilities |
+|------|-------------|
+| `super_admin` | Full CRUD on all resources + manage all users |
+| `school_admin` | Full CRUD on gallery/news/calendar/staff/faqs, read-only settings/users |
+| `support_admin` | Create/read/update gallery/news/calendar, read-only everything else |
+
+**Resources:** `gallery`, `news`, `calendar`, `staff`, `faqs`, `settings`, `users`
+
+**Every admin API route starts with:**
+```ts
+const { admin, db, err, json } = await apiGuard(req, 'gallery', 'create')
+if (err) return err
+// db = service-role client (bypasses RLS)
+// admin.profile.role = verified role
+// json = typed NextResponse.json helper
+```
+
+See `src/lib/admin/api-guard.ts`, `src/lib/admin/permissions.ts`, `src/lib/admin/types.ts`.
+
+---
+
+## Upload Flow (Signed URL Pattern)
+
+**Never send files through Next.js API routes** — Vercel has a ~4.5MB serverless body limit.
+
+4-step flow (all wired in `src/features/admin/gallery/upload-helpers.ts`):
+1. **Compress** — browser Canvas API resizes to max 2048px, converts to JPEG 85% (GIFs skip)
+2. **Sign** — `POST /api/admin/gallery/upload/sign` → server checks auth + RBAC, generates signed Supabase upload URL
+3. **Upload** — browser PUTs file directly to Supabase via signed URL (XHR for progress)
+4. **Record** — `POST /api/admin/gallery/upload/record` → server inserts `media_assets` + `gallery_photos`, handles event linking
+
+```ts
+import { signAndUpload } from '@/features/admin/gallery/upload-helpers'
+
+await signAndUpload({
+  file,
+  folder: 'gallery/events/2026',
+  alt: 'Description',
+  title: 'Title',
+  categorySlug: 'events',
+  categoryDomain: 'gallery_photos',
+  eventId: 'uuid-here',       // optional — links photo to event album
+  skipGalleryEntry: false,    // true = asset only, no gallery_photos row (for cover photos)
+  onProgress: (p) => ...,
+})
+```
+
+The old `/api/admin/gallery/upload` route is **retired — returns 410**. Do not use.
+
+---
+
+## Email (Resend)
+
+Forms that send emails use the Resend API directly from API routes. Required env vars:
+- `RESEND_API_KEY`
+- `ADMISSIONS_EMAIL` — recipient for admissions applications
+- `CONTACT_EMAIL` — recipient for general contact form submissions
+
+Pattern: `POST https://api.resend.com/emails` from the API route, `from: "HDM <noreply@hdm.edu.gh>"`.
+
+---
+
+## All Images Use `unoptimized`
+
+Gallery `<Image>` components use `unoptimized` — this bypasses the Next.js image optimizer so images load directly from the Supabase CDN. This avoids timeouts on large files. Always use `getMediaUrl(storagePath)` to build the URL.
+
+`next.config.ts` remotePatterns uses a broad Supabase pattern: `pathname: "/storage/v1/**"` (covers both `object` and `render` paths).
