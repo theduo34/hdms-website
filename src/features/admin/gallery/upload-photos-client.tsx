@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/utils'
 import { PHOTO_CATEGORIES } from './gallery-data'
+import { signAndUpload } from './upload-helpers'
 
 type CategorySlug = 'events' | 'student-activities' | 'campus' | 'staff' | null
 
@@ -26,67 +27,6 @@ interface QueuedFile {
 interface UploadPhotosClientProps {
   eventId?: string
   eventTitle?: string
-}
-
-// Resize + convert to JPEG using canvas (runs in browser, no server needed)
-function compressImage(file: File, maxSide = 2048, quality = 0.85): Promise<{ blob: Blob; width: number; height: number }> {
-  return new Promise((resolve, reject) => {
-    const url = URL.createObjectURL(file)
-    const img = new window.Image()
-    img.onload = () => {
-      let w = img.naturalWidth
-      let h = img.naturalHeight
-      if (w > maxSide || h > maxSide) {
-        if (w >= h) { h = Math.round((h * maxSide) / w); w = maxSide }
-        else { w = Math.round((w * maxSide) / h); h = maxSide }
-      }
-      const canvas = document.createElement('canvas')
-      canvas.width = w
-      canvas.height = h
-      const ctx = canvas.getContext('2d')
-      if (!ctx) { reject(new Error('Canvas unavailable')); return }
-      ctx.drawImage(img, 0, 0, w, h)
-      canvas.toBlob(
-        (blob) => {
-          URL.revokeObjectURL(url)
-          if (!blob) { reject(new Error('Compression failed')); return }
-          resolve({ blob, width: w, height: h })
-        },
-        'image/jpeg',
-        quality,
-      )
-    }
-    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Could not read image')) }
-    img.src = url
-  })
-}
-
-function getImageDimensions(file: File): Promise<{ width: number; height: number }> {
-  return new Promise((resolve) => {
-    const url = URL.createObjectURL(file)
-    const img = new window.Image()
-    img.onload = () => { resolve({ width: img.naturalWidth, height: img.naturalHeight }); URL.revokeObjectURL(url) }
-    img.onerror = () => { resolve({ width: 0, height: 0 }); URL.revokeObjectURL(url) }
-    img.src = url
-  })
-}
-
-// XHR upload so we get real progress events
-function uploadToSignedUrl(signedUrl: string, blob: Blob, mimeType: string, onProgress: (p: number) => void): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
-    xhr.upload.addEventListener('progress', (e) => {
-      if (e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100))
-    })
-    xhr.addEventListener('load', () => {
-      if (xhr.status >= 200 && xhr.status < 300) resolve()
-      else reject(new Error(`Storage upload failed (${xhr.status})`))
-    })
-    xhr.addEventListener('error', () => reject(new Error('Network error during upload')))
-    xhr.open('PUT', signedUrl)
-    xhr.setRequestHeader('Content-Type', mimeType)
-    xhr.send(blob)
-  })
 }
 
 export function UploadPhotosClient({ eventId, eventTitle }: UploadPhotosClientProps) {
@@ -143,87 +83,24 @@ export function UploadPhotosClient({ eventId, eventTitle }: UploadPhotosClientPr
     let successCount = 0
 
     for (const item of pending) {
-      const setProgress = (progress: number) =>
-        setQueue((q) => q.map((f) => (f.id === item.id ? { ...f, progress } : f)))
-      const setError = (error: string) =>
-        setQueue((q) => q.map((f) => (f.id === item.id ? { ...f, status: 'error', error } : f)))
-
       try {
         setQueue((q) => q.map((f) => (f.id === item.id ? { ...f, status: 'uploading', progress: 5 } : f)))
 
-        // Step 1 — compress/resize in browser
-        const isGif = item.file.type === 'image/gif'
-        let uploadBlob: Blob
-        let width: number
-        let height: number
-        const mimeType = isGif ? 'image/gif' : 'image/jpeg'
-
-        if (isGif) {
-          const dims = await getImageDimensions(item.file)
-          uploadBlob = item.file
-          width = dims.width
-          height = dims.height
-        } else {
-          const compressed = await compressImage(item.file)
-          uploadBlob = compressed.blob
-          width = compressed.width
-          height = compressed.height
-        }
-
-        setProgress(15)
-
-        // Step 2 — get a short-lived signed upload URL from our API (auth checked here)
-        const signRes = await fetch('/api/admin/gallery/upload/sign', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            folder,
-            filename: item.file.name,
-            contentType: mimeType,
-            fileSizeMb: uploadBlob.size / 1024 / 1024,
-          }),
+        await signAndUpload({
+          file: item.file,
+          folder,
+          alt: item.alt,
+          title: item.alt,
+          categorySlug: selectedCategory.slug ?? null,
+          categoryDomain: selectedCategory.slug ? 'gallery_photos' : null,
+          eventId: eventId ?? null,
+          onProgress: (p) => setQueue((q) => q.map((f) => (f.id === item.id ? { ...f, progress: p } : f))),
         })
-        if (!signRes.ok) {
-          const j = await signRes.json()
-          throw new Error(j.error ?? 'Could not get upload URL')
-        }
-        const { signedUrl, path } = await signRes.json()
-
-        setProgress(20)
-
-        // Step 3 — upload directly to Supabase (bypasses Vercel size limits)
-        await uploadToSignedUrl(signedUrl, uploadBlob, mimeType, (p) => {
-          setProgress(20 + Math.round(p * 0.7))
-        })
-
-        setProgress(90)
-
-        // Step 4 — record the asset + gallery entry in DB
-        const recordRes = await fetch('/api/admin/gallery/upload/record', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            path,
-            alt: item.alt,
-            title: item.alt,
-            width,
-            height,
-            fileSize: uploadBlob.size,
-            mimeType,
-            categorySlug: selectedCategory.slug ?? null,
-            categoryDomain: selectedCategory.slug ? 'gallery_photos' : null,
-            eventId: eventId ?? null,
-          }),
-        })
-        if (!recordRes.ok) {
-          const j = await recordRes.json()
-          throw new Error(j.error ?? 'Failed to save photo')
-        }
 
         setQueue((q) => q.map((f) => (f.id === item.id ? { ...f, status: 'done', progress: 100 } : f)))
         successCount++
       } catch (err) {
-        setError((err as Error).message)
+        setQueue((q) => q.map((f) => (f.id === item.id ? { ...f, status: 'error', error: (err as Error).message } : f)))
       }
     }
 

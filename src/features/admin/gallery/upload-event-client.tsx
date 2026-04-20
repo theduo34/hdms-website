@@ -15,6 +15,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import { UploadPhotosClient } from './upload-photos-client'
+import { signAndUpload } from './upload-helpers'
 
 const EVENT_TYPES = [
   { slug: 'term-1',  label: 'Term 1' },
@@ -68,20 +69,19 @@ export function UploadEventClient() {
     let coverAssetId: string | null = null
 
     if (coverFile) {
-      const fd = new FormData()
-      fd.append('file', coverFile)
-      fd.append('folder', 'gallery/events/covers')
-      fd.append('alt', `Cover for ${values.title}`)
-      fd.append('title', values.title)
-
-      const uploadRes = await fetch('/api/admin/gallery/upload', { method: 'POST', body: fd })
-      if (!uploadRes.ok) {
-        const j = await uploadRes.json()
-        toast.error(j.error ?? 'Cover upload failed')
+      try {
+        const { assetId } = await signAndUpload({
+          file: coverFile,
+          folder: 'gallery/events/covers',
+          alt: `Cover for ${values.title}`,
+          title: values.title,
+          skipGalleryEntry: true,
+        })
+        coverAssetId = assetId
+      } catch (err) {
+        toast.error((err as Error).message ?? 'Cover upload failed')
         return
       }
-      const { asset } = await uploadRes.json()
-      coverAssetId = asset?.id ?? null
     }
 
     // 2. Create the event

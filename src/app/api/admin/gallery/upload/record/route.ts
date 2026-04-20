@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
     categorySlug,
     categoryDomain,
     eventId,
+    skipGalleryEntry = false,
   } = body as {
     path: string
     alt: string
@@ -32,6 +33,7 @@ export async function POST(req: NextRequest) {
     categorySlug?: string | null
     categoryDomain?: string | null
     eventId?: string | null
+    skipGalleryEntry?: boolean
   }
 
   if (!path) return json!({ error: 'path is required' }, 400)
@@ -78,6 +80,10 @@ export async function POST(req: NextRequest) {
   if (assetError || !asset) {
     await db!.storage.from('media').remove([path])
     return json!({ error: `Failed to save asset: ${assetError?.message}` }, 500)
+  }
+
+  if (skipGalleryEntry) {
+    return json!({ asset }, 201)
   }
 
   const { data: photo, error: photoError } = await db!
