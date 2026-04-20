@@ -29,6 +29,12 @@ export async function GET(req: NextRequest) {
             const from  = (page - 1) * limit
             const to    = from + limit - 1
 
+            // Exclude photos that belong to an event album
+            const { data: eventLinks } = await db
+                .from('gallery_event_photos')
+                .select('photo_id')
+            const eventPhotoIds = (eventLinks ?? []).map((r: { photo_id: string }) => r.photo_id)
+
             const catJoin = categorySelect(
                 sub,
                 'category:media_categories(slug)',
@@ -45,6 +51,7 @@ export async function GET(req: NextRequest) {
                 .order('created_at', { ascending: false })
                 .range(from, to)
 
+            if (eventPhotoIds.length > 0) query = query.not('id', 'in', `(${eventPhotoIds.join(',')})`)
             if (sub !== 'all') query = query.eq('media_categories.slug', sub)
 
             const { data, count, error } = await query
