@@ -129,6 +129,7 @@ export function GalleryLightbox({ item, items, onClose, onPrev, onNext }: Props)
                                     display: 'block',
                                 }}
                                 priority
+                                unoptimized
                                 sizes="90vw"
                             />
                         )}

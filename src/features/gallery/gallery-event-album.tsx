@@ -62,6 +62,7 @@ export function GalleryEventAlbum({ eventId }: { eventId: string }) {
                     fill
                     style={{ objectFit: 'cover' }}
                     priority
+                    unoptimized
                     sizes="100vw"
                     className="brightness-[0.85]"
                 />
@@ -143,6 +144,7 @@ export function GalleryEventAlbum({ eventId }: { eventId: string }) {
                                     style={{ width: '100%', height: 'auto', display: 'block' }}
                                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                     loading={i < 6 ? 'eager' : 'lazy'}
+                                    unoptimized
                                 />
                             </div>
                         ))}

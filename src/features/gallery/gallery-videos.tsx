@@ -50,6 +50,7 @@ function VideoItem({
                         style={{ objectFit: 'cover' }}
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         loading={index < 4 ? 'eager' : 'lazy'}
+                        unoptimized
                         className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
                     />
 

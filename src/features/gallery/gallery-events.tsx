@@ -50,6 +50,7 @@ function EventCard({
                         style={{ objectFit: 'cover' }}
                         sizes="(max-width: 768px) 100vw, 50vw"
                         loading={index < 4 ? 'eager' : 'lazy'}
+                        unoptimized
                         className="transition-transform duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />

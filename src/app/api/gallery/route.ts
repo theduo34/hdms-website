@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/service'
-import { getTransformedMediaUrl } from '@/lib/media'
+import { getMediaUrl } from '@/lib/media'
+
 import { PAGE_SIZE } from '@/features/gallery/gallery'
 
 function pick<T>(v: T | T[] | null | undefined): T | undefined {
@@ -57,7 +58,7 @@ export async function GET(req: NextRequest) {
                     id:          row.id,
                     type:        'photos',
                     subCategory: cat?.slug ?? 'events',
-                    src:         getTransformedMediaUrl(asset?.storage_path, { width: 1600, quality: 80 }),
+                    src:         getMediaUrl(asset?.storage_path),
                     alt:         asset?.alt ?? '',
                     title:       asset?.title ?? asset?.alt ?? '',
                     createdAt:   (row.created_at as string).slice(0, 10),
@@ -104,7 +105,7 @@ export async function GET(req: NextRequest) {
                     id:          row.id,
                     type:        'videos',
                     subCategory: cat?.slug ?? 'events',
-                    thumbnail:   getTransformedMediaUrl(thumb?.storage_path, { width: 600, quality: 80 }),
+                    thumbnail:   getMediaUrl(thumb?.storage_path),
                     alt:         row.alt,
                     title:       row.title,
                     createdAt:   (row.created_at as string).slice(0, 10),
@@ -152,7 +153,7 @@ export async function GET(req: NextRequest) {
                 id:          row.id,
                 type:        'events',
                 subCategory: cat?.slug ?? 'special',
-                coverImage:  getTransformedMediaUrl(cover?.storage_path, { width: 800, quality: 80 }),
+                coverImage:  getMediaUrl(cover?.storage_path),
                 alt:         cover?.alt ?? row.title,
                 title:       row.title,
                 eventDate:   row.event_date,

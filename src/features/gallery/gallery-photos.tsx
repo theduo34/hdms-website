@@ -37,7 +37,7 @@ function PhotoItem({
             transition={{ duration: 0.5, delay: (index % 12) * 0.035, ease: EASE }}
         >
             <button
-                className="group relative w-full overflow-hidden cursor-pointer focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2 block max-h-[460px]"
+                className="group relative w-full overflow-hidden cursor-pointer focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2 block max-h-[600px]"
                 onClick={() => onOpen(photo)}
                 aria-label={`View: ${photo.title}`}
             >
@@ -49,6 +49,7 @@ function PhotoItem({
                     style={{ width: '100%', height: 'auto', display: 'block' }}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     loading={index < 6 ? 'eager' : 'lazy'}
+                    unoptimized
                     className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
                 />
 

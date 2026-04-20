@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/service'
-import { getTransformedMediaUrl } from '@/lib/media'
+import { getMediaUrl } from '@/lib/media'
 
 function pick<T>(v: T | T[] | null | undefined): T | undefined {
     if (!v) return undefined
@@ -41,7 +41,7 @@ export async function GET(
             id:          evRow.id,
             type:        'events',
             subCategory: cat?.slug ?? 'special',
-            coverImage:  getTransformedMediaUrl(cover?.storage_path, { width: 800, quality: 80 }),
+            coverImage:  getMediaUrl(cover?.storage_path),
             alt:         cover?.alt ?? evRow.title,
             title:       evRow.title,
             eventDate:   evRow.event_date,
@@ -83,7 +83,7 @@ export async function GET(
                     id:          row.id,
                     type:        'photos',
                     subCategory: pCat?.slug ?? 'events',
-                    src:         getTransformedMediaUrl(asset?.storage_path, { width: 1600, quality: 80 }),
+                    src:         getMediaUrl(asset?.storage_path),
                     alt:         asset?.alt ?? '',
                     title:       asset?.title ?? asset?.alt ?? '',
                     createdAt:   (row.created_at as string).slice(0, 10),
