@@ -9,6 +9,7 @@ const PERMISSIONS: Record<AdminRole, Record<AdminResource, AdminAction[]>> = {
     faqs:     ['create', 'read', 'update', 'delete'],
     settings: ['create', 'read', 'update', 'delete'],
     users:    ['create', 'read', 'update', 'delete', 'verify'],
+    campus:   ['create', 'read', 'update', 'delete'],
   },
   school_admin: {
     gallery:  ['create', 'read', 'update', 'delete'],
@@ -18,6 +19,7 @@ const PERMISSIONS: Record<AdminRole, Record<AdminResource, AdminAction[]>> = {
     faqs:     ['create', 'read', 'update', 'delete'],
     settings: ['read'],
     users:    ['read'],
+    campus:   ['create', 'read', 'update', 'delete'],
   },
   support_admin: {
     gallery:  ['create', 'read', 'update'],
@@ -27,6 +29,7 @@ const PERMISSIONS: Record<AdminRole, Record<AdminResource, AdminAction[]>> = {
     faqs:     ['read'],
     settings: ['read'],
     users:    [],
+    campus:   ['create', 'read', 'update'],
   },
 }
 
