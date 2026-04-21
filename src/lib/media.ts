@@ -3,6 +3,7 @@ const BUCKET = 'media'
 
 export function getMediaUrl(storagePath: string | null | undefined): string {
   if (!storagePath) return '/images/placeholder.svg'
+  if (storagePath.startsWith('http://') || storagePath.startsWith('https://')) return storagePath
   return `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${storagePath}`
 }
 
