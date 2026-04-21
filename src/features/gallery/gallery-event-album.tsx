@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, Images, Video } from 'lucide-react'
+import { ArrowLeft, Images, Video, Loader2 } from 'lucide-react'
 import { headingStyle } from '@/styles/font'
 import { formatDate } from '@/lib/format-date'
 import { useGalleryEvent } from '@/hooks/gallery/use-gallery-event'
@@ -32,11 +32,11 @@ function AlbumSkeleton() {
 }
 
 export function GalleryEventAlbum({ eventId }: { eventId: string }) {
-    const { data, loading, notFound } = useGalleryEvent(eventId)
+    const { event, photos, total, hasMore, loading, loadingMore, notFound, loadMore } = useGalleryEvent(eventId)
 
     if (loading) return <AlbumSkeleton />
 
-    if (notFound || !data) {
+    if (notFound || !event) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
                 <p className="text-[0.9rem] text-muted-foreground font-light">Event not found.</p>
@@ -51,10 +51,9 @@ export function GalleryEventAlbum({ eventId }: { eventId: string }) {
         )
     }
 
-    const { event, photos } = data
-
     return (
         <div className="flex flex-col w-full min-h-screen">
+            {/* Hero banner */}
             <div className="relative h-[55vh] min-h-[400px] overflow-hidden">
                 <Image
                     src={event.coverImage}
@@ -89,6 +88,7 @@ export function GalleryEventAlbum({ eventId }: { eventId: string }) {
             </div>
 
             <div className="max-w-[var(--max-width,1400px)] mx-auto w-full px-16 max-lg:px-4 py-12">
+                {/* Meta row */}
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8 pb-10 border-b border-border mb-10">
                     <div className="flex items-start gap-6 max-w-[560px]">
                         <div className="w-8 h-px bg-secondary/60 shrink-0 mt-[0.6rem]" aria-hidden />
@@ -127,28 +127,55 @@ export function GalleryEventAlbum({ eventId }: { eventId: string }) {
                     </div>
                 </div>
 
+                {/* Album label */}
                 <div className="flex items-center gap-3 mb-8">
                     <span className="block w-4 h-px bg-secondary shrink-0" aria-hidden />
                     <span className="text-[10px] tracking-[0.3em] font-bold uppercase">Album</span>
                 </div>
 
+                {/* Photo grid */}
                 {photos.length > 0 ? (
-                    <div className="columns-1 sm:columns-2 lg:columns-3 gap-3">
-                        {photos.map((photo, i) => (
-                            <div key={photo.id} className="break-inside-avoid mb-3">
-                                <Image
-                                    src={photo.src}
-                                    alt={photo.alt}
-                                    width={photo.width}
-                                    height={photo.height}
-                                    style={{ width: '100%', height: 'auto', display: 'block' }}
-                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                                    loading={i < 6 ? 'eager' : 'lazy'}
-                                    unoptimized
-                                />
-                            </div>
-                        ))}
-                    </div>
+                    <>
+                        <div className="columns-1 sm:columns-2 lg:columns-3 gap-3">
+                            {photos.map((photo, i) => (
+                                <div key={photo.id} className="break-inside-avoid mb-3">
+                                    <Image
+                                        src={photo.src}
+                                        alt={photo.alt}
+                                        width={photo.width}
+                                        height={photo.height}
+                                        style={{ width: '100%', height: 'auto', display: 'block' }}
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                        loading={i < 6 ? 'eager' : 'lazy'}
+                                        unoptimized
+                                    />
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Load more / count row */}
+                        <div className="mt-12 flex flex-col items-center gap-4">
+                            <p className="text-[0.65rem] tracking-[0.15em] uppercase text-muted-foreground">
+                                Showing {photos.length} of {total} photos
+                            </p>
+                            {hasMore && (
+                                <button
+                                    onClick={loadMore}
+                                    disabled={loadingMore}
+                                    className="inline-flex items-center gap-2.5 bg-primary text-primary-foreground text-[0.68rem] font-bold tracking-[0.14em] uppercase px-8 py-3.5 hover:bg-primary/90 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                                >
+                                    {loadingMore ? (
+                                        <>
+                                            <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden />
+                                            Loading…
+                                        </>
+                                    ) : (
+                                        'Load More Photos'
+                                    )}
+                                </button>
+                            )}
+                        </div>
+                    </>
                 ) : (
                     <p className="py-24 text-center text-muted-foreground text-[0.9rem] font-light">
                         No photos in this album yet.

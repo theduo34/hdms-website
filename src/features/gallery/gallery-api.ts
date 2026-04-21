@@ -17,6 +17,7 @@ export interface EventAlbumResult {
     event: GalleryEvent
     photos: GalleryPhoto[]
     total: number
+    hasMore: boolean
 }
 
 export interface GalleryCounts {
@@ -42,8 +43,13 @@ export async function fetchGalleryCounts(): Promise<GalleryCounts> {
     return res.json()
 }
 
-export async function fetchEventAlbum(eventId: string): Promise<EventAlbumResult | null> {
-    const res = await fetch(`/api/gallery/events/${eventId}`)
+export async function fetchEventAlbum(
+    eventId: string,
+    page = 1,
+    limit = 10,
+): Promise<EventAlbumResult | null> {
+    const params = new URLSearchParams({ page: String(page), limit: String(limit) })
+    const res = await fetch(`/api/gallery/events/${eventId}?${params}`)
     if (res.status === 404) return null
     if (!res.ok) throw new Error(`Event album fetch failed: ${res.status}`)
     return res.json()

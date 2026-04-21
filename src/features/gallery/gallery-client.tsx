@@ -49,6 +49,13 @@ export default function GalleryClient() {
 
     const { items, total, loading, loadingMore, hasMore, loadMore } = useGallery(activeMain, activeSub)
 
+    // Keep header tab count in sync with the live gallery query total
+    useEffect(() => {
+        if (!loading) {
+            setCounts(prev => ({ ...prev, [activeMain]: total }))
+        }
+    }, [total, loading, activeMain])
+
     const updateUrl = useCallback((tab: MainCategory, filter: SubCategory) => {
         const params = new URLSearchParams()
         params.set('tab', tab)
