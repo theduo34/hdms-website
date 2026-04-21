@@ -25,7 +25,7 @@ export function NavBar() {
                         <CTAButton
                             href="https://portal.hdm.edu.gh"
                             external
-                            className={"border-3 h-11 md:h-13 bg-transparent rounded-full px-6 md:px-8 border-primary-foreground hover:bg-primary-foreground hover:text-primary uppercase font-bold"}>
+                            className={"hidden mb:block border-3 h-11 md:h-13 bg-transparent rounded-full px-6 md:px-8 border-primary-foreground hover:bg-primary-foreground hover:text-primary uppercase font-bold"}>
                             VISIT PORTAL
                         </CTAButton>
 

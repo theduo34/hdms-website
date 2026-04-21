@@ -8,6 +8,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
+import {CTAButton} from "@/components/shared/cta-button";
 
 type Props = { onClose: () => void }
 
@@ -65,6 +66,12 @@ export function MobileMenu({ onClose }: Props) {
                     </Link>
                 ))}
             </div>
+            <CTAButton
+                href="https://portal.hdm.edu.gh"
+                external
+                className={"w-fit flex md:hidden border-3 h-11 md:h-13 bg-transparent rounded-full px-8 border-primary-foreground hover:bg-primary-foreground hover:text-primary uppercase font-bold"}>
+                VISIT PORTAL
+            </CTAButton>
         </div>
     )
 }
