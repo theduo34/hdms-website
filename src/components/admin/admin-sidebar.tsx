@@ -14,6 +14,7 @@ import {
   GraduationCap,
   LogOut,
   UserCircle,
+  Building2,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { AdminRole } from '@/lib/admin/types'
@@ -46,6 +47,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { title: 'Dashboard', href: '/admin', icon: LayoutDashboard },
   { title: 'Gallery', href: '/admin/gallery', icon: ImageIcon, resource: 'gallery' },
+  { title: 'Campus', href: '/admin/campus', icon: Building2, resource: 'campus' },
   { title: 'News & Posts', href: '/admin/news', icon: Newspaper, resource: 'news' },
   { title: 'Calendar', href: '/admin/calendar', icon: CalendarDays, resource: 'calendar' },
   { title: 'Staff', href: '/admin/staff', icon: Users2, resource: 'staff' },
