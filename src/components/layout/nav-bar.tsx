@@ -23,11 +23,13 @@ export function NavBar() {
 
                     <div className="flex flex-row items-center gap-8">
                         <CTAButton
-                            className={"hidden md:block border-3 h-13  bg-transparent rounded-full px-6 md:px-8 border-primary-foreground hover:bg-primary-foreground hover:text-primary uppercase font-bold"}>
+                            href="https://portal.hdm.edu.gh"
+                            external
+                            className={"border-3 h-11 md:h-13 bg-transparent rounded-full px-6 md:px-8 border-primary-foreground hover:bg-primary-foreground hover:text-primary uppercase font-bold"}>
                             VISIT PORTAL
                         </CTAButton>
 
-                        <div className="w-14 md:w-16"/>
+                        <div className="w-10 md:w-16"/>
                     </div>
                 </nav>
             </header>
