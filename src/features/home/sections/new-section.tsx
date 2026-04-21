@@ -13,7 +13,7 @@ const ITEMS = [...posts, ...posts, ...posts]
 const MID = posts.length
 const MOB_W = 82
 const MOB_G = 12
-const DESK_W = 62
+const DESK_W = 480
 const DESK_G = 16
 const EASE = [0.16, 1, 0.3, 1] as const
 const CARD_BG = "oklch(from var(--primary) calc(l - 0.05) c h / 0.5)"
@@ -35,7 +35,7 @@ function NewsCard({ item }: { item: Post }) {
           {item.date}
         </time>
       </div>
-      <p className="text-sm leading-relaxed text-primary-foreground/65 font-light">
+      <p className="text-sm leading-relaxed text-primary-foreground/65 font-light line-clamp-2">
         {item.excerpt}
       </p>
       <Link
@@ -69,7 +69,7 @@ export function NewsSection({ onToggleStrip, stripPaused }: {
   }
 
   const mobileX  = `calc(16px - ${idx} * (${MOB_W}vw + ${MOB_G}px))`
-  const desktopX = `calc(-${idx} * (${DESK_W}% + ${DESK_G}px))`
+  const desktopX = `calc(-${idx} * (${DESK_W}px + ${DESK_G}px))`
 
   return (
     <div
@@ -129,7 +129,7 @@ export function NewsSection({ onToggleStrip, stripPaused }: {
             </motion.div>
           </div>
 
-          <div className="hidden lg:block py-2 overflow-hidden">
+          <div className="hidden lg:block py-2" style={{ clipPath: "inset(0 -9999px 0 0)" }}>
             <motion.div
               className="flex"
               style={{ gap: `${DESK_G}px` }}
@@ -141,7 +141,7 @@ export function NewsSection({ onToggleStrip, stripPaused }: {
                 <div
                   key={`${item.id}-${i}`}
                   className="shrink-0 p-8 rounded-2xl"
-                  style={{ width: `${DESK_W}%`, background: CARD_BG }}
+                  style={{ width: `${DESK_W}px`, background: CARD_BG }}
                 >
                   <NewsCard item={item} />
                 </div>
