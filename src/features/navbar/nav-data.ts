@@ -7,32 +7,53 @@ export type NavItem = {
   }[]
 }
 
+export const topNavItems: NavItem[] = [
+  { title: "News & Announcements", href: "/news-&-announcements" },
+  { title: "Gallery", href: "/gallery" },
+  { title: "Events", href: "/calender?filter=event" },
+  { title: "Calender", href: "/calender"}
+]
+
 export const navItems: NavItem[] = [
+  {
+    title: 'Home',
+    href: '/',
+  },
+  {
+    title: 'About',
+    href: '/about-us',
+  },
   {
     title: "Admission",
     children: [
-      { title: "Apply", href: "/apply" },
-      { title: "Tuition", href: "/tuition" },
-      { title: "Visit Campus", href: "/visit" },
+      { title: "Apply", href: "/admissions/apply" },
+      { title: "Tuition", href: "/admissions/tuition" },
+      { title: "Visit Campus", href: "/admissions/visit-campus" },
     ],
   },
   {
-    title: "Arts",
-    href: "/arts",
-  },
-  {
-    title: "Academics",
-    children: [
-      { title: "Curriculum", href: "/curriculum" },
-      { title: "Departments", href: "/departments" },
-    ],
+    title: "Programmes",
+    href: '/programmes',
+    // children: [
+    //   { title: "Curriculum", href: "/curriculum" },
+    //   { title: "Departments", href: "/departments" },
+    // ],
   },
   {
     title: "Campus Life",
-    href: "/campus-life",
+    children: [
+      { title: "School Day", href: "/campus-life/school-day" },
+      { title: "Sports & Clubs", href: "/campus-life/sports-and-clubs" },
+      { title: "Facilities", href: "/campus-life/facilities" },
+      { title: "Wellbeing", href: "/campus-life/wellbeing" },
+    ],
   },
   {
-    title: "Community & Belonging",
-    href: "/community",
+    title: "Community",
+    children: [
+      { title: "House System", href: "/community/house-system" },
+      { title: "Parents & Families", href: "/community/parents" },
+      { title: "Service & Outreach", href: "/community/service" },
+    ],
   },
 ]

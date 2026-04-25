@@ -3,7 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
 :root {
   /* Primary – Royal Blue (logo ring) */
   --hdm-blue: oklch(0.34 0.16 262);
@@ -65,6 +64,14 @@
 
   --destructive: oklch(0.6535 0.2348 34.037);
   --destructive-foreground: var(--hdm-white);
+  --sidebar: hsl(0 0% 98%);
+  --sidebar-foreground: hsl(240 5.3% 26.1%);
+  --sidebar-primary: hsl(240 5.9% 10%);
+  --sidebar-primary-foreground: hsl(0 0% 98%);
+  --sidebar-accent: hsl(240 4.8% 95.9%);
+  --sidebar-accent-foreground: hsl(240 5.9% 10%);
+  --sidebar-border: hsl(220 13% 91%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
 
 }
 
@@ -98,6 +105,14 @@
 
   --destructive: oklch(0.6535 0.2348 34.037);
   --destructive-foreground: var(--hdm-white);
+  --sidebar: hsl(240 5.9% 10%);
+  --sidebar-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-primary: hsl(224.3 76.3% 48%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(240 3.7% 15.9%);
+  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-border: hsl(240 3.7% 15.9%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
 
 }
 
@@ -131,7 +146,6 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
 
-
   --color-hdm-blue: var(--hdm-blue);
   --color-hdm-blue-light: var(--hdm-blue-light);
   --color-hdm-blue-dark: var(--hdm-blue-dark);
@@ -156,14 +170,20 @@
   --color-hdm-cream: var(--hdm-cream);
   --color-hdm-black: var(--hdm-black);
 
-
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 2px);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
 
 }
-
 
 @layer base {
 
@@ -185,11 +205,94 @@
     @apply w-full px-4 md:px-8 py-12 sm:py-18;
   }
 
+  .section-container {
+    @apply w-full px-4 md:px-16 py-12 sm:py-18;
+  }
+
+  .section-half {
+    @apply py-10 md:py-14;
+  }
+
   .section-left {
     @apply w-full ml-0 md:ml-[16%]
   }
 
   .section-header {
     @apply text-4xl md:text-5xl font-black italic text-white;
+  }
+
+  .page-header {
+    @apply px-4 md:px-16 pt-36 pb-8 md:pb-16
+  }
+
+  .about-heading {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: clamp(2.5rem, 6vw, 4.75rem);
+    font-weight: 900;
+    font-style: italic;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+
+  .section-tag {
+    @apply flex items-center gap-3 mb-8;
+  }
+
+  .num-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    column-gap: 1.5rem;
+    align-items: center;
+    padding-block: 1.75rem;
+    border-top: 1px solid var(--color-border);
+    cursor: default;
+    overflow: hidden;
+  }
+
+  .num-row:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  @media (min-width: 768px) {
+    .num-row {
+      grid-template-columns: 40px 1fr auto;
+      column-gap: 3rem;
+    }
+  }
+
+  /* Equal-height card grid item */
+  .feature-card {
+    @apply h-full flex flex-col bg-white rounded-2xl p-8 border border-border/40
+           hover:border-secondary/50 hover:shadow-sm transition-all duration-300 cursor-default;
+  }
+
+  /* Section label (small uppercase yellow tag) */
+  .section-label {
+    @apply text-[0.62rem] tracking-[0.32em] uppercase font-bold text-secondary block mb-4;
+  }
+
+  /* Admin dashboard content wrapper — consistent padding and max-width for all admin pages */
+  .admin-page {
+    @apply w-full px-4 py-4 sm:px-6 sm:py-6 max-w-7xl mx-auto;
+  }
+
+  /* Push native date/time picker icon to the far right of the input */
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    margin-left: auto;
+    cursor: pointer;
+    opacity: 0.5;
+  }
+  input[type="date"]:hover::-webkit-calendar-picker-indicator,
+  input[type="time"]:hover::-webkit-calendar-picker-indicator {
+    opacity: 0.8;
+  }
+
+  /* Ghost number watermark in cards */
+  .card-ghost-num {
+    @apply font-black italic leading-none block mb-4 select-none text-primary/[0.05];
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: clamp(3rem, 5vw, 4.5rem);
   }
 }

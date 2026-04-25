@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun run:*)",
+      "Bash(find C:UsersWorkHDMshdms-websitesrc -name use-news*)",
+      "WebFetch(domain:www.walnuthillarts.org)",
+      "Bash(npx eslint:*)",
+      "Bash(node -e \":*)",
+      "Bash(bunx tsc:*)",
+      "Bash(npx tsc:*)",
+      "Bash(bun add-component:*)",
+      "Bash(grep -rn \"header\\\\|Header\\\\|hero\\\\|Hero\" C:/Users/Work/HDMs/hdms-website/src/features/gallery C:/Users/Work/HDMs/hdms-website/src/features/programmes/sections/programmes-hero-section.tsx C:/Users/Work/HDMs/hdms-website/src/features/calender --include=*.tsx -l)",
+      "Bash(find C:/Users/Work/HDMs/hdms-website/src/features/news C:/Users/Work/HDMs/hdms-website/src/features/about-us -name *header* -o -name *hero*)",
+      "Bash(find C:/Users/Work/HDMs/hdms-website/src -name about*page* -o -name *about*page*)",
+      "Bash(bun lint:*)",
+      "Bash(bun tsc:*)",
+      "Bash(bun build:*)",
+      "Bash(bun x:*)",
+      "Bash(del:*)",
+      "Bash(xargs grep:*)",
+      "Read(//mnt/c/Users/Work/HDMs/**)",
+      "Bash(bun add:*)",
+      "Bash(grep -E \"^\\\\./src/app/[^/]+/?$\")",
+      "Bash(yes n *)",
+      "Bash(node -e \"const c=require\\('./node_modules/next/dist/lib/constants.js'\\); console.log\\(JSON.stringify\\({mw: c.MIDDLEWARE_FILENAME, proxy: c.PROXY_FILENAME}\\)\\)\")",
+      "Bash(grep -v \"^$\")",
+      "Bash(dir \"C:\\\\Users\\\\Work\\\\HDMs\\\\hdms-website\\\\src\\\\app\\\\admin\\\\\" 2>/dev/null)",
+      "Bash(dir C:\\\\Users\\\\Work\\\\HDMs\\\\hdms-website\\\\src\\\\app\\\\admin *)",
+      "Bash(ls C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\app\\\\\\\\ *)",
+      "Bash(ls C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\app\\\\\\\\\\(admin\\)\\\\\\\\ *)",
+      "Bash(find \"C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\app\\\\\\\\\\(admin\\)\" -name \"*.tsx\")",
+      "Bash(ls C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\features\\\\\\\\ *)",
+      "Bash(ls C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\features\\\\\\\\gallery\\\\\\\\ *)",
+      "Bash(ls C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\features\\\\\\\\news\\\\\\\\ *)",
+      "Bash(dir \"C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\lib\" /s /b)",
+      "Bash(npx next *)",
+      "Bash(git checkout *)"
+    ]
+  }
+}

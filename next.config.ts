@@ -1,12 +1,14 @@
 import type { NextConfig } from "next";
 
+const supabaseHostname = process.env.NEXT_PUBLIC_SUPABASE_URL
+  ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
+  : "xvukypycqyfhjicearrp.supabase.co";
+
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
   images: {
     remotePatterns: [
       {
-        //domain is for dev only
         protocol: "https",
         hostname: "images.unsplash.com",
       },
@@ -20,9 +22,22 @@ const nextConfig: NextConfig = {
         hostname: "light-cat-97ad52f04d.media.strapiapp.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: supabaseHostname,
+        pathname: "/storage/v1/**",
+      },
+      {
+        protocol: "https",
+        hostname: "drive.google.com",
+        pathname: "/uc",
+      },
     ],
-    formats: ["image/avif", "image/webp"], // 👈 serve modern formats automatically
-  }
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "attachment",
+    formats: ["image/webp"],
+    minimumCacheTTL: 2592000,
+  },
 };
 
 export default nextConfig;
