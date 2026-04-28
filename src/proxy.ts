@@ -35,6 +35,7 @@ const ADMIN_TOKEN_RE = /^\/admin\/([^/]+)(\/.*)?$/
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
+  // /admin/[token]/** — verify the token then rewrite to /admin/**
   const tokenMatch = pathname.match(ADMIN_TOKEN_RE)
   if (tokenMatch) {
     const [, segment, rest] = tokenMatch
@@ -48,6 +49,7 @@ export async function proxy(request: NextRequest) {
     url.pathname = '/admin' + (rest ?? '')
     const res = NextResponse.rewrite(url)
 
+    // Session cookie — no maxAge so it expires when the browser closes
     res.cookies.set(PORTAL_COOKIE, validToken, {
       httpOnly: false,
       sameSite: 'strict',
@@ -58,6 +60,7 @@ export async function proxy(request: NextRequest) {
     return await withSupabaseRefresh(request, res)
   }
 
+  // /admin or /admin/** without the token segment — require portal cookie
   if (pathname === '/admin' || pathname.startsWith('/admin/')) {
     if (!request.cookies.has(PORTAL_COOKIE)) {
       return new NextResponse(null, { status: 404 })
@@ -65,6 +68,7 @@ export async function proxy(request: NextRequest) {
     return await withSupabaseRefresh(request, NextResponse.next({ request }))
   }
 
+  // /login/[token] — valid token required, else 404
   const loginMatch = pathname.match(/^\/login\/([^/]+)$/)
   if (loginMatch) {
     const [, segment] = loginMatch
@@ -81,7 +85,7 @@ async function withSupabaseRefresh(
   request: NextRequest,
   base: NextResponse,
 ): Promise<NextResponse> {
-  const res = base
+  const res      = base
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -95,7 +99,9 @@ async function withSupabaseRefresh(
       },
     },
   )
-  await supabase.auth.getUser()
+  // getSession() reads from cookies without a network call.
+  // Full JWT verification happens in getCurrentAdmin() / apiGuard on each route.
+  await supabase.auth.getSession()
   return res
 }
 

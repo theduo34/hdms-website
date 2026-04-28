@@ -1,7 +1,4 @@
-// src/app/admin/layout.tsx
-// Admin layout — server component that checks auth + admin_profiles.
-// All /admin/* pages are wrapped here.
-
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getCurrentAdmin } from '@/lib/admin/auth'
 import { AdminSidebar } from '@/components/admin/admin-sidebar'
@@ -15,12 +12,14 @@ export default async function AdminLayout({
   children: React.ReactNode
 }) {
   const admin = await getCurrentAdmin()
-
-  if (!admin) {
-    redirect('/login?error=not_admin')
-  }
+  if (!admin) redirect('/login?error=not_admin')
 
   const { profile } = admin
+
+  // The portal token is stored in the hdm_portal cookie by the proxy (middleware).
+  // Reading it server-side avoids any client-side SSR mismatch.
+  const cookieStore = await cookies()
+  const portalToken = cookieStore.get('hdm_portal')?.value ?? ''
 
   return (
     <SidebarProvider defaultOpen={true}>
@@ -30,11 +29,13 @@ export default async function AdminLayout({
           role={profile.role}
           displayName={profile.display_name}
           email={profile.email}
+          token={portalToken}
         />
         <SidebarInset className="flex-1 min-w-0">
           {children}
         </SidebarInset>
       </div>
+      <Toaster richColors position="top-right" />
     </SidebarProvider>
   )
 }

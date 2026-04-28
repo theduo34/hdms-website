@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/client'
 const SESSION_KEY  = 'hdm_admin_session'
 const PORTAL_COOKIE = 'hdm_portal'
 
-function readPortalCookie(): string | null {
+export function readPortalCookie(): string | null {
   if (typeof document === 'undefined') return null
   const entry = document.cookie
     .split(';')

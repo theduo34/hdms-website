@@ -4,38 +4,20 @@ import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import {
-  LayoutDashboard,
-  ImageIcon,
-  Newspaper,
-  CalendarDays,
-  Users2,
-  HelpCircle,
-  UsersRound,
-  GraduationCap,
-  LogOut,
-  UserCircle,
-  Building2,
-  MessageSquare,
+  LayoutDashboard, ImageIcon, Newspaper, CalendarDays,
+  Users2, HelpCircle, UsersRound, GraduationCap,
+  LogOut, UserCircle, Building2, MessageSquare,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { AdminRole } from '@/lib/admin/types'
 import { can } from '@/lib/admin/permissions'
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarSeparator,
+  Sidebar, SidebarContent, SidebarFooter, SidebarHeader,
+  SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarSeparator,
 } from '@/components/ui/sidebar'
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuSeparator, DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
 interface NavItem {
@@ -45,37 +27,46 @@ interface NavItem {
   resource?: Parameters<typeof can>[1]
 }
 
-const NAV_ITEMS: NavItem[] = [
-  { title: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-  { title: 'Gallery', href: '/admin/gallery', icon: ImageIcon, resource: 'gallery' },
-  { title: 'Campus', href: '/admin/campus', icon: Building2, resource: 'campus' },
-  { title: 'News & Posts', href: '/admin/news', icon: Newspaper, resource: 'news' },
-  { title: 'Calendar', href: '/admin/calendar', icon: CalendarDays, resource: 'calendar' },
-  { title: 'Staff', href: '/admin/staff', icon: Users2, resource: 'staff' },
-  { title: 'Admissions FAQs',    href: '/admin/faqs',          icon: HelpCircle,    resource: 'faqs' },
-  { title: 'Parent Voices',      href: '/admin/testimonials',  icon: MessageSquare, resource: 'testimonials' },
-  { title: 'Users',              href: '/admin/users',         icon: UsersRound,    resource: 'users' },
-]
+function buildNavItems(base: string): NavItem[] {
+  return [
+    { title: 'Dashboard',       href: `${base}`,             icon: LayoutDashboard },
+    { title: 'Gallery',         href: `${base}/gallery`,     icon: ImageIcon,      resource: 'gallery' },
+    { title: 'Campus',          href: `${base}/campus`,      icon: Building2,      resource: 'campus' },
+    { title: 'News & Posts',    href: `${base}/news`,        icon: Newspaper,      resource: 'news' },
+    { title: 'Calendar',        href: `${base}/calendar`,    icon: CalendarDays,   resource: 'calendar' },
+    { title: 'Staff',           href: `${base}/staff`,       icon: Users2,         resource: 'staff' },
+    { title: 'Admissions FAQs', href: `${base}/faqs`,        icon: HelpCircle,     resource: 'faqs' },
+    { title: 'Parent Voices',   href: `${base}/testimonials`,icon: MessageSquare,  resource: 'testimonials' },
+    { title: 'Users',           href: `${base}/users`,       icon: UsersRound,     resource: 'users' },
+  ]
+}
 
 interface AdminSidebarProps {
   role: AdminRole
   displayName: string
   email: string
+  token: string
 }
 
-export function AdminSidebar({ role, displayName, email }: AdminSidebarProps) {
+export function AdminSidebar({ role, displayName, email, token }: AdminSidebarProps) {
   const pathname = usePathname()
-  const router = useRouter()
+  const router   = useRouter()
+
+  // Base path for all admin links — e.g. /admin/<token>
+  const base     = `/admin/${token}`
+  const navItems = buildNavItems(base)
 
   async function handleSignOut() {
     const supabase = createClient()
     await supabase.auth.signOut()
-    router.push('/login')
+    sessionStorage.removeItem('hdm_admin_session')
+    router.push(token ? `/login/${token}` : '/login')
     router.refresh()
   }
 
   function isActive(href: string) {
-    return href === '/admin' ? pathname === '/admin' : pathname.startsWith(href)
+    if (href === base) return pathname === base || pathname === base + '/'
+    return pathname.startsWith(href + '/') || pathname === href
   }
 
   const initials = displayName
@@ -85,13 +76,12 @@ export function AdminSidebar({ role, displayName, email }: AdminSidebarProps) {
     .toUpperCase()
     .slice(0, 2)
 
-  const visible = NAV_ITEMS.filter(
+  const visible = navItems.filter(
     (item) => !item.resource || can(role, item.resource, 'read'),
   )
 
   return (
     <Sidebar collapsible="icon" className="border-r-0">
-      {/* Brand */}
       <SidebarHeader className="bg-primary p-2">
         <SidebarMenu>
           <SidebarMenuItem>
@@ -113,11 +103,10 @@ export function AdminSidebar({ role, displayName, email }: AdminSidebarProps) {
 
       <SidebarSeparator className="bg-primary/90 mx-0" />
 
-      {/* Navigation */}
       <SidebarContent className="bg-primary px-2 py-2">
         <SidebarMenu>
           {visible.map((item) => {
-            const Icon = item.icon
+            const Icon   = item.icon
             const active = isActive(item.href)
             return (
               <SidebarMenuItem key={item.href}>
@@ -133,14 +122,12 @@ export function AdminSidebar({ role, displayName, email }: AdminSidebarProps) {
                   )}
                 >
                   <Link href={item.href} className="flex items-center gap-2.5">
-                    <Icon
-                      className={cn(
-                        'w-4 h-4 shrink-0',
-                        active
-                          ? 'text-secondary'
-                          : 'text-primary-foreground/55 group-hover/menu-button:text-primary-foreground',
-                      )}
-                    />
+                    <Icon className={cn(
+                      'w-4 h-4 shrink-0',
+                      active
+                        ? 'text-secondary'
+                        : 'text-primary-foreground/55 group-hover/menu-button:text-primary-foreground',
+                    )} />
                     <span className="text-sm">{item.title}</span>
                   </Link>
                 </SidebarMenuButton>
@@ -150,7 +137,6 @@ export function AdminSidebar({ role, displayName, email }: AdminSidebarProps) {
         </SidebarMenu>
       </SidebarContent>
 
-      {/* Profile footer */}
       <SidebarSeparator className="bg-primary/90 mx-0" />
       <SidebarFooter className="bg-primary p-2">
         <SidebarMenu>
@@ -174,13 +160,7 @@ export function AdminSidebar({ role, displayName, email }: AdminSidebarProps) {
 
               <DropdownMenuContent side="top" align="start" className="w-56 mb-1">
                 <DropdownMenuItem asChild>
-                  <Link href="/admin/profile" className="flex items-center gap-2 cursor-pointer">
-                    <UserCircle className="w-4 h-4" />
-                    My account
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/admin/settings" className="flex items-center gap-2 cursor-pointer">
+                  <Link href={`${base}/settings`} className="flex items-center gap-2 cursor-pointer">
                     <GraduationCap className="w-4 h-4" />
                     Settings
                   </Link>
