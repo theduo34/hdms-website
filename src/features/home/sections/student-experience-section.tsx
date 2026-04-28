@@ -43,7 +43,7 @@ export function StudentExperienceSection() {
                 style={{ aspectRatio: "16/9" }}
             >
                 <iframe
-                    src="https://www.youtube.com/embed/r1Fx0tqK5Z4"
+                    src="https://www.youtube.com/embed/r97tWyMyJDk"
                     title="The Student Experience at Heaven's Dew Montessori"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
