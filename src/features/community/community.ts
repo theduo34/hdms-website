@@ -75,9 +75,9 @@ export const ptaFacts = [
 export const involvementWays = [
     {
         number: '01',
-        title: 'Attend Parent Evenings',
+        title: 'Parent-Teacher Conference',
         description:
-            "Join our termly parent-teacher evenings to discuss your child's progress, meet staff, and hear about upcoming school events and initiatives.",
+            "At the close of every term, we hold a dedicated Parent-Teacher Conference where you sit one-on-one with your child's teacher to review their progress, celebrate growth, and set goals for the term ahead.",
     },
     {
         number: '02',
