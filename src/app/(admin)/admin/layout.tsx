@@ -5,6 +5,7 @@
 import { redirect } from 'next/navigation'
 import { getCurrentAdmin } from '@/lib/admin/auth'
 import { AdminSidebar } from '@/components/admin/admin-sidebar'
+import { SessionGuard } from '@/components/admin/session-guard'
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
 import { Toaster } from '@/components/ui/sonner'
 
@@ -23,6 +24,7 @@ export default async function AdminLayout({
 
   return (
     <SidebarProvider defaultOpen={true}>
+      <SessionGuard />
       <div className="flex min-h-screen w-full bg-muted/30">
         <AdminSidebar
           role={profile.role}
