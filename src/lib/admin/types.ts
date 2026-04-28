@@ -12,6 +12,7 @@ export type AdminResource =
   | 'settings'
   | 'users'
   | 'campus'
+  | 'testimonials'
 
 export type AdminAction = 'create' | 'read' | 'update' | 'delete' | 'verify'
 

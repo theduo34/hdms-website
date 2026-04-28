@@ -1,15 +1,14 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { motion } from "motion/react"
 import { AnimateInView } from "@/components/shared/animate-in-view"
 import { SectionLabel } from "@/components/shared/section-label"
 import { ParentVoiceCard } from "@/features/home/cards/parent-voice-card"
-import { parentVoices } from "@/features/home"
 import { CTAButton } from "@/components/shared/cta-button"
 import { headingStyle } from "@/styles/font"
-
-const col1 = [parentVoices[0], parentVoices[2], parentVoices[4]]
-const col2 = [parentVoices[1], parentVoices[3]]
+import { getMediaUrl } from "@/lib/media"
+import type { TestimonialItem } from "@/features/home/cards/parent-voice-card"
 
 function SectionText({ mobile = false }: { mobile?: boolean }) {
   return (
@@ -31,6 +30,18 @@ function SectionText({ mobile = false }: { mobile?: boolean }) {
 }
 
 export function ParentVoicesSection() {
+  const [voices, setVoices] = useState<TestimonialItem[]>([])
+
+  useEffect(() => {
+    fetch("/api/testimonials?random=true&limit=5")
+      .then(r => r.json())
+      .then((json: { data?: TestimonialItem[] }) => setVoices(json.data ?? []))
+      .catch(() => {})
+  }, [])
+
+  const col1 = voices.filter((_, i) => i % 2 === 0)
+  const col2 = voices.filter((_, i) => i % 2 !== 0)
+
   return (
     <section id="parent-voices" className="section relative bg-primary overflow-hidden">
 
@@ -38,12 +49,12 @@ export function ParentVoicesSection() {
       <div className="hidden md:flex items-start gap-8 section-left">
         <div className="flex flex-col gap-4 w-52 shrink-0">
           {col1.map((voice, i) => (
-            <ParentVoiceCard key={voice.name} voice={voice} index={i} />
+            <ParentVoiceCard key={voice.id} voice={voice} index={i} />
           ))}
         </div>
         <div className="flex flex-col gap-4 w-52 shrink-0 mt-20">
           {col2.map((voice, i) => (
-            <ParentVoiceCard key={voice.name} voice={voice} index={i + 1} />
+            <ParentVoiceCard key={voice.id} voice={voice} index={i + 1} />
           ))}
         </div>
 
@@ -67,11 +78,11 @@ export function ParentVoicesSection() {
         </AnimateInView>
 
         <div className="flex flex-col px-4">
-          {parentVoices.map((voice, i) => {
+          {voices.map((voice, i) => {
             const isEven = i % 2 === 0
             return (
               <motion.div
-                key={voice.name}
+                key={voice.id}
                 initial={{ opacity: 0, x: isEven ? -60 : 60 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-30px" }}

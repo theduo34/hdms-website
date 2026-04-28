@@ -4,7 +4,7 @@ import { CommunitySubNav } from '@/features/community/community-sub-nav'
 import { PartnershipSection } from '@/features/community/partnership-section'
 import { PTASection } from '@/features/community/pta-section'
 import { GetInvolvedSection } from '@/features/community/get-involved-section'
-import { ParentVoicesShowcase } from '@/features/community/parent-voices-showcase'
+import { TestimonialsSection } from '@/features/community/testimonials-section'
 
 export function ParentsPage() {
   return (
@@ -23,7 +23,7 @@ export function ParentsPage() {
         <PartnershipSection />
         <PTASection />
         <GetInvolvedSection />
-        <ParentVoicesShowcase />
+        <TestimonialsSection />
       </SmoothScroll>
     </main>
   )

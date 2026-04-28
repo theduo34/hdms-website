@@ -337,6 +337,32 @@ export interface Database {
         }
         Update: Partial<Database['public']['Tables']['admin_profiles']['Insert']>
       }
+
+      parent_testimonials: {
+        Row: {
+          id: string
+          parent_name: string
+          child_year: string
+          quote: string
+          asset_id: string | null
+          is_active: boolean
+          sort_order: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          parent_name: string
+          child_year?: string
+          quote: string
+          asset_id?: string | null
+          is_active?: boolean
+          sort_order?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['parent_testimonials']['Insert']>
+      }
     }
 
     Views: Record<string, never>
@@ -357,4 +383,5 @@ export type CalendarEventRow   = Database['public']['Tables']['calendar_events']
 export type StaffMemberRow     = Database['public']['Tables']['staff_members']['Row']
 export type AdmissionsFaqRow   = Database['public']['Tables']['admissions_faqs']['Row']
 export type SchoolSettingRow   = Database['public']['Tables']['school_settings']['Row']
-export type AdminProfileRow    = Database['public']['Tables']['admin_profiles']['Row']
+export type AdminProfileRow         = Database['public']['Tables']['admin_profiles']['Row']
+export type ParentTestimonialRow    = Database['public']['Tables']['parent_testimonials']['Row']
