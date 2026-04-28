@@ -26,10 +26,9 @@ const loginSchema = z.object({
 
 type LoginValues = z.infer<typeof loginSchema>
 
-export function LoginForm() {
+export function LoginForm({ token }: { token: string }) {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirectTo = searchParams.get('redirect') ?? '/admin'
   const errorParam = searchParams.get('error')
 
   const [showPassword, setShowPassword] = useState(false)
@@ -72,17 +71,17 @@ export function LoginForm() {
       return
     }
 
-    router.push(redirectTo)
+    // Mark this tab as having an active session — SessionGuard checks this on mount
+    sessionStorage.setItem('hdm_admin_session', '1')
+    router.push(`/admin/${token}`)
     router.refresh()
   }
 
   return (
     <div className="min-h-screen flex">
-      {/* ── Left panel — branding ─────────────────────────────────────────────── */}
       <div
         className="hidden lg:flex lg:w-[45%] xl:w-[40%] flex-col justify-between p-12 relative overflow-hidden bg-primary text-primary-foreground"
       >
-        {/* Decorative rings */}
         <div
           className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10 bg-secondary -translate-y-1/2 translate-x-1/2"
         />
@@ -147,7 +146,6 @@ export function LoginForm() {
         </div>
       </div>
 
-      {/* ── Right panel — form ────────────────────────────────────────────────── */}
       <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-12 bg-background">
         {/* Mobile logo */}
         <div className="lg:hidden flex items-center gap-3 mb-10">
@@ -172,7 +170,6 @@ export function LoginForm() {
             </p>
           </div>
 
-          {/* Server error banner */}
           {serverError && (
             <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
               <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
