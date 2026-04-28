@@ -15,6 +15,7 @@ import {
   LogOut,
   UserCircle,
   Building2,
+  MessageSquare,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { AdminRole } from '@/lib/admin/types'
@@ -51,8 +52,9 @@ const NAV_ITEMS: NavItem[] = [
   { title: 'News & Posts', href: '/admin/news', icon: Newspaper, resource: 'news' },
   { title: 'Calendar', href: '/admin/calendar', icon: CalendarDays, resource: 'calendar' },
   { title: 'Staff', href: '/admin/staff', icon: Users2, resource: 'staff' },
-  { title: 'Admissions FAQs', href: '/admin/faqs', icon: HelpCircle, resource: 'faqs' },
-  { title: 'Users', href: '/admin/users', icon: UsersRound, resource: 'users' },
+  { title: 'Admissions FAQs',    href: '/admin/faqs',          icon: HelpCircle,    resource: 'faqs' },
+  { title: 'Parent Voices',      href: '/admin/testimonials',  icon: MessageSquare, resource: 'testimonials' },
+  { title: 'Users',              href: '/admin/users',         icon: UsersRound,    resource: 'users' },
 ]
 
 interface AdminSidebarProps {

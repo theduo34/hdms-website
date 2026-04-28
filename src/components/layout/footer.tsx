@@ -8,9 +8,9 @@ import { InstagramIcon, LinkedinIcon, TiktokIcon, YoutubeIcon } from "@/componen
 import { headingStyle } from "@/styles/font"
 
 const socials = [
-    { icon: TiktokIcon,    href: "https://tiktok.com/@yourhandle", label: "TikTok"    },
+    { icon: TiktokIcon,    href: "https://www.tiktok.com/@heavensdewmontessori?_r=1&_t=ZS-95nsOu3u4Qy", label: "TikTok"    },
     { icon: InstagramIcon, href: "https://instagram.com",          label: "Instagram" },
-    { icon: YoutubeIcon,   href: "https://youtube.com",            label: "YouTube"   },
+    { icon: YoutubeIcon,   href: "https://www.youtube.com/@HDMHeavensDewMontessori",            label: "YouTube"   },
     { icon: LinkedinIcon,  href: "https://linkedin.com",           label: "LinkedIn"  },
 ]
 

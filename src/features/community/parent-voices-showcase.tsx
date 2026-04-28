@@ -1,13 +1,23 @@
 "use client"
 
-import { parentVoices } from "@/features/home"
+import { useState, useEffect } from "react"
 import { ParentVoiceCard } from "@/features/home/cards/parent-voice-card"
+import type { TestimonialItem } from "@/features/home/cards/parent-voice-card"
 import { SectionIntro } from "@/components/shared/section-intro"
 import { CTAButton } from "@/components/shared/cta-button"
 import { AnimateInView } from "@/components/shared/animate-in-view"
 
 export function ParentVoicesShowcase() {
-  const voices = parentVoices.slice(0, 3)
+  const [voices, setVoices] = useState<TestimonialItem[]>([])
+
+  useEffect(() => {
+    fetch("/api/testimonials?random=true&limit=3")
+      .then(r => r.json())
+      .then((json: { data?: TestimonialItem[] }) => setVoices(json.data ?? []))
+      .catch(() => {})
+  }, [])
+
+  if (voices.length === 0) return null
 
   return (
     <section aria-labelledby="voices-heading" className="section-container bg-muted">
@@ -25,7 +35,7 @@ export function ParentVoicesShowcase() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {voices.map((voice, i) => (
-          <ParentVoiceCard key={i} voice={voice} index={i} />
+          <ParentVoiceCard key={voice.id} voice={voice} index={i} />
         ))}
       </div>
     </section>

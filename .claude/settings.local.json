@@ -34,7 +34,10 @@
       "Bash(ls C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\features\\\\\\\\news\\\\\\\\ *)",
       "Bash(dir \"C:\\\\\\\\Users\\\\\\\\Work\\\\\\\\HDMs\\\\\\\\hdms-website\\\\\\\\src\\\\\\\\lib\" /s /b)",
       "Bash(npx next *)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(dir \"C:\\\\Users\\\\Work\\\\HDMs\\\\hdms-website\\\\src\\\\features\\\\admin\" /b)",
+      "Bash(dir C:\\\\Users\\\\Work\\\\HDMs\\\\hdms-website\\\\src\\\\components\\\\layout *)",
+      "PowerShell(head *)"
     ]
   }
 }
