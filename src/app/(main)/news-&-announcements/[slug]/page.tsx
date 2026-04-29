@@ -10,10 +10,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     .from('news_posts')
     .select('headline, excerpt, cover:media_assets!cover_asset_id(storage_path)')
     .eq('slug', slug)
-    .single()
+    .single() as unknown as {
+      data: { headline: string; excerpt: string; cover: { storage_path: string | null } | null } | null
+    }
 
-  const cover = Array.isArray(data?.cover) ? data.cover[0] : data?.cover
-  const image = cover?.storage_path ? getMediaUrl(cover.storage_path) : undefined
+  const image = data?.cover?.storage_path ? getMediaUrl(data.cover.storage_path) : undefined
 
   return {
     title: data?.headline ?? "News Article",
