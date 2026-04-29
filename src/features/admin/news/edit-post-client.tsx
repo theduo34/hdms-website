@@ -94,7 +94,7 @@ export function EditPostClient() {
     const json = await res.json()
     if (res.ok) {
       toast.success('Post updated!')
-      router.push('/admin/news')
+      router.push(`${base}/news`)
     } else {
       toast.error(json.error ?? 'Update failed')
     }

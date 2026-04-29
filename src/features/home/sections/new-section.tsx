@@ -1,16 +1,22 @@
 "use client"
 
 import { motion } from "motion/react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Megaphone, Pause, Play } from "lucide-react"
-import { posts, Post } from "@/features/news/news"
 import Link from "next/link"
+import { createClient } from "@/lib/supabase/client"
 import { CarouselButton } from "@/components/shared/carousel-button"
 import { SectionLabel } from "@/components/shared/section-label"
 import { headingStyle } from "@/styles/font"
 
-const ITEMS = [...posts, ...posts, ...posts]
-const MID = posts.length
+type NewsPost = {
+  id: string
+  slug: string
+  headline: string
+  excerpt: string
+  published_at: string
+}
+
 const MOB_W = 82
 const MOB_G = 12
 const DESK_W = 480
@@ -18,7 +24,15 @@ const DESK_G = 16
 const EASE = [0.16, 1, 0.3, 1] as const
 const CARD_BG = "oklch(from var(--primary) calc(l - 0.05) c h / 0.5)"
 
-function NewsCard({ item }: { item: Post }) {
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  })
+}
+
+function NewsCard({ item }: { item: NewsPost }) {
   return (
     <article className="flex flex-col gap-6">
       <div className="flex items-start justify-between gap-4">
@@ -29,10 +43,10 @@ function NewsCard({ item }: { item: Post }) {
           {item.headline}
         </h3>
         <time
-          dateTime={item.date}
+          dateTime={item.published_at}
           className="text-[10px] uppercase tracking-wider font-semibold text-primary-foreground/50 shrink-0 pt-0.5"
         >
-          {item.date}
+          {formatDate(item.published_at)}
         </time>
       </div>
       <p className="text-sm leading-relaxed text-primary-foreground/65 font-light line-clamp-2">
@@ -53,11 +67,29 @@ export function NewsSection({ onToggleStrip, stripPaused }: {
   onToggleStrip: () => void
   stripPaused: boolean
 }) {
-  const [idx, setIdx] = useState(MID)
+  const [posts, setPosts] = useState<NewsPost[]>([])
+
+  useEffect(() => {
+    const db = createClient()
+    db.from("news_posts")
+      .select("id, slug, headline, excerpt, published_at")
+      .order("published_at", { ascending: false })
+      .limit(8)
+      .then(({ data }) => { if (data) setPosts(data as NewsPost[]) })
+  }, [])
+
+  const items = [...posts, ...posts, ...posts]
+  const mid = posts.length
+
+  const [idx, setIdx] = useState(0)
   const [busy, setBusy] = useState(false)
 
+  useEffect(() => {
+    if (mid > 0) setIdx(mid)
+  }, [mid])
+
   const scroll = (dir: "left" | "right") => {
-    if (busy) return
+    if (busy || posts.length === 0) return
     setBusy(true)
     setIdx(prev => dir === "right" ? prev + 1 : prev - 1)
   }
@@ -109,51 +141,55 @@ export function NewsSection({ onToggleStrip, stripPaused }: {
             </h2>
           </div>
 
-          <div className="lg:hidden -mx-4 py-2 overflow-hidden">
-            <motion.div
-              className="flex"
-              style={{ gap: `${MOB_G}px` }}
-              animate={{ x: mobileX }}
-              transition={{ duration: 0.55, ease: EASE }}
-              onAnimationComplete={onDone}
-            >
-              {ITEMS.map((item, i) => (
-                <div
-                  key={`${item.id}-${i}`}
-                  className="shrink-0 p-6 rounded-2xl"
-                  style={{ width: `${MOB_W}vw`, background: CARD_BG }}
+          {posts.length > 0 && (
+            <>
+              <div className="lg:hidden -mx-4 py-2 overflow-hidden">
+                <motion.div
+                  className="flex"
+                  style={{ gap: `${MOB_G}px` }}
+                  animate={{ x: mobileX }}
+                  transition={{ duration: 0.55, ease: EASE }}
+                  onAnimationComplete={onDone}
                 >
-                  <NewsCard item={item} />
-                </div>
-              ))}
-            </motion.div>
-          </div>
+                  {items.map((item, i) => (
+                    <div
+                      key={`${item.id}-${i}`}
+                      className="shrink-0 p-6 rounded-2xl"
+                      style={{ width: `${MOB_W}vw`, background: CARD_BG }}
+                    >
+                      <NewsCard item={item} />
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
 
-          <div className="hidden lg:block py-2" style={{ clipPath: "inset(0 -9999px 0 0)" }}>
-            <motion.div
-              className="flex"
-              style={{ gap: `${DESK_G}px` }}
-              animate={{ x: desktopX }}
-              transition={{ duration: 0.55, ease: EASE }}
-              onAnimationComplete={onDone}
-            >
-              {ITEMS.map((item, i) => (
-                <div
-                  key={`${item.id}-${i}`}
-                  className="shrink-0 p-8 rounded-2xl"
-                  style={{ width: `${DESK_W}px`, background: CARD_BG }}
+              <div className="hidden lg:block py-2" style={{ clipPath: "inset(0 -9999px 0 0)" }}>
+                <motion.div
+                  className="flex"
+                  style={{ gap: `${DESK_G}px` }}
+                  animate={{ x: desktopX }}
+                  transition={{ duration: 0.55, ease: EASE }}
+                  onAnimationComplete={onDone}
                 >
-                  <NewsCard item={item} />
-                </div>
-              ))}
-            </motion.div>
-          </div>
+                  {items.map((item, i) => (
+                    <div
+                      key={`${item.id}-${i}`}
+                      className="shrink-0 p-8 rounded-2xl"
+                      style={{ width: `${DESK_W}px`, background: CARD_BG }}
+                    >
+                      <NewsCard item={item} />
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
+            </>
+          )}
 
         </div>
 
         <div className="flex justify-center gap-4 mt-16">
-          <CarouselButton onClick={() => scroll("left")} disabled={false} label="Previous">&lt;</CarouselButton>
-          <CarouselButton onClick={() => scroll("right")} disabled={false} label="Next">&gt;</CarouselButton>
+          <CarouselButton onClick={() => scroll("left")} disabled={posts.length === 0} label="Previous">&lt;</CarouselButton>
+          <CarouselButton onClick={() => scroll("right")} disabled={posts.length === 0} label="Next">&gt;</CarouselButton>
         </div>
 
       </div>

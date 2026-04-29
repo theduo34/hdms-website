@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { getMediaUrl } from '@/lib/media'
-import { allPosts, type Post, type PostCategory } from '@/features/news/news'
-import { getDepartmentLabel } from '@/features/admin/news/news-data'
+import type { Post, PostCategory } from '@/features/news/news'
 
 export function useArticle(slug: string) {
     const [loading, setLoading] = useState(true)
@@ -47,8 +46,7 @@ export function useArticle(slug: string) {
                         content:       row.content ?? [],
                     })
                 } else {
-                    // Fall back to static posts
-                    setPost(allPosts.find((p) => p.slug === slug) ?? null)
+                    setPost(null)
                 }
                 setLoading(false)
             }

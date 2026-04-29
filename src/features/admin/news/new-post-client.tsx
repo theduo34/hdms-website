@@ -68,7 +68,7 @@ export function NewPostClient() {
     const json = await res.json()
     if (res.ok) {
       toast.success('Post published!')
-      router.push('/admin/news')
+      router.push(`${base}/news`)
     } else {
       toast.error(json.error ?? 'Failed to publish post')
     }
