@@ -19,24 +19,28 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "light-cat-97ad52f04d.media.strapiapp.com",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
         hostname: supabaseHostname,
         pathname: "/storage/v1/**",
       },
-      {
-        protocol: "https",
-        hostname: "drive.google.com",
-        pathname: "/uc",
-      },
     ],
-    dangerouslyAllowSVG: true,
+    dangerouslyAllowSVG: false,
     contentDispositionType: "attachment",
     formats: ["image/webp"],
     minimumCacheTTL: 2592000,
+  },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          { key: "X-Content-Type-Options",  value: "nosniff" },
+          { key: "X-Frame-Options",          value: "DENY" },
+          { key: "Referrer-Policy",          value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy",       value: "camera=(), microphone=(), geolocation=()" },
+          { key: "X-DNS-Prefetch-Control",   value: "on" },
+        ],
+      },
+    ]
   },
 };
 

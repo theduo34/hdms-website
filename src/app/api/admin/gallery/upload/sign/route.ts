@@ -3,8 +3,9 @@ import { apiGuard } from '@/lib/admin/api-guard'
 
 export const dynamic = 'force-dynamic'
 
-const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+const ALLOWED_MIME = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
 const MAX_MB = 30
+const ALLOWED_FOLDER_RE = /^(gallery\/(events|student-activities|campus|staff)(\/\d{4})?|gallery\/events\/covers|news|programmes|staff|testimonials)$/
 
 export async function POST(req: NextRequest) {
   const { db, err, json } = await apiGuard(req, 'gallery', 'create')
@@ -23,7 +24,11 @@ export async function POST(req: NextRequest) {
     return json!({ error: 'folder, filename, and contentType are required' }, 400)
   }
 
-  if (!ALLOWED_TYPES.includes(contentType)) {
+  if (!ALLOWED_FOLDER_RE.test(folder)) {
+    return json!({ error: 'Invalid upload destination' }, 400)
+  }
+
+  if (!ALLOWED_MIME.has(contentType)) {
     return json!({ error: `Unsupported file type: ${contentType}` }, 400)
   }
 
@@ -32,11 +37,8 @@ export async function POST(req: NextRequest) {
     return json!({ error: `File too large. Maximum is ${MAX_MB} MB.` }, 400)
   }
 
-  const safeName = filename
-    .toLowerCase()
-    .replace(/[^a-z0-9.]/g, '-')
-    .replace(/-+/g, '-')
-  const ext = contentType === 'image/gif' ? '.gif' : '.jpg'
+  const safeName  = filename.toLowerCase().replace(/[^a-z0-9.]/g, '-').replace(/-+/g, '-')
+  const ext       = contentType === 'image/gif' ? '.gif' : '.jpg'
   const uniqueName = `${Date.now()}-${safeName.replace(/\.[^.]+$/, '')}${ext}`
   const storagePath = `${folder}/${uniqueName}`
 

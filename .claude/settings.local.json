@@ -37,7 +37,18 @@
       "Bash(git checkout *)",
       "Bash(dir \"C:\\\\Users\\\\Work\\\\HDMs\\\\hdms-website\\\\src\\\\features\\\\admin\" /b)",
       "Bash(dir C:\\\\Users\\\\Work\\\\HDMs\\\\hdms-website\\\\src\\\\components\\\\layout *)",
-      "PowerShell(head *)"
+      "PowerShell(head *)",
+      "Bash(bun install *)",
+      "Bash(bun audit *)",
+      "Bash(bun pm *)",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/next/package.json'\\).version\\)\")",
+      "Bash(bun update *)",
+      "Bash(awk '{print $NF}')",
+      "Bash(cat)",
+      "Bash(bash /tmp/check_imports.sh)",
+      "Bash(bash /tmp/final_check.sh)",
+      "Bash(grep -v \"home/index.ts\" echo \"---\")",
+      "Bash(grep -rn \"new-section\\\\|NewSection\" \"C:/Users/Work/HDMs/hdms-website/src\" --include=\"*.tsx\" --include=\"*.ts\" -l echo \"---\" grep -rn \"from.*features/news/news\" \"C:/Users/Work/HDMs/hdms-website/src\" --include=\"*.tsx\" --include=\"*.ts\")"
     ]
   }
 }

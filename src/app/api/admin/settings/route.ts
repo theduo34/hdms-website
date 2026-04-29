@@ -1,8 +1,6 @@
-// GET  /api/admin/settings     — list all settings
-// PATCH /api/admin/settings    — upsert a batch of settings (super_admin only)
-
 import { NextRequest } from 'next/server'
 import { apiGuard } from '@/lib/admin/api-guard'
+import { writeAuditLog } from '@/lib/admin/audit'
 import { z } from 'zod'
 
 export async function GET(req: NextRequest) {
@@ -26,7 +24,7 @@ export async function PATCH(req: NextRequest) {
     return json!({ error: 'Only super admins can update settings.' }, 403)
   }
 
-  const body = await req.json().catch(() => null)
+  const body   = await req.json().catch(() => null)
   const parsed = z.record(z.string(), z.string()).safeParse(body)
   if (!parsed.success) return json!({ error: 'Body must be an object of key:value strings.' }, 400)
 
@@ -37,5 +35,8 @@ export async function PATCH(req: NextRequest) {
     .upsert(rows, { onConflict: 'key' })
 
   if (error) return json!({ error: error.message }, 500)
+
+  await writeAuditLog(admin!, 'update', 'settings', undefined, { keys: Object.keys(parsed.data) })
+
   return json!({ success: true, updated: rows.length })
 }

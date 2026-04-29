@@ -32,6 +32,17 @@ async function resolvePortalToken(): Promise<string | null> {
 const PORTAL_COOKIE  = 'hdm_portal'
 const ADMIN_TOKEN_RE = /^\/admin\/([^/]+)(\/.*)?$/
 
+function applySecurityHeaders(res: NextResponse): NextResponse {
+  res.headers.set('X-Content-Type-Options', 'nosniff')
+  res.headers.set('X-Frame-Options', 'DENY')
+  res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+  res.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+  if (process.env.NODE_ENV === 'production') {
+    res.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
+  }
+  return res
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
@@ -49,15 +60,16 @@ export async function proxy(request: NextRequest) {
     url.pathname = '/admin' + (rest ?? '')
     const res = NextResponse.rewrite(url)
 
-    // Session cookie — no maxAge so it expires when the browser closes
-    res.cookies.set(PORTAL_COOKIE, validToken, {
-      httpOnly: false,
+    // httpOnly: true — JavaScript cannot read this cookie.
+    // Login redirect URL is stored in localStorage by the login form instead.
+    res.cookies.set(PORTAL_COOKIE, '1', {
+      httpOnly: true,
       sameSite: 'strict',
       secure: process.env.NODE_ENV === 'production',
       path: '/',
     })
 
-    return await withSupabaseRefresh(request, res)
+    return applySecurityHeaders(await withSupabaseRefresh(request, res))
   }
 
   // /admin or /admin/** without the token segment — require portal cookie
@@ -65,7 +77,7 @@ export async function proxy(request: NextRequest) {
     if (!request.cookies.has(PORTAL_COOKIE)) {
       return new NextResponse(null, { status: 404 })
     }
-    return await withSupabaseRefresh(request, NextResponse.next({ request }))
+    return applySecurityHeaders(await withSupabaseRefresh(request, NextResponse.next({ request })))
   }
 
   // /login/[token] — valid token required, else 404
@@ -78,7 +90,7 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  return NextResponse.next({ request })
+  return applySecurityHeaders(NextResponse.next({ request }))
 }
 
 async function withSupabaseRefresh(
@@ -99,8 +111,6 @@ async function withSupabaseRefresh(
       },
     },
   )
-  // getSession() reads from cookies without a network call.
-  // Full JWT verification happens in getCurrentAdmin() / apiGuard on each route.
   await supabase.auth.getSession()
   return res
 }

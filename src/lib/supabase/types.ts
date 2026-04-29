@@ -338,6 +338,30 @@ export interface Database {
         Update: Partial<Database['public']['Tables']['admin_profiles']['Insert']>
       }
 
+      audit_logs: {
+        Row: {
+          id: string
+          admin_id: string
+          admin_email: string
+          action: 'invite' | 'create' | 'update' | 'delete' | 'verify'
+          resource: string
+          resource_id: string | null
+          details: Record<string, unknown>
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          admin_id: string
+          admin_email: string
+          action: 'invite' | 'create' | 'update' | 'delete' | 'verify'
+          resource: string
+          resource_id?: string | null
+          details?: Record<string, unknown>
+          created_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['audit_logs']['Insert']>
+      }
+
       parent_testimonials: {
         Row: {
           id: string

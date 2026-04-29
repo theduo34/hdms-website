@@ -29,8 +29,8 @@ export function LoginForm({ token }: { token: string }) {
 
   const [showPassword, setShowPassword] = useState(false)
   const [serverError, setServerError]   = useState<string | null>(
-    errorParam === 'not_admin'     ? 'This account does not have access.' :
-    errorParam === 'not_verified'  ? 'Your account is pending verification.' :
+    errorParam === 'not_admin'    ? 'This account does not have access.' :
+    errorParam === 'not_verified' ? 'Your account is pending verification.' :
     null,
   )
 
@@ -65,6 +65,9 @@ export function LoginForm({ token }: { token: string }) {
       return
     }
 
+    // Store the login URL so SessionGuard can redirect here after tab re-open.
+    // The portal token itself stays httpOnly in a server cookie — this only stores the path.
+    localStorage.setItem('hdm_login_url', `/login/${token}`)
     sessionStorage.setItem('hdm_admin_session', '1')
     router.push(`/admin/${token}`)
     router.refresh()
@@ -73,7 +76,7 @@ export function LoginForm({ token }: { token: string }) {
   return (
     <div className="min-h-screen flex">
 
-      {/* Left panel — school branding only, no admin hints */}
+      {/* Left panel */}
       <div className="hidden lg:flex lg:w-[45%] xl:w-[40%] flex-col justify-between p-12 bg-primary relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-[0.07] bg-secondary -translate-y-1/2 translate-x-1/2 pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full opacity-[0.07] bg-secondary translate-y-1/2 -translate-x-1/2 pointer-events-none" />
@@ -108,8 +111,6 @@ export function LoginForm({ token }: { token: string }) {
 
       {/* Right panel — form */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 bg-background">
-
-        {/* Mobile logo — just crest + dark text since background is light */}
         <div className="lg:hidden flex items-center gap-3 mb-10">
           <SchoolLogo size="md" />
           <div>
