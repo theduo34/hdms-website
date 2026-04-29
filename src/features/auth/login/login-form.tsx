@@ -41,9 +41,10 @@ export function LoginForm({ token }: { token: string }) {
   const searchParams = useSearchParams()
   const errorParam   = searchParams.get('error')
 
-  const [showPassword, setShowPassword] = useState(false)
-  const [captchaToken, setCaptchaToken] = useState('')
-  const [serverError, setServerError]   = useState<string | null>(
+  const [showPassword, setShowPassword]   = useState(false)
+  const [captchaToken, setCaptchaToken]   = useState('')
+  const [captchaError, setCaptchaError]   = useState(false)
+  const [serverError, setServerError]     = useState<string | null>(
     errorParam === 'not_admin'    ? 'This account does not have access.' :
     errorParam === 'not_verified' ? 'Your account is pending verification.' :
     null,
@@ -66,11 +67,12 @@ export function LoginForm({ token }: { token: string }) {
     function renderWidget() {
       if (!captchaContainerRef.current || !window.turnstile) return
       widgetIdRef.current = window.turnstile.render(captchaContainerRef.current, {
-        sitekey:           TURNSTILE_SITE_KEY,
-        appearance:        'interaction-only',
-        callback:          (t: string) => setCaptchaToken(t),
+        sitekey:            TURNSTILE_SITE_KEY,
+        appearance:         'always',
+        theme:              'light',
+        callback:           (t: string) => setCaptchaToken(t),
         'expired-callback': () => setCaptchaToken(''),
-        'error-callback':  () => setCaptchaToken(''),
+        'error-callback':   () => { setCaptchaToken(''); setCaptchaError(true) },
       })
     }
 
@@ -95,8 +97,8 @@ export function LoginForm({ token }: { token: string }) {
   async function onSubmit(values: LoginValues) {
     setServerError(null)
 
-    if (CAPTCHA_ENABLED && !captchaToken) {
-      setServerError('Please complete the security check.')
+    if (CAPTCHA_ENABLED && !captchaToken && !captchaError) {
+      setServerError('Please wait for the security check to complete.')
       return
     }
 
@@ -105,7 +107,7 @@ export function LoginForm({ token }: { token: string }) {
     const { error: signInError } = await supabase.auth.signInWithPassword({
       email:    values.email.trim().toLowerCase(),
       password: values.password,
-      options:  CAPTCHA_ENABLED ? { captchaToken } : undefined,
+      options:  (CAPTCHA_ENABLED && captchaToken) ? { captchaToken } : undefined,
     })
 
     if (signInError) {
@@ -246,14 +248,26 @@ export function LoginForm({ token }: { token: string }) {
                 )}
               />
 
-              {/* Turnstile CAPTCHA widget — only renders when site key is configured */}
+              {/* Cloudflare Turnstile */}
               {CAPTCHA_ENABLED && (
-                <div ref={captchaContainerRef} />
+                <div className="space-y-1.5">
+                  {!captchaError && <div ref={captchaContainerRef} />}
+                  {!captchaToken && !captchaError && (
+                    <p className="text-xs text-muted-foreground">
+                      Waiting for security verification…
+                    </p>
+                  )}
+                  {captchaError && (
+                    <p className="text-xs text-amber-600">
+                      Security check unavailable. You can still sign in - disable CAPTCHA in Supabase if this persists.
+                    </p>
+                  )}
+                </div>
               )}
 
               <Button
                 type="submit"
-                disabled={isSubmitting || (CAPTCHA_ENABLED && !captchaToken)}
+                disabled={isSubmitting || (CAPTCHA_ENABLED && !captchaToken && !captchaError)}
                 className="w-full"
               >
                 {isSubmitting ? (
