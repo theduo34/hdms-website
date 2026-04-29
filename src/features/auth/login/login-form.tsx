@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -15,6 +15,20 @@ import { Button } from '@/components/ui/button'
 import { SchoolLogo } from '@/components/layout/school-logo'
 import { headingStyle } from '@/styles/font'
 
+declare global {
+  interface Window {
+    turnstile?: {
+      render:  (container: HTMLElement, options: Record<string, unknown>) => string
+      reset:   (widgetId: string) => void
+      remove:  (widgetId: string) => void
+    }
+    onTurnstileLoad?: () => void
+  }
+}
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ''
+const CAPTCHA_ENABLED    = TURNSTILE_SITE_KEY !== '' && TURNSTILE_SITE_KEY !== 'replace-with-your-cloudflare-turnstile-site-key'
+
 const loginSchema = z.object({
   email:    z.string().email('Enter a valid email address'),
   password: z.string().min(1, 'Password is required'),
@@ -28,11 +42,15 @@ export function LoginForm({ token }: { token: string }) {
   const errorParam   = searchParams.get('error')
 
   const [showPassword, setShowPassword] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState('')
   const [serverError, setServerError]   = useState<string | null>(
     errorParam === 'not_admin'    ? 'This account does not have access.' :
     errorParam === 'not_verified' ? 'Your account is pending verification.' :
     null,
   )
+
+  const captchaContainerRef = useRef<HTMLDivElement>(null)
+  const widgetIdRef         = useRef<string | undefined>(undefined)
 
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -41,16 +59,61 @@ export function LoginForm({ token }: { token: string }) {
 
   const { isSubmitting } = form.formState
 
+  // Mount Cloudflare Turnstile widget
+  useEffect(() => {
+    if (!CAPTCHA_ENABLED) return
+
+    function renderWidget() {
+      if (!captchaContainerRef.current || !window.turnstile) return
+      widgetIdRef.current = window.turnstile.render(captchaContainerRef.current, {
+        sitekey:           TURNSTILE_SITE_KEY,
+        appearance:        'interaction-only',
+        callback:          (t: string) => setCaptchaToken(t),
+        'expired-callback': () => setCaptchaToken(''),
+        'error-callback':  () => setCaptchaToken(''),
+      })
+    }
+
+    if (window.turnstile) {
+      renderWidget()
+    } else {
+      window.onTurnstileLoad = renderWidget
+      const script = document.createElement('script')
+      script.src   = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad'
+      script.async = true
+      script.defer = true
+      document.head.appendChild(script)
+    }
+
+    return () => {
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.remove(widgetIdRef.current)
+      }
+    }
+  }, [])
+
   async function onSubmit(values: LoginValues) {
     setServerError(null)
+
+    if (CAPTCHA_ENABLED && !captchaToken) {
+      setServerError('Please complete the security check.')
+      return
+    }
+
     const supabase = createClient()
 
     const { error: signInError } = await supabase.auth.signInWithPassword({
       email:    values.email.trim().toLowerCase(),
       password: values.password,
+      options:  CAPTCHA_ENABLED ? { captchaToken } : undefined,
     })
 
     if (signInError) {
+      // Reset the widget so the user can get a fresh token on retry
+      if (CAPTCHA_ENABLED && widgetIdRef.current && window.turnstile) {
+        window.turnstile.reset(widgetIdRef.current)
+        setCaptchaToken('')
+      }
       setServerError(
         signInError.message === 'Invalid login credentials'
           ? 'Incorrect email or password.'
@@ -65,8 +128,6 @@ export function LoginForm({ token }: { token: string }) {
       return
     }
 
-    // Store the login URL so SessionGuard can redirect here after tab re-open.
-    // The portal token itself stays httpOnly in a server cookie — this only stores the path.
     localStorage.setItem('hdm_login_url', `/login/${token}`)
     sessionStorage.setItem('hdm_admin_session', '1')
     router.push(`/admin/${token}`)
@@ -109,7 +170,7 @@ export function LoginForm({ token }: { token: string }) {
         </div>
       </div>
 
-      {/* Right panel — form */}
+      {/* Right panel */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 bg-background">
         <div className="lg:hidden flex items-center gap-3 mb-10">
           <SchoolLogo size="md" />
@@ -185,7 +246,16 @@ export function LoginForm({ token }: { token: string }) {
                 )}
               />
 
-              <Button type="submit" disabled={isSubmitting} className="w-full">
+              {/* Turnstile CAPTCHA widget — only renders when site key is configured */}
+              {CAPTCHA_ENABLED && (
+                <div ref={captchaContainerRef} />
+              )}
+
+              <Button
+                type="submit"
+                disabled={isSubmitting || (CAPTCHA_ENABLED && !captchaToken)}
+                className="w-full"
+              >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center gap-2">
                     <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
