@@ -159,7 +159,6 @@ export function FAQsClient() {
       <AdminHeader title="Admissions FAQs" />
 
       <main className="admin-page space-y-5">
-        {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-xl font-bold text-foreground">Admissions FAQs</h2>
@@ -175,7 +174,6 @@ export function FAQsClient() {
           )}
         </div>
 
-        {/* Search */}
         <div className="relative max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
           <Input
@@ -186,7 +184,6 @@ export function FAQsClient() {
           />
         </div>
 
-        {/* List */}
         {loading ? (
           <div className="space-y-3">
             {Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-20 rounded-xl" />)}
@@ -211,7 +208,6 @@ export function FAQsClient() {
                   className="rounded-xl border border-border bg-card group"
                 >
                   <div className="p-4 flex items-start gap-3">
-                    {/* Reorder — only when not searching */}
                     {canEdit && !search && (
                       <div className="flex flex-col gap-0.5 shrink-0 mt-0.5 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
                         <button
@@ -233,12 +229,10 @@ export function FAQsClient() {
                       </div>
                     )}
 
-                    {/* Number badge */}
                     <span className="text-xs text-muted-foreground/50 font-mono mt-0.5 w-5 text-center shrink-0 tabular-nums">
                       {i + 1}
                     </span>
 
-                    {/* Content */}
                     <div className="flex-1 min-w-0">
                       <button
                         onClick={() => setExpanded(isExpanded ? null : faq.id)}
@@ -255,7 +249,6 @@ export function FAQsClient() {
                       )}
                     </div>
 
-                    {/* Expand + actions */}
                     <div className="flex items-center gap-1 shrink-0">
                       <button
                         onClick={() => setExpanded(isExpanded ? null : faq.id)}
@@ -314,7 +307,6 @@ export function FAQsClient() {
         )}
       </main>
 
-      {/* Create / Edit dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="max-w-lg">
           <DialogHeader>

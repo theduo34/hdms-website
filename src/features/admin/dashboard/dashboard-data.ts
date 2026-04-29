@@ -6,27 +6,27 @@ import type { DashboardStats } from './dashboard-types'
 export interface StatCardConfig {
   label: string
   statKey: keyof DashboardStats
-  href: string
+  path: string
   icon: ComponentType<{ className?: string }>
 }
 
 export interface QuickActionConfig {
   label: string
-  href: string
+  path: string
   icon: ComponentType<{ className?: string }>
   resource: AdminResource
 }
 
 export const STAT_CARD_CONFIGS: StatCardConfig[] = [
-  { label: 'Gallery Photos', statKey: 'photos', href: '/admin/gallery', icon: ImageIcon },
-  { label: 'News Posts', statKey: 'news', href: '/admin/news', icon: Newspaper },
-  { label: 'Event Albums', statKey: 'events', href: '/admin/gallery', icon: CalendarDays },
-  { label: 'Active Staff', statKey: 'staff', href: '/admin/staff', icon: Users2 },
-  { label: 'Admissions FAQs', statKey: 'faqs', href: '/admin/faqs', icon: HelpCircle },
+  { label: 'Gallery Photos',  statKey: 'photos', path: 'gallery',       icon: ImageIcon },
+  { label: 'News Posts',      statKey: 'news',   path: 'news',          icon: Newspaper },
+  { label: 'Event Albums',    statKey: 'events', path: 'gallery',       icon: CalendarDays },
+  { label: 'Active Staff',    statKey: 'staff',  path: 'staff',         icon: Users2 },
+  { label: 'Admissions FAQs', statKey: 'faqs',   path: 'faqs',          icon: HelpCircle },
 ]
 
 export const QUICK_ACTION_CONFIGS: QuickActionConfig[] = [
-  { label: 'Upload Photos', href: '/admin/gallery/upload', icon: ImageIcon, resource: 'gallery' },
-  { label: 'Write News Post', href: '/admin/news/new', icon: Newspaper, resource: 'news' },
-  { label: 'Add Calendar Event', href: '/admin/calendar', icon: CalendarDays, resource: 'calendar' },
+  { label: 'Upload Photos',      path: 'gallery/upload', icon: ImageIcon,   resource: 'gallery' },
+  { label: 'Write News Post',    path: 'news/new',       icon: Newspaper,   resource: 'news' },
+  { label: 'Add Calendar Event', path: 'calendar',       icon: CalendarDays, resource: 'calendar' },
 ]

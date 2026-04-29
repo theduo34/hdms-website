@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Upload } from 'lucide-react'
 import { AdminHeader } from '@/components/admin/admin-header'
 import { useAdminUser } from '@/hooks/admin/use-admin-user'
+import { useAdminBase } from '@/hooks/use-admin-base'
 import { can } from '@/lib/admin/permissions'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -12,6 +13,7 @@ import { GalleryEventsGrid } from './gallery-events-grid'
 import { GalleryVideosList } from './gallery-videos-list'
 
 export function GalleryClient() {
+  const base = useAdminBase()
   const { admin, loading: authLoading } = useAdminUser()
   if (authLoading) return null
 
@@ -32,7 +34,7 @@ export function GalleryClient() {
             </p>
           </div>
           {canCreate && (
-            <Link href="/admin/gallery/upload" className="flex-shrink-0">
+            <Link href={`${base}/gallery/upload`} className="flex-shrink-0">
               <Button size="sm">
                 <Upload className="w-3.5 h-3.5 mr-1.5" /> Upload
               </Button>

@@ -52,7 +52,6 @@ export function AdminSidebar({ role, displayName, email, token }: AdminSidebarPr
   const pathname = usePathname()
   const router   = useRouter()
 
-  // Base path for all admin links — e.g. /admin/<token>
   const base     = `/admin/${token}`
   const navItems = buildNavItems(base)
 

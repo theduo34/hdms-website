@@ -22,21 +22,14 @@ export function UploadVideoClient() {
 
   const [mode, setMode] = useState<InputMode>('url')
 
-  // URL mode
   const [rawUrl, setRawUrl] = useState('')
-
-  // File mode
   const [videoFile, setVideoFile] = useState<File | null>(null)
   const [uploadProgress, setUploadProgress] = useState(0)
-
-  // Common fields
   const [title, setTitle] = useState('')
   const [alt, setAlt] = useState('')
   const [duration, setDuration] = useState('')
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null)
   const [year, setYear] = useState(new Date().getFullYear())
-
-  // Thumbnail
   const [thumbnail, setThumbnail] = useState<File | null>(null)
   const [thumbPreview, setThumbPreview] = useState<string | null>(null)
 
@@ -164,7 +157,6 @@ export function UploadVideoClient() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Mode toggle */}
       <div className="space-y-2">
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Video Source</p>
         <div className="flex gap-2">
@@ -197,7 +189,6 @@ export function UploadVideoClient() {
         </div>
       </div>
 
-      {/* URL input */}
       {mode === 'url' && (
         <div className="space-y-2">
           <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
@@ -231,7 +222,6 @@ export function UploadVideoClient() {
         </div>
       )}
 
-      {/* File drop zone */}
       {mode === 'file' && (
         <div className="space-y-2">
           <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
@@ -290,7 +280,6 @@ export function UploadVideoClient() {
         </div>
       )}
 
-      {/* Title + Alt */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
           <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
@@ -316,7 +305,6 @@ export function UploadVideoClient() {
         </div>
       </div>
 
-      {/* Duration */}
       <div className="space-y-1.5 max-w-[180px]">
         <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
           Duration
@@ -333,7 +321,6 @@ export function UploadVideoClient() {
         <p className="text-[10px] text-muted-foreground">Optional, shown as a badge on the video card</p>
       </div>
 
-      {/* Category */}
       <div className="space-y-2">
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Category</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -363,7 +350,6 @@ export function UploadVideoClient() {
         </div>
       </div>
 
-      {/* Year picker */}
       {selectedCategory?.hasYear && (
         <div className="flex items-center gap-3">
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Year</p>
@@ -378,7 +364,6 @@ export function UploadVideoClient() {
         </div>
       )}
 
-      {/* Thumbnail */}
       <div className="space-y-2">
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
           Thumbnail <span className="font-normal normal-case text-muted-foreground">(optional)</span>
@@ -417,10 +402,8 @@ export function UploadVideoClient() {
         </p>
       </div>
 
-      {/* Error */}
       {errorMsg && <p className="text-sm text-destructive">{errorMsg}</p>}
 
-      {/* Submit */}
       <div className="flex gap-2">
         <Button type="submit" disabled={status === 'submitting'}>
           {status === 'submitting'

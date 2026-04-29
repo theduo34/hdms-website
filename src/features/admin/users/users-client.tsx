@@ -142,7 +142,6 @@ export function UsersClient() {
       <AdminHeader title="Admin Users" />
 
       <main className="admin-page space-y-6">
-        {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-lg font-bold text-foreground">Admin Users</h2>
@@ -155,7 +154,6 @@ export function UsersClient() {
           )}
         </div>
 
-        {/* Role legend */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {Object.entries(ROLE_CONFIG).map(([key, cfg]) => (
             <div key={key} className="rounded-xl border border-border bg-card p-3">
@@ -167,7 +165,6 @@ export function UsersClient() {
           ))}
         </div>
 
-        {/* User list */}
         {loading ? (
           <div className="space-y-3">
             {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-20 rounded-xl" />)}
@@ -220,7 +217,6 @@ export function UsersClient() {
                     </div>
                   </div>
 
-                  {/* Verified badge */}
                   <div className="flex-shrink-0 hidden sm:block">
                     {user.verified ? (
                       <span className="flex items-center gap-1 text-xs text-primary">
@@ -233,7 +229,6 @@ export function UsersClient() {
                     )}
                   </div>
 
-                  {/* Actions */}
                   {!isSelf && (
                     <div className="flex items-center gap-2 flex-shrink-0">
                       {canVerify && (
@@ -284,7 +279,6 @@ export function UsersClient() {
         )}
       </main>
 
-      {/* Invite dialog */}
       <Dialog open={inviteOpen} onOpenChange={setInviteOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>

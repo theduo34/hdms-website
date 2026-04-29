@@ -18,7 +18,6 @@ export function PostSidebarPanel({ submitSlot }: PostSidebarPanelProps) {
     <div className="space-y-4">
       <Card>
         <CardContent className="p-4 space-y-5">
-          {/* Category tiles */}
           <FormField
             control={control}
             name="category"
@@ -50,7 +49,6 @@ export function PostSidebarPanel({ submitSlot }: PostSidebarPanelProps) {
             )}
           />
 
-          {/* Featured toggle */}
           <FormField
             control={control}
             name="featured"

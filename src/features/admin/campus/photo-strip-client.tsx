@@ -11,6 +11,7 @@ import { Progress } from '@/components/ui/progress'
 import { getMediaUrl } from '@/lib/media'
 import { can } from '@/lib/admin/permissions'
 import type { AdminRole } from '@/lib/admin/types'
+import { useAdminBase } from '@/hooks/use-admin-base'
 import { DropZone } from './drop-zone'
 import { signAndUploadCampus } from './upload-helpers'
 import { AdminHeader } from '@/components/admin/admin-header'
@@ -148,6 +149,7 @@ function UploadForm({ onSuccess }: { onSuccess: () => void }) {
 }
 
 export function PhotoStripClient({ role }: { role: AdminRole }) {
+    const base = useAdminBase()
     const canCreate = can(role, 'campus', 'create')
     const canDelete = can(role, 'campus', 'delete')
 
@@ -164,7 +166,7 @@ export function PhotoStripClient({ role }: { role: AdminRole }) {
 
     return (
         <>
-            <AdminHeader title="Photo Strip" backHref="/admin/campus" />
+            <AdminHeader title="Photo Strip" backHref={`${base}/campus`} />
             <main className="admin-page space-y-8">
                 <div>
                     <h2 className="text-xl font-bold">Home Page Photo Strip</h2>

@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ImageIcon, Upload, Trash2, Star, CalendarDays, Images } from 'lucide-react'
 import { toast } from 'sonner'
+import { useAdminBase } from '@/hooks/use-admin-base'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -44,6 +45,7 @@ interface EventAlbumClientProps {
 }
 
 export function EventAlbumClient({ eventId, canDelete, canCreate }: EventAlbumClientProps) {
+  const base = useAdminBase()
   const [event, setEvent] = useState<EventAlbumData | null>(null)
   const [photos, setPhotos] = useState<EventPhoto[]>([])
   const [loading, setLoading] = useState(true)
@@ -78,7 +80,7 @@ export function EventAlbumClient({ eventId, canDelete, canCreate }: EventAlbumCl
   if (loading) {
     return (
       <>
-        <AdminHeader title="Event Album" backHref="/admin/gallery" />
+        <AdminHeader title="Event Album" backHref={`${base}/gallery`} />
         <main className="admin-page space-y-6">
           <Skeleton className="h-8 w-64" />
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -94,7 +96,7 @@ export function EventAlbumClient({ eventId, canDelete, canCreate }: EventAlbumCl
   if (!event) {
     return (
       <>
-        <AdminHeader title="Event Album" backHref="/admin/gallery" />
+        <AdminHeader title="Event Album" backHref={`${base}/gallery`} />
         <main className="admin-page">
           <p className="text-sm text-muted-foreground">Event not found.</p>
         </main>
@@ -104,10 +106,9 @@ export function EventAlbumClient({ eventId, canDelete, canCreate }: EventAlbumCl
 
   return (
     <>
-      <AdminHeader title={event.title} backHref="/admin/gallery" />
+      <AdminHeader title={event.title} backHref={`${base}/gallery`} />
 
       <main className="admin-page space-y-6">
-        {/* Event info row */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h2 className="text-xl font-bold text-foreground">{event.title}</h2>
@@ -141,7 +142,6 @@ export function EventAlbumClient({ eventId, canDelete, canCreate }: EventAlbumCl
           )}
         </div>
 
-        {/* Inline uploader */}
         {showUpload && (
           <div className="rounded-xl border border-border p-5 space-y-4 bg-card">
             <p className="text-sm font-semibold text-foreground">
@@ -154,7 +154,6 @@ export function EventAlbumClient({ eventId, canDelete, canCreate }: EventAlbumCl
           </div>
         )}
 
-        {/* Photo grid */}
         {photos.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <div className="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center mb-4">
@@ -192,14 +191,12 @@ export function EventAlbumClient({ eventId, canDelete, canCreate }: EventAlbumCl
                   </div>
                 )}
 
-                {/* Featured star */}
                 {photo.featured && (
                   <div className="absolute top-2 left-2 z-10 w-5 h-5 rounded-full bg-secondary flex items-center justify-center shadow-sm">
                     <Star className="w-2.5 h-2.5 text-primary" fill="currentColor" />
                   </div>
                 )}
 
-                {/* Hover overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 gap-1">
                   <p className="text-white text-[11px] font-medium truncate leading-tight">
                     {photo.asset?.title ?? photo.asset?.alt ?? 'Untitled'}

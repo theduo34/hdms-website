@@ -121,7 +121,6 @@ function EventForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSave)} className="space-y-4 py-1">
-        {/* Title */}
         <FormField
           control={form.control}
           name="title"
@@ -136,7 +135,6 @@ function EventForm({
           )}
         />
 
-        {/* Dates */}
         <div className="grid grid-cols-2 gap-3">
           <FormField
             control={form.control}
@@ -166,7 +164,6 @@ function EventForm({
           />
         </div>
 
-        {/* Time + Location */}
         <div className="grid grid-cols-2 gap-3">
           <FormField
             control={form.control}
@@ -196,7 +193,6 @@ function EventForm({
           />
         </div>
 
-        {/* Category dropdown */}
         <FormField
           control={form.control}
           name="category"
@@ -222,7 +218,6 @@ function EventForm({
           )}
         />
 
-        {/* Description */}
         <FormField
           control={form.control}
           name="description"
@@ -237,7 +232,6 @@ function EventForm({
           )}
         />
 
-        {/* Toggles */}
         <div className="flex gap-6 pt-1">
           <FormField
             control={form.control}
@@ -361,7 +355,6 @@ export function CalendarClient() {
       <AdminHeader title="Calendar" />
 
       <main className="admin-page space-y-6">
-        {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-lg font-bold text-foreground">Academic Calendar</h2>
@@ -383,7 +376,6 @@ export function CalendarClient() {
             <TabsTrigger value="terms">Academic Terms</TabsTrigger>
           </TabsList>
 
-          {/* ── Events tab ─────────────────────────────────────────────── */}
           <TabsContent value="events" className="mt-5">
             {loading ? (
               <div className="space-y-6">
@@ -413,7 +405,6 @@ export function CalendarClient() {
               <div className="space-y-6">
                 {grouped.map(({ label, events: monthEvents }) => (
                   <div key={label}>
-                    {/* Month header */}
                     <div className="flex items-center gap-3 mb-3">
                       <p className="text-xs font-bold tracking-[0.12em] uppercase text-muted-foreground">{label}</p>
                       <div className="flex-1 h-px bg-border" />
@@ -430,7 +421,6 @@ export function CalendarClient() {
                               event.is_highlight && 'border-l-2 border-l-secondary',
                             )}
                           >
-                            {/* Date block */}
                             <div className="w-10 text-center flex-shrink-0 rounded-lg py-1.5 bg-primary/5">
                               <p className="text-base font-bold text-foreground leading-none tabular-nums">
                                 {new Date(event.date).getDate()}
@@ -440,7 +430,6 @@ export function CalendarClient() {
                               </p>
                             </div>
 
-                            {/* Category badge */}
                             <span className={cn(
                               'hidden sm:inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium border flex-shrink-0',
                               getCategoryStyle(event.category),
@@ -448,7 +437,6 @@ export function CalendarClient() {
                               {event.category_label}
                             </span>
 
-                            {/* Details */}
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-1.5">
                                 {event.is_highlight && (
@@ -477,7 +465,6 @@ export function CalendarClient() {
                               </div>
                             </div>
 
-                            {/* Actions */}
                             <div className="flex items-center gap-1 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
                               {canEdit && (
                                 <button
@@ -528,7 +515,6 @@ export function CalendarClient() {
             )}
           </TabsContent>
 
-          {/* ── Terms tab ──────────────────────────────────────────────── */}
           <TabsContent value="terms" className="mt-5">
             {loading ? (
               <div className="space-y-3">
@@ -555,7 +541,6 @@ export function CalendarClient() {
                           : 'border-border hover:bg-accent/20',
                       )}
                     >
-                      {/* Status indicator */}
                       <div className={cn(
                         'w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0',
                         term.is_current ? 'bg-secondary/20' : term.is_break ? 'bg-muted' : 'bg-primary/5',
@@ -605,7 +590,6 @@ export function CalendarClient() {
         </Tabs>
       </main>
 
-      {/* Event dialog */}
       <Dialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) setEditingEvent(null) }}>
         <DialogContent className="max-w-lg flex flex-col max-h-[90vh]">
           <DialogHeader className="flex-shrink-0">

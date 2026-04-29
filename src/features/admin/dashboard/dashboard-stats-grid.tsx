@@ -5,9 +5,10 @@ import type { DashboardStats } from './dashboard-types'
 
 interface DashboardStatsGridProps {
   stats: DashboardStats
+  base: string
 }
 
-export function DashboardStatsGrid({ stats }: DashboardStatsGridProps) {
+export function DashboardStatsGrid({ stats, base }: DashboardStatsGridProps) {
   return (
     <section>
       <div className="flex items-center gap-2 mb-3">
@@ -20,7 +21,7 @@ export function DashboardStatsGrid({ stats }: DashboardStatsGridProps) {
             key={config.label}
             label={config.label}
             value={stats[config.statKey]}
-            href={config.href}
+            href={`${base}/${config.path}`}
             icon={config.icon}
             accent={i % 2 === 1}
           />

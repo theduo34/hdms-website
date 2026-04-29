@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { CalendarDays, Plus, Trash2, Images } from 'lucide-react'
 import { toast } from 'sonner'
+import { useAdminBase } from '@/hooks/use-admin-base'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -29,6 +30,7 @@ interface GalleryEventsGridProps {
 }
 
 export function GalleryEventsGrid({ canDelete, canCreate }: GalleryEventsGridProps) {
+  const base = useAdminBase()
   const [events, setEvents] = useState<GalleryEvent[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -67,7 +69,7 @@ export function GalleryEventsGrid({ canDelete, canCreate }: GalleryEventsGridPro
         <p className="text-sm font-semibold text-foreground">No event albums yet</p>
         <p className="text-xs text-muted-foreground mt-1 mb-5">Create your first event album.</p>
         {canCreate && (
-          <Link href="/admin/gallery/events/new">
+          <Link href={`${base}/gallery/events/new`}>
             <Button size="sm">
               <Plus className="w-3.5 h-3.5 mr-2" /> New Event Album
             </Button>
@@ -84,7 +86,6 @@ export function GalleryEventsGrid({ canDelete, canCreate }: GalleryEventsGridPro
           key={event.id}
           className="group relative aspect-video rounded-xl overflow-hidden bg-muted ring-1 ring-border/50 hover:ring-primary/20 hover:shadow-lg transition-all duration-300"
         >
-          {/* Cover image */}
           {event.cover?.storage_path ? (
             <Image
               src={getMediaUrl(event.cover.storage_path)}
@@ -100,16 +101,13 @@ export function GalleryEventsGrid({ canDelete, canCreate }: GalleryEventsGridPro
             </div>
           )}
 
-          {/* Persistent gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-          {/* Photo count badge — top right */}
           <div className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-black/50 backdrop-blur-sm text-white text-[11px] font-medium px-2 py-0.5 rounded-full">
             <Images className="w-3 h-3" />
             {event.photo_count}
           </div>
 
-          {/* Event info — bottom overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-3.5 flex items-end justify-between gap-2">
             <div className="min-w-0 flex-1">
               <p className="text-white font-semibold text-sm truncate leading-tight">
@@ -124,17 +122,7 @@ export function GalleryEventsGrid({ canDelete, canCreate }: GalleryEventsGridPro
               </p>
             </div>
 
-            {/* Action buttons — appear on hover */}
             <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-200 flex-shrink-0">
-              {/*<Link href={`/admin/gallery/events/${event.id}`}>*/}
-              {/*  <Button*/}
-              {/*    size="sm"*/}
-              {/*    className="h-7 text-xs bg-white/20 hover:bg-white/35 text-white border-0 backdrop-blur-sm"*/}
-              {/*  >*/}
-              {/*    View Album*/}
-              {/*  </Button>*/}
-              {/*</Link>*/}
-
               {canDelete && (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>

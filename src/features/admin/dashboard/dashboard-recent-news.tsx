@@ -4,9 +4,10 @@ import type { RecentPost } from './dashboard-types'
 
 interface DashboardRecentNewsProps {
   posts: RecentPost[]
+  base: string
 }
 
-export function DashboardRecentNews({ posts }: DashboardRecentNewsProps) {
+export function DashboardRecentNews({ posts, base }: DashboardRecentNewsProps) {
   return (
     <div className="rounded-xl border border-border bg-card overflow-hidden">
       <div className="flex items-center justify-between px-5 py-4 border-b border-border">
@@ -15,7 +16,7 @@ export function DashboardRecentNews({ posts }: DashboardRecentNewsProps) {
           <h3 className="text-sm font-semibold text-foreground">Recent News</h3>
         </div>
         <Link
-          href="/admin/news"
+          href={`${base}/news`}
           className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1 transition-colors"
         >
           View all <ArrowRight className="w-3 h-3" />
@@ -32,7 +33,7 @@ export function DashboardRecentNews({ posts }: DashboardRecentNewsProps) {
           posts.map((post) => (
             <Link
               key={post.id}
-              href={`/admin/news/${post.id}`}
+              href={`${base}/news/${post.id}`}
               className="flex items-start gap-3 px-5 py-3.5 hover:bg-accent/50 transition-colors group"
             >
               <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-2 flex-shrink-0" />

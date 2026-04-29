@@ -5,9 +5,10 @@ import type { DashboardActivity } from './dashboard-types'
 
 interface DashboardRecentActivityProps {
   activity: DashboardActivity
+  base: string
 }
 
-export function DashboardRecentActivity({ activity }: DashboardRecentActivityProps) {
+export function DashboardRecentActivity({ activity, base }: DashboardRecentActivityProps) {
   return (
     <section>
       <div className="flex items-center gap-2 mb-4">
@@ -15,8 +16,8 @@ export function DashboardRecentActivity({ activity }: DashboardRecentActivityPro
         <h3 className="text-sm font-semibold text-foreground">Recent Activity</h3>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <DashboardRecentNews posts={activity.recentNews} />
-        <DashboardRecentUploads assets={activity.recentPhotos} />
+        <DashboardRecentNews posts={activity.recentNews} base={base} />
+        <DashboardRecentUploads assets={activity.recentPhotos} base={base} />
       </div>
     </section>
   )

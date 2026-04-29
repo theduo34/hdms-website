@@ -6,9 +6,10 @@ import type { RecentPhoto } from './dashboard-types'
 
 interface DashboardRecentUploadsProps {
   assets: RecentPhoto[]
+  base: string
 }
 
-export function DashboardRecentUploads({ assets }: DashboardRecentUploadsProps) {
+export function DashboardRecentUploads({ assets, base }: DashboardRecentUploadsProps) {
   return (
     <div className="rounded-xl border border-border bg-card overflow-hidden">
       <div className="flex items-center justify-between px-5 py-4 border-b border-border">
@@ -27,7 +28,7 @@ export function DashboardRecentUploads({ assets }: DashboardRecentUploadsProps) 
             Public gallery <ExternalLink className="w-3 h-3" />
           </a>
           <Link
-            href="/admin/gallery"
+            href={`${base}/gallery`}
             className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1 transition-colors"
           >
             View all <ArrowRight className="w-3 h-3" />
@@ -39,7 +40,7 @@ export function DashboardRecentUploads({ assets }: DashboardRecentUploadsProps) 
         <div className="px-5 py-10 text-center">
           <ImageIcon className="w-8 h-8 mx-auto mb-2 text-muted-foreground/25" />
           <p className="text-sm text-muted-foreground">No photos uploaded yet.</p>
-          <Link href="/admin/gallery/upload" className="text-xs text-primary hover:underline mt-1 inline-block">
+          <Link href={`${base}/gallery/upload`} className="text-xs text-primary hover:underline mt-1 inline-block">
             Upload your first photo
           </Link>
         </div>
@@ -72,7 +73,7 @@ export function DashboardRecentUploads({ assets }: DashboardRecentUploadsProps) 
       {assets.length > 0 && (
         <div className="px-5 pb-4">
           <Link
-            href="/admin/gallery/upload"
+            href={`${base}/gallery/upload`}
             className="text-xs text-primary hover:underline"
           >
             + Upload more photos

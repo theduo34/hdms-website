@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Video, Upload, Trash2, Play, Clock } from 'lucide-react'
 import { toast } from 'sonner'
+import { useAdminBase } from '@/hooks/use-admin-base'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -32,6 +33,7 @@ interface GalleryVideosListProps {
 }
 
 export function GalleryVideosList({ canDelete, canCreate }: GalleryVideosListProps) {
+  const base = useAdminBase()
   const [videos, setVideos] = useState<GalleryVideo[]>([])
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
@@ -73,7 +75,7 @@ export function GalleryVideosList({ canDelete, canCreate }: GalleryVideosListPro
         <p className="text-sm font-semibold text-foreground">No videos yet</p>
         <p className="text-xs text-muted-foreground mt-1 mb-5">Add your first video to get started.</p>
         {canCreate && (
-          <Link href="/admin/gallery/upload">
+          <Link href={`${base}/gallery/upload`}>
             <Button size="sm">
               <Upload className="w-3.5 h-3.5 mr-2" /> Add Video
             </Button>
@@ -95,7 +97,6 @@ export function GalleryVideosList({ canDelete, canCreate }: GalleryVideosListPro
             key={video.id}
             className="group relative rounded-xl overflow-hidden bg-muted ring-1 ring-border/50 hover:ring-primary/20 transition-all duration-300"
           >
-            {/* Thumbnail / placeholder */}
             <div className="relative aspect-video">
               {video.thumbnail?.storage_path ? (
                 <Image
@@ -112,7 +113,6 @@ export function GalleryVideosList({ canDelete, canCreate }: GalleryVideosListPro
                 </div>
               )}
 
-              {/* Play badge */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className={cn(
                   'w-10 h-10 rounded-full bg-black/50 flex items-center justify-center backdrop-blur-sm transition-transform duration-300',
@@ -122,7 +122,6 @@ export function GalleryVideosList({ canDelete, canCreate }: GalleryVideosListPro
                 </div>
               </div>
 
-              {/* Duration badge */}
               {video.duration && (
                 <div className="absolute bottom-2 right-2 flex items-center gap-1 bg-black/70 text-white rounded px-1.5 py-0.5">
                   <Clock className="w-2.5 h-2.5" />
@@ -130,7 +129,6 @@ export function GalleryVideosList({ canDelete, canCreate }: GalleryVideosListPro
                 </div>
               )}
 
-              {/* Category badge */}
               {video.category && (
                 <div className="absolute top-2 left-2 bg-primary/80 text-primary-foreground rounded px-1.5 py-0.5 text-[10px] font-semibold">
                   {video.category.label}
@@ -138,7 +136,6 @@ export function GalleryVideosList({ canDelete, canCreate }: GalleryVideosListPro
               )}
             </div>
 
-            {/* Info row */}
             <div className="p-3 flex items-center justify-between gap-2">
               <p className="text-xs font-semibold text-foreground truncate">{video.title}</p>
 

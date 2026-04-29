@@ -1,25 +1,27 @@
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { getCurrentAdmin } from '@/lib/admin/auth'
 import { AdminSidebar } from '@/components/admin/admin-sidebar'
 import { SessionGuard } from '@/components/admin/session-guard'
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
 import { Toaster } from '@/components/ui/sonner'
 
-export default async function AdminLayout({
+export default async function AdminTokenLayout({
   children,
+  params,
 }: {
   children: React.ReactNode
+  params: Promise<{ token: string }>
 }) {
+  const { token } = await params
+
+  if (!process.env.ADMIN_PORTAL_TOKEN || token !== process.env.ADMIN_PORTAL_TOKEN) {
+    notFound()
+  }
+
   const admin = await getCurrentAdmin()
-  if (!admin) redirect('/login?error=not_admin')
+  if (!admin) redirect(`/login/${token}`)
 
   const { profile } = admin
-
-  // The portal token is stored in the hdm_portal cookie by the proxy (middleware).
-  // Reading it server-side avoids any client-side SSR mismatch.
-  const cookieStore = await cookies()
-  const portalToken = cookieStore.get('hdm_portal')?.value ?? ''
 
   return (
     <SidebarProvider defaultOpen={true}>
@@ -29,7 +31,7 @@ export default async function AdminLayout({
           role={profile.role}
           displayName={profile.display_name}
           email={profile.email}
-          token={portalToken}
+          token={token}
         />
         <SidebarInset className="flex-1 min-w-0">
           {children}

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { Pencil, Trash2, Newspaper, Plus, Star, Loader2 } from 'lucide-react'
+import { useAdminBase } from '@/hooks/use-admin-base'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -33,6 +34,7 @@ interface NewsListProps {
 const PAGE_SIZE = 10
 
 export function NewsList({ canDelete, canCreate, canEdit }: NewsListProps) {
+  const base = useAdminBase()
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
   const [loadingMore, setLoadingMore] = useState(false)
@@ -94,7 +96,7 @@ export function NewsList({ canDelete, canCreate, canEdit }: NewsListProps) {
         <p className="text-sm font-semibold text-foreground">No posts yet</p>
         <p className="text-xs text-muted-foreground mt-1 mb-5">Write your first news post to get started.</p>
         {canCreate && (
-          <Link href="/admin/news/new">
+          <Link href={`${base}/news/new`}>
             <Button size="sm"><Plus className="w-3.5 h-3.5 mr-2" /> Write First Post</Button>
           </Link>
         )}
@@ -114,7 +116,6 @@ export function NewsList({ canDelete, canCreate, canEdit }: NewsListProps) {
             key={post.id}
             className={`flex items-center gap-3 px-4 py-3 ${i > 0 ? 'border-t border-border' : ''} hover:bg-accent/30 transition-colors`}
           >
-            {/* Headline + meta */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5 flex-wrap">
                 {post.featured && (
@@ -136,10 +137,9 @@ export function NewsList({ canDelete, canCreate, canEdit }: NewsListProps) {
               </div>
             </div>
 
-            {/* Actions */}
             <div className="flex items-center gap-1 flex-shrink-0">
               {canEdit && (
-                <Link href={`/admin/news/${post.id}`}>
+                <Link href={`${base}/news/${post.id}`}>
                   <button
                     className="w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-accent transition"
                     aria-label="Edit post"

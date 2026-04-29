@@ -72,7 +72,6 @@ export function SettingsClient() {
 
       <main className="admin-page space-y-6">
 
-        {/* Page header */}
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-xl font-bold text-foreground">School Settings</h2>
@@ -94,7 +93,6 @@ export function SettingsClient() {
           )}
         </div>
 
-        {/* Read-only notice */}
         {!canUpdate && (
           <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/40 px-4 py-3">
             <Lock className="w-4 h-4 text-muted-foreground shrink-0" />
@@ -104,7 +102,6 @@ export function SettingsClient() {
           </div>
         )}
 
-        {/* Sections grid */}
         {loading ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {Array.from({ length: 4 }).map((_, i) => (
@@ -126,7 +123,6 @@ export function SettingsClient() {
           </div>
         )}
 
-        {/* Sticky unsaved changes bar */}
         {canUpdate && dirtyCount > 0 && (
           <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-foreground text-background rounded-full px-5 py-2.5 shadow-xl z-50">
             <span className="text-sm font-medium">

@@ -141,7 +141,6 @@ export function UploadEventClient() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* Title + Date on the same row on desktop */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <FormField
             control={form.control}
@@ -184,7 +183,6 @@ export function UploadEventClient() {
           />
         </div>
 
-        {/* Description */}
         <FormField
           control={form.control}
           name="description"
@@ -206,7 +204,6 @@ export function UploadEventClient() {
           )}
         />
 
-        {/* Event type */}
         <div className="space-y-2">
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
             Event Type <span className="font-normal normal-case text-muted-foreground">(optional)</span>
@@ -236,7 +233,6 @@ export function UploadEventClient() {
           </div>
         </div>
 
-        {/* Cover photo */}
         <div className="space-y-2">
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
             Cover Photo <span className="font-normal normal-case text-muted-foreground">(optional)</span>
@@ -275,7 +271,6 @@ export function UploadEventClient() {
           </p>
         </div>
 
-        {/* Submit */}
         <div className="flex gap-2 pt-1">
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting

@@ -1,6 +1,7 @@
 'use client'
 
 import { AdminHeader } from '@/components/admin/admin-header'
+import { useAdminBase } from '@/hooks/use-admin-base'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ImageIcon, Video, CalendarDays } from 'lucide-react'
 import { UploadPhotosClient } from './upload-photos-client'
@@ -8,9 +9,10 @@ import { UploadVideoClient } from './upload-video-client'
 import { UploadEventClient } from './upload-event-client'
 
 export function UploadClient() {
+  const base = useAdminBase()
   return (
     <>
-      <AdminHeader title="Upload Media" backHref="/admin/gallery" />
+      <AdminHeader title="Upload Media" backHref={`${base}/gallery`} />
 
       <main className="admin-page space-y-6">
         <div>

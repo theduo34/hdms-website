@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useAdminBase } from '@/hooks/use-admin-base'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -31,6 +32,7 @@ const postSchema = z.object({
 type PostValues = z.infer<typeof postSchema>
 
 export function NewPostClient() {
+  const base = useAdminBase()
   const router = useRouter()
   const [coverAssetId, setCoverAssetId] = useState<string | null>(null)
   const [coverPreview, setCoverPreview] = useState<string | null>(null)
@@ -74,7 +76,7 @@ export function NewPostClient() {
 
   return (
     <>
-      <AdminHeader title="New Post" backHref="/admin/news" />
+      <AdminHeader title="New Post" backHref={`${base}/news`} />
 
       <main className="admin-page">
         <Form {...form}>

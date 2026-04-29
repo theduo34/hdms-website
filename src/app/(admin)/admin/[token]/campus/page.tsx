@@ -10,19 +10,26 @@ export const metadata: Metadata = {
     description: 'Manage campus photos and facility images.',
 }
 
-export default async function CampusAdminPage() {
+export default async function CampusAdminPage({
+    params,
+}: {
+    params: Promise<{ token: string }>
+}) {
+    const { token } = await params
     const admin = await getCurrentAdmin()
-    if (!admin) redirect('/login')
+    if (!admin) redirect(`/login/${token}`)
+
+    const base = `/admin/${token}`
 
     const cards = [
         {
-            href: '/admin/campus/photo-strip',
+            href: `${base}/campus/photo-strip`,
             icon: Images,
             title: 'Photo Strip',
             description: 'Scrolling photo strip shown on the home page landing section.',
         },
         {
-            href: '/admin/campus/facilities',
+            href: `${base}/campus/facilities`,
             icon: Building2,
             title: 'Campus Facilities',
             description: 'Learning spaces, outdoor areas, and support facilities for the campus life page.',

@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ImageIcon, Upload, Trash2, Star } from 'lucide-react'
 import { toast } from 'sonner'
+import { useAdminBase } from '@/hooks/use-admin-base'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -32,6 +33,7 @@ interface GalleryPhotoGridProps {
 }
 
 export function GalleryPhotoGrid({ canDelete, canCreate }: GalleryPhotoGridProps) {
+  const base = useAdminBase()
   const [photos, setPhotos] = useState<GalleryPhoto[]>([])
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
@@ -73,7 +75,7 @@ export function GalleryPhotoGrid({ canDelete, canCreate }: GalleryPhotoGridProps
         <p className="text-sm font-semibold text-foreground">No photos yet</p>
         <p className="text-xs text-muted-foreground mt-1 mb-5">Upload your first photo to get started.</p>
         {canCreate && (
-          <Link href="/admin/gallery/upload">
+          <Link href={`${base}/gallery/upload`}>
             <Button size="sm">
               <Upload className="w-3.5 h-3.5 mr-2" /> Upload Photos
             </Button>
@@ -110,14 +112,12 @@ export function GalleryPhotoGrid({ canDelete, canCreate }: GalleryPhotoGridProps
               </div>
             )}
 
-            {/* Persistent featured star */}
             {photo.featured && (
               <div className="absolute top-2 left-2 z-10 w-5 h-5 rounded-full bg-secondary flex items-center justify-center shadow-sm">
                 <Star className="w-2.5 h-2.5 text-primary" fill="currentColor" />
               </div>
             )}
 
-            {/* Hover overlay */}
             <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 gap-1">
               <p className="text-white text-[11px] font-medium truncate leading-tight">
                 {photo.asset?.title ?? photo.asset?.alt ?? 'Untitled'}

@@ -6,9 +6,10 @@ import type { AdminRole } from '@/lib/admin/types'
 
 interface DashboardQuickActionsProps {
   role: AdminRole
+  base: string
 }
 
-export function DashboardQuickActions({ role }: DashboardQuickActionsProps) {
+export function DashboardQuickActions({ role, base }: DashboardQuickActionsProps) {
   const visibleActions = QUICK_ACTION_CONFIGS.filter((action) =>
     can(role, action.resource, 'create'),
   )
@@ -26,7 +27,7 @@ export function DashboardQuickActions({ role }: DashboardQuickActionsProps) {
           <DashboardQuickActionCard
             key={action.label}
             label={action.label}
-            href={action.href}
+            href={`${base}/${action.path}`}
             icon={action.icon}
           />
         ))}

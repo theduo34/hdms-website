@@ -19,7 +19,6 @@ export function SettingsSectionCard({
 
   return (
     <div className="bg-card rounded-2xl border border-border overflow-hidden">
-      {/* Section header */}
       <div className="flex items-start gap-3 px-6 py-5 border-b border-border bg-muted/30">
         <div className="w-8 h-8 rounded-lg bg-secondary/15 flex items-center justify-center shrink-0 mt-0.5">
           <Icon className="w-4 h-4 text-secondary" />
@@ -30,7 +29,6 @@ export function SettingsSectionCard({
         </div>
       </div>
 
-      {/* Fields */}
       <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
         {section.keys.map(({ key, label, type, hint }) => {
           const isDirty = dirty[key] !== undefined

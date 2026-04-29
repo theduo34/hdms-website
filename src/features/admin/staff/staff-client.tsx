@@ -216,7 +216,6 @@ export function StaffClient() {
       <AdminHeader title="Staff" />
 
       <main className="admin-page space-y-5">
-        {/* Header row */}
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-xl font-bold text-foreground">Staff Directory</h2>
@@ -231,7 +230,6 @@ export function StaffClient() {
           )}
         </div>
 
-        {/* Search + filter tabs */}
         <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
           <div className="relative max-w-xs flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
@@ -268,7 +266,6 @@ export function StaffClient() {
           </div>
         </div>
 
-        {/* List */}
         {loading ? (
           <div className="space-y-3">
             {Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-16 rounded-xl" />)}
@@ -293,7 +290,6 @@ export function StaffClient() {
                   !member.is_active && 'opacity-60',
                 )}
               >
-                {/* Reorder buttons — only visible when no search active */}
                 {canEdit && !search && (
                   <div className="flex flex-col gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
                     <button
@@ -315,14 +311,12 @@ export function StaffClient() {
                   </div>
                 )}
 
-                {/* Avatar */}
                 <Avatar className="w-10 h-10 shrink-0">
                   <AvatarFallback className="bg-primary/10 text-primary font-semibold text-sm">
                     {member.initials ?? getInitials(member.name)}
                   </AvatarFallback>
                 </Avatar>
 
-                {/* Info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="font-semibold text-sm text-foreground">{member.name}</p>
@@ -340,9 +334,7 @@ export function StaffClient() {
                   <p className="text-xs text-muted-foreground mt-0.5">{member.role}</p>
                 </div>
 
-                {/* Actions */}
                 <div className="flex items-center gap-1 shrink-0">
-                  {/* Active toggle — always visible */}
                   {canEdit && (
                     <Switch
                       checked={member.is_active}
@@ -399,7 +391,6 @@ export function StaffClient() {
         )}
       </main>
 
-      {/* Create / Edit dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>

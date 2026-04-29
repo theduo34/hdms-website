@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
+import { useAdminBase } from '@/hooks/use-admin-base'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -32,6 +33,7 @@ const postSchema = z.object({
 type PostValues = z.infer<typeof postSchema>
 
 export function EditPostClient() {
+  const base = useAdminBase()
   const router = useRouter()
   const params = useParams()
   const id = params.id as string
@@ -101,7 +103,7 @@ export function EditPostClient() {
   if (fetching) {
     return (
       <>
-        <AdminHeader title="Edit Post" backHref="/admin/news" />
+        <AdminHeader title="Edit Post" backHref={`${base}/news`} />
         <main className="admin-page space-y-4">
           <Skeleton className="aspect-[21/9] w-full rounded-xl" />
           <Skeleton className="h-10 w-full" />
@@ -114,7 +116,7 @@ export function EditPostClient() {
 
   return (
     <>
-      <AdminHeader title="Edit Post" backHref="/admin/news" />
+      <AdminHeader title="Edit Post" backHref={`${base}/news`} />
 
       <main className="admin-page">
         <Form {...form}>

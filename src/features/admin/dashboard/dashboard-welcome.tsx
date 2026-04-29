@@ -13,7 +13,6 @@ export function DashboardWelcome({ firstName, totalItems }: DashboardWelcomeProp
 
   return (
     <div className="rounded-2xl bg-primary px-8 py-6 flex items-center justify-between overflow-hidden relative">
-      {/* Decorative rings */}
       <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-secondary/10 pointer-events-none" />
       <div className="absolute -right-4 -bottom-20 w-48 h-48 rounded-full bg-primary-foreground/5 pointer-events-none" />
 

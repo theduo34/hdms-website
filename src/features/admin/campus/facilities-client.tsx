@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { getMediaUrl } from '@/lib/media'
 import { can } from '@/lib/admin/permissions'
 import type { AdminRole } from '@/lib/admin/types'
+import { useAdminBase } from '@/hooks/use-admin-base'
 import { DropZone } from './drop-zone'
 import { signAndUploadCampus } from './upload-helpers'
 import { AdminHeader } from '@/components/admin/admin-header'
@@ -208,6 +209,7 @@ function SectionUploadForm({ section, canCreate, onSuccess }: {
 }
 
 export function FacilitiesClient({ role }: { role: AdminRole }) {
+    const base = useAdminBase()
     const canCreate = can(role, 'campus', 'create')
     const canEdit   = can(role, 'campus', 'update')
     const canDelete = can(role, 'campus', 'delete')
@@ -227,7 +229,7 @@ export function FacilitiesClient({ role }: { role: AdminRole }) {
 
     return (
         <>
-            <AdminHeader title="Campus Facilities" backHref="/admin/campus" />
+            <AdminHeader title="Campus Facilities" backHref={`${base}/campus`} />
             <main className="admin-page space-y-8">
                 <div>
                     <h2 className="text-xl font-bold">Campus Facilities</h2>
