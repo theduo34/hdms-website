@@ -64,7 +64,9 @@ export function HeroSection() {
               <span className="flex flex-row flex-wrap justify-center gap-[clamp(0.5rem,1.5vw,1rem)]">
                 <span>of</span>
                 <span className="text-secondary">heaven</span>
-                <span>falls</span>
+                <span>falls
+                  <span className="animate-pulse">...</span>
+                </span>
               </span>
             </h1>
           </AnimateInView>
