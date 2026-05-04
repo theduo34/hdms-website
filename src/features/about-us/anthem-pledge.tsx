@@ -44,7 +44,9 @@ export function AnthemPledge() {
                             {anthem.verses.map((verse, vi) => (
                                 <div key={vi}>
                                     <span className="text-[0.58rem] tracking-[0.22em] uppercase font-bold text-foreground/30 block mb-3">
-                                        Verse {vi + 1}
+                                       <span className="text-[0.58rem] tracking-[0.22em] uppercase font-bold text-foreground/30 block mb-3">
+                                           Verse {vi + 1}{verse.repeat ? ` · ${verse.repeat}×` : ''}
+                                       </span>
                                     </span>
                                     <p className="leading-[2] text-sm">
                                         {verse.lines.map((line, li) => (
