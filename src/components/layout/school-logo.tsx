@@ -29,6 +29,7 @@ export function SchoolLogo({ size = "md", showName = false, className = "" }: Sc
                 <Image
                     src="/assets/images/logo/school-crest.png"
                     fill
+                    sizes="56px"
                     className="object-cover bg-white"
                     priority
                     alt="Heaven's Dew Montessori School Crest"

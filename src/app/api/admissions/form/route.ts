@@ -6,21 +6,11 @@ export async function GET() {
         return NextResponse.json({ error: 'Form not available' }, { status: 503 })
     }
 
-    try {
-        const upstream = await fetch(url, { next: { revalidate: 3600 } })
-        if (!upstream.ok) throw new Error(`Upstream ${upstream.status}`)
+    // Convert Google Drive viewer URLs to direct download URLs
+    const driveViewMatch = url.match(/\/file\/d\/([^/]+)\//)
+    const downloadUrl = driveViewMatch
+        ? `https://drive.google.com/uc?export=download&id=${driveViewMatch[1]}`
+        : url
 
-        const buffer = await upstream.arrayBuffer()
-
-        return new NextResponse(buffer, {
-            headers: {
-                'Content-Type': 'application/pdf',
-                'Content-Disposition': 'attachment; filename="hdm-admission-forms.pdf"',
-                'Cache-Control': 'public, max-age=3600',
-            },
-        })
-    } catch (err) {
-        console.error('Form download error:', err)
-        return NextResponse.json({ error: 'Could not retrieve form' }, { status: 502 })
-    }
+    return NextResponse.redirect(downloadUrl)
 }

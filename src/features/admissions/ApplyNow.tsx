@@ -207,7 +207,7 @@ export default function ApplyNow() {
                         className="mt-auto self-start rounded-none"
                     >
                         <Download className="w-4 h-4" />
-                        Download Application Form
+                        Download Admission Form
                     </CTAButton>
                     <p className="text-[0.72rem] mt-4 font-light">
                         PDF format · Approx. 2 pages · English

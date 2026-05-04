@@ -176,7 +176,7 @@ export function Footer() {
                             className="shrink-0 text-center md:text-right"
                         >
                             <p className="text-[10px] md:text-[11px] text-primary-foreground/60">
-                                © {new Date().getFullYear()} Heaven&apos;s Dew Montessori. All rights reserved.
+                                {`© ${new Date().getFullYear()} Heaven's Dew Montessori. All rights reserved.`}
                             </p>
                         </motion.div>
                     </div>
