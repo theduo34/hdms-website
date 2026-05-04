@@ -41,7 +41,7 @@ export function HeroSection() {
           className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 scale-105"
           style={{ opacity: videoLoaded ? 0.7 : 0 }}
         >
-          <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"/>
+          <source src="/assets/videos/discover-hdm.mp4" type="video/mp4"/>
         </video>
 
         <div className="absolute inset-0 bg-primary/40 pointer-events-none mix-blend-multiply" />
