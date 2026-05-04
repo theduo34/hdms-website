@@ -15,7 +15,7 @@ export async function GET() {
         return new NextResponse(buffer, {
             headers: {
                 'Content-Type': 'application/pdf',
-                'Content-Disposition': 'attachment; filename="hdms-admission-forms.pdf"',
+                'Content-Disposition': 'attachment; filename="hdm-admission-forms.pdf"',
                 'Cache-Control': 'public, max-age=3600',
             },
         })

@@ -1,9 +1,5 @@
 'use client'
 
-// Conditionally renders NavBar + Footer only for public-facing routes.
-// Admin (/admin/*) and auth (/login) pages get no site chrome.
-// This avoids the need to restructure every public page into a route group.
-
 import { usePathname } from 'next/navigation'
 import { NavBar } from './nav-bar'
 import { Footer } from './footer'

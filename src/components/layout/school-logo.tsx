@@ -1,5 +1,8 @@
+'use client';
+
 import Image from "next/image";
 import {headingStyle} from "@/styles/font";
+import {useRouter} from "next/navigation";
 
 interface SchoolLogoProps {
     size?: "sm" | "md" | "lg";
@@ -14,8 +17,13 @@ const sizeMap = {
 };
 
 export function SchoolLogo({ size = "md", showName = false, className = "" }: SchoolLogoProps) {
+    const router = useRouter();
+
     return (
-        <div className={`flex items-center gap-3 ${className}`}>
+        <div
+            className={`flex items-center gap-3 cursor-pointer ${className}`}
+            onClick={() => router.push("/")}
+        >
             {/* Crest */}
             <div className={`relative ${sizeMap[size]} rounded-full overflow-hidden shrink-0`}>
                 <Image
