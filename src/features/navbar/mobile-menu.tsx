@@ -14,7 +14,7 @@ type Props = { onClose: () => void }
 
 export function MobileMenu({ onClose }: Props) {
     return (
-        <div className="md:hidden w-full flex flex-col gap-8 h-full pt-28 px-6">
+        <div className="md:hidden w-full flex flex-col gap-4 h-full pt-20 px-6">
             <Accordion type="single" collapsible>
                 {navItems.map((item) => {
                     if (!item.children) {

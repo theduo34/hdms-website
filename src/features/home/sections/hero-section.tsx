@@ -73,7 +73,7 @@ export function HeroSection() {
           
           <AnimateInView yOffset={5} delay={0.3} duration={1}>
             <p className="mt-8 md:mt-10 text-primary-foreground/90 max-w-2xl text-base md:text-lg lg:text-xl font-medium tracking-wide">
-              A private Montessori school cultivating young minds with Faith, Diligence, and Excellence.
+              A Private Montessori School nurturing young minds with Faith, Diligence, and Excellence.
             </p>
           </AnimateInView>
         </motion.div>
