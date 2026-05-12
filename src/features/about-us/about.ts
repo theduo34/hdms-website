@@ -30,7 +30,7 @@ export const visionMission = {
         },
         {
             title: 'Our Mission',
-            body: `To provide a holistic, child-centred education rooted in the Montessori philosophy - where every child is seen, valued, and empowered to discover their unique potential through guided exploration, meaningful relationships, and a joyful love of learning.`,
+            body: `To provide a holistic, child-centred education rooted in the Montessori Philosophy - where every child is seen, valued, and empowered to discover their unique potential through guided exploration, meaningful relationships, and a joyful love of learning.`,
         },
     ],
     valuesLabel: 'Our Core Values',
@@ -116,10 +116,10 @@ export const philosophy = {
     pullQuote: 'Education is not the filling of a pail, but the lighting of a fire.',
     pullAuthor: '- W.B. Yeats',
     paragraphs: [
-        `At Heaven's Dew Montessori, we believe that education goes far beyond academic achievement. Our philosophy is rooted in the understanding that a truly educated child is one who is confident, compassionate, curious, and capable - not just in the classroom, but in life.`,
+        `At Heaven's Dew Montessori, we believe that education goes far beyond academic achievement. Our Philosophy is rooted in the understanding that a truly educated child is one who is confident, compassionate, curious, and capable - not just in the classroom, but in life.`,
         `We see each child as a complete individual - with unique strengths, learning styles, and ways of engaging with the world. Our role as educators is not to mould children into a predetermined shape, but to create the conditions in which each child can discover and develop their own greatness.`,
         `This means we pay as much attention to emotional intelligence as we do to literacy. We value creativity as much as numeracy. We celebrate effort as much as achievement. And we build relationships - between teachers and students, between peers, and between the school and each family - that make learning feel safe, joyful, and meaningful.`,
-        `Our philosophy is not a policy. It is a practice - lived out every day in how our teachers speak to children, how our classrooms are arranged, how we celebrate milestones, and how we handle challenges.`,
+        `Our Philosophy is not a policy. It is a practice - lived out every day in how our teachers speak to children, how our classrooms are arranged, how we celebrate milestones, and how we handle challenges.`,
     ],
 }
 
