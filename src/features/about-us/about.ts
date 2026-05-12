@@ -1,5 +1,6 @@
 export const sideNavSections = [
     { id: 'story',      label: 'Our Story'       },
+    { id: 'team',       label: 'Our Leadership'   },
     { id: 'vision',     label: 'Vision & Mission' },
     { id: 'montessori', label: 'Why Montessori'   },
     { id: 'philosophy', label: 'Our Philosophy'   },
@@ -17,7 +18,7 @@ export const story = {
         `We proudly uphold a "No child is left behind" policy, with a child-to-teacher ratio of 10:1 that guarantees every pupil receives the individual attention, support, and care they need at every stage of their education.`,
     ],
     image: 'https://res.cloudinary.com/dmd0h8mzp/image/upload/v1/school_building_ftvs0v',
-    imageCaption: "Heaven's Dew Montessori Campus, Koforidua",
+    imageCaption: "HDM Heaven's Dew Montessori Campus, Koforidua",
 }
 
 export const visionMission = {
@@ -51,43 +52,15 @@ export const team = {
             name: 'Mrs. Charlotte Owusu',
             role: 'Principal',
             initials: 'CO',
-            bio: 'Mrs. Owusu leads Heaven\'s Dew Montessori with a deep commitment to child-centred education and community. Her vision and warmth define the spirit of the school.',
+            bio: 'Mrs. Owusu leads HDM Heaven\'s Dew Montessori with a deep commitment to child-centred education and community. Her vision and warmth define the spirit of the school.',
             image: 'https://res.cloudinary.com/dmd0h8mzp/image/upload/c_limit,w_400/v1/Charlotte_wwrmkp',
         },
         {
             name: 'Dr. Felix Owusu',
             role: 'Director',
             initials: 'FO',
-            bio: 'Dr. Owusu MD, MSc brings academic rigour and strategic vision to HDM. He oversees the school\'s long-term development and ensures the highest standards of educational excellence.',
+            bio: 'Dr. Owusu MD, MSc brings academic rigour and strategic vision to HDM Heaven\'s Dew Montessori. He oversees the school\'s long-term development and ensures the highest standards of educational excellence.',
             image: 'https://res.cloudinary.com/dmd0h8mzp/image/upload/c_limit,w_400/v1/Director1_fflb7q',
-        },
-        {
-            name: 'Mr. David Owusu',
-            role: 'Management Member',
-            initials: 'DO',
-            bio: 'Mr. David Owusu supports the operational and strategic management of the school, working closely with the principal and director to ensure smooth day-to-day running.',
-            image: 'https://light-cat-97ad52f04d.media.strapiapp.com/small_David_9b299e9da3.jpg',
-        },
-        {
-            name: 'Mr. Henry Obodai Ayeh',
-            role: 'Primary & JHS Department Head',
-            initials: 'HA',
-            bio: 'Mr. Ayeh leads our Primary and JHS department with rigour and care, ensuring academic standards are upheld and every student is supported to reach their potential.',
-            image: 'https://light-cat-97ad52f04d.media.strapiapp.com/small_Henry_fd07d62c44.jpg',
-        },
-        {
-            name: 'Ms. Faustina O. Newman Tamatey',
-            role: 'Preschool Department Head',
-            initials: 'FT',
-            bio: 'Ms. Tamatey oversees our Preschool programme, creating a nurturing and stimulating environment for our youngest learners from Little Angels through to Nursery 2.',
-            image: 'https://light-cat-97ad52f04d.media.strapiapp.com/small_Faustina_54b5798aee.jpg',
-        },
-        {
-            name: 'Ms. Jennifer Oforiwaa Quartey',
-            role: 'Administrative Secretary',
-            initials: 'JQ',
-            bio: 'Ms. Quartey is the organisational backbone of the HDM office - the first point of contact for families and the person who keeps everything running seamlessly behind the scenes.',
-            image: 'https://light-cat-97ad52f04d.media.strapiapp.com/small_Jennifer_711b18cb72.jpg',
         },
     ],
 }

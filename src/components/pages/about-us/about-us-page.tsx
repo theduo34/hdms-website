@@ -2,6 +2,7 @@ import { SmoothScroll } from "@/components/layout/smooth-scroll";
 import { PageHeader } from "@/components/shared/page-header";
 import { AboutSideNav } from "@/features/about-us/about-side-nav";
 import { OurStory } from "@/features/about-us/our-story";
+import { OurTeam } from "@/features/about-us/our-team";
 import { VisionMission } from "@/features/about-us/vision-mission";
 import { WhyMontessori } from "@/features/about-us/why-montessori";
 import { OurPhilosophy } from "@/features/about-us/our-philosophy";
@@ -25,6 +26,7 @@ export function AboutUsPage() {
                     <AboutSideNav />
                     <div className="min-w-0">
                         <OurStory />
+                        <OurTeam />
                         <VisionMission />
                         <WhyMontessori />
                         <OurPhilosophy />

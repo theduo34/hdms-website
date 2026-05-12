@@ -29,7 +29,7 @@ export function OurStory() {
                     {story.paragraphs.map((p, i) => (
                         <p key={i} className="text-[1.03rem] leading-[1.85] text-foreground/80">{p}</p>
                     ))}
-                    <div className="mt-8 inline-flex items-center gap-5 rounded-2xl px-6 py-5 bg-primary">
+                    <div className="inline-flex items-center justify-center gap-5 rounded-xl px-6 py-5 bg-primary w-full">
                         <span className="text-[3.25rem] font-black italic leading-none text-secondary" style={headingStyle}>
                             2017
                         </span>
@@ -41,14 +41,14 @@ export function OurStory() {
                     </div>
                 </div>
 
-                <div className="relative overflow-hidden aspect-[4/5] rounded-2xl group">
+                <div className="relative overflow-hidden aspect-4/5 rounded-2xl group">
                     <Image
                         src={story.image}
                         alt="Heaven's Dew Montessori campus, Koforidua"
                         fill
                         style={{ objectFit: 'cover' }}
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        className="transition-transform duration-[1200ms] ease-in-out group-hover:scale-[1.05]"
+                        className="transition-transform duration-1200 ease-in-out group-hover:scale-[1.05]"
                         priority
                     />
                     <div
