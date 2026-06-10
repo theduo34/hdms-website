@@ -72,7 +72,11 @@ export function LoginForm({ token }: { token: string }) {
         theme:              'light',
         callback:           (t: string) => setCaptchaToken(t),
         'expired-callback': () => setCaptchaToken(''),
-        'error-callback':   () => { setCaptchaToken(''); setCaptchaError(true) },
+        'error-callback':   (code: string) => {
+          console.error('Turnstile error code:', code)
+          setCaptchaToken('')
+          setCaptchaError(true)
+        },
       })
     }
 

@@ -50,7 +50,10 @@
       "Bash(grep -v \"home/index.ts\" echo \"---\")",
       "Bash(grep -rn \"new-section\\\\|NewSection\" \"C:/Users/Work/HDMs/hdms-website/src\" --include=\"*.tsx\" --include=\"*.ts\" -l echo \"---\" grep -rn \"from.*features/news/news\" \"C:/Users/Work/HDMs/hdms-website/src\" --include=\"*.tsx\" --include=\"*.ts\")",
       "Bash(python3 *)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(git log *)",
+      "Bash(curl *)",
+      "Read(//tmp/**)"
     ]
   }
 }
