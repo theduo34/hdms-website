@@ -53,7 +53,12 @@
       "Bash(node *)",
       "Bash(git log *)",
       "Bash(curl *)",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(nslookup hdm.edu.gh)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(nslookup api.hdm.edu.gh)"
     ]
   }
 }
