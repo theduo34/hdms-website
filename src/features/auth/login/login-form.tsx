@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -15,20 +15,6 @@ import { Button } from '@/components/ui/button'
 import { SchoolLogo } from '@/components/layout/school-logo'
 import { headingStyle } from '@/styles/font'
 
-declare global {
-  interface Window {
-    turnstile?: {
-      render:  (container: HTMLElement, options: Record<string, unknown>) => string
-      reset:   (widgetId: string) => void
-      remove:  (widgetId: string) => void
-    }
-    onTurnstileLoad?: () => void
-  }
-}
-
-const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ''
-const CAPTCHA_ENABLED    = TURNSTILE_SITE_KEY !== '' && TURNSTILE_SITE_KEY !== 'replace-with-your-cloudflare-turnstile-site-key'
-
 const loginSchema = z.object({
   email:    z.string().email('Enter a valid email address'),
   password: z.string().min(1, 'Password is required'),
@@ -42,16 +28,11 @@ export function LoginForm({ token }: { token: string }) {
   const errorParam   = searchParams.get('error')
 
   const [showPassword, setShowPassword]   = useState(false)
-  const [captchaToken, setCaptchaToken]   = useState('')
-  const [captchaError, setCaptchaError]   = useState(false)
   const [serverError, setServerError]     = useState<string | null>(
     errorParam === 'not_admin'    ? 'This account does not have access.' :
     errorParam === 'not_verified' ? 'Your account is pending verification.' :
     null,
   )
-
-  const captchaContainerRef = useRef<HTMLDivElement>(null)
-  const widgetIdRef         = useRef<string | undefined>(undefined)
 
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -60,66 +41,17 @@ export function LoginForm({ token }: { token: string }) {
 
   const { isSubmitting } = form.formState
 
-  // Mount Cloudflare Turnstile widget
-  useEffect(() => {
-    if (!CAPTCHA_ENABLED) return
-
-    function renderWidget() {
-      if (!captchaContainerRef.current || !window.turnstile) return
-      widgetIdRef.current = window.turnstile.render(captchaContainerRef.current, {
-        sitekey:            TURNSTILE_SITE_KEY,
-        appearance:         'always',
-        theme:              'light',
-        callback:           (t: string) => setCaptchaToken(t),
-        'expired-callback': () => setCaptchaToken(''),
-        'error-callback':   (code: string) => {
-          console.error('Turnstile error code:', code)
-          setCaptchaToken('')
-          setCaptchaError(true)
-        },
-      })
-    }
-
-    if (window.turnstile) {
-      renderWidget()
-    } else {
-      window.onTurnstileLoad = renderWidget
-      const script = document.createElement('script')
-      script.src   = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad'
-      script.async = true
-      script.defer = true
-      document.head.appendChild(script)
-    }
-
-    return () => {
-      if (widgetIdRef.current && window.turnstile) {
-        window.turnstile.remove(widgetIdRef.current)
-      }
-    }
-  }, [])
-
   async function onSubmit(values: LoginValues) {
     setServerError(null)
-
-    if (CAPTCHA_ENABLED && !captchaToken && !captchaError) {
-      setServerError('Please wait for the security check to complete.')
-      return
-    }
 
     const supabase = createClient()
 
     const { error: signInError } = await supabase.auth.signInWithPassword({
       email:    values.email.trim().toLowerCase(),
       password: values.password,
-      options:  (CAPTCHA_ENABLED && captchaToken) ? { captchaToken } : undefined,
     })
 
     if (signInError) {
-      // Reset the widget so the user can get a fresh token on retry
-      if (CAPTCHA_ENABLED && widgetIdRef.current && window.turnstile) {
-        window.turnstile.reset(widgetIdRef.current)
-        setCaptchaToken('')
-      }
       setServerError(
         signInError.message === 'Invalid login credentials'
           ? 'Incorrect email or password.'
@@ -252,26 +184,9 @@ export function LoginForm({ token }: { token: string }) {
                 )}
               />
 
-              {/* Cloudflare Turnstile */}
-              {CAPTCHA_ENABLED && (
-                <div className="space-y-1.5">
-                  {!captchaError && <div ref={captchaContainerRef} />}
-                  {!captchaToken && !captchaError && (
-                    <p className="text-xs text-muted-foreground">
-                      Waiting for security verification…
-                    </p>
-                  )}
-                  {captchaError && (
-                    <p className="text-xs text-amber-600">
-                      Security check unavailable. You can still sign in - disable CAPTCHA in Supabase if this persists.
-                    </p>
-                  )}
-                </div>
-              )}
-
               <Button
                 type="submit"
-                disabled={isSubmitting || (CAPTCHA_ENABLED && !captchaToken && !captchaError)}
+                disabled={isSubmitting}
                 className="w-full"
               >
                 {isSubmitting ? (
